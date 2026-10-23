@@ -3,6 +3,10 @@ name: release-packages
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
+    paths:
+      - clash-rs/Makefile
     tags:
       - v*
 

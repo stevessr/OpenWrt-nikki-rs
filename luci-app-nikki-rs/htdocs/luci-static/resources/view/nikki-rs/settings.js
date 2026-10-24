@@ -245,6 +245,7 @@ return view.extend({
                 });
             });
         }));
+        build(initial);
         return E('div', { 'class': 'cbi-map' }, [
             E('h2', {}, _('Clash Configuration Center')),
             E('p', {}, _('Common clash-rs settings with types and range validation. These values are stored as advanced YAML overrides, leaving original profiles untouched. Special policies such as eBPF/TUN exclusivity are enforced when generating the effective configuration.')),
@@ -262,9 +263,7 @@ return view.extend({
                     '.'
                 ])
             ])
-        ].map(function (node) {
-            return node;
-        }));
+        ]);
     },
     handleSave: null,
     handleSaveApply: null,

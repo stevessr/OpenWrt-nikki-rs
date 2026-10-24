@@ -50,8 +50,6 @@ save() {
     if [ -f "$path" ]; then
         archived="$(mktemp "$dir/$(date +%Y%m%dT%H%M%S).XXXXXX")"
         cp -p "$path" "$archived" || { rm -f "$archived"; fail "Backup failed"; }
-        # Keep the ten newest versions; don't discard the newly created backup.
-        ls -1t "$dir" | sed -n '11,$p' | while IFS= read -r old; do rm -f "$dir/$old"; done
     fi
     pending="$(mktemp "$parent/.nikki-rs-edit.XXXXXX")"
     trap 'rm -f "$pending"' EXIT
@@ -59,6 +57,7 @@ save() {
     chmod 600 "$pending"
     mv -f "$pending" "$path"
     trap - EXIT
+    ls -1t "$dir" | sed -n '11,$p' | while IFS= read -r old; do rm -f "$dir/$old"; done
 }
 command="${1:-}"
 path="${2:-}"

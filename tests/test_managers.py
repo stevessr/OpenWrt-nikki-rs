@@ -60,6 +60,19 @@ class ManagersTest(unittest.TestCase):
                         successful=False)
         self.run_script(CONFIG, "restore", target, "../bad", successful=False)
 
+    def test_revision_checked_save_rejects_stale_editor(self):
+        target = self.base / "dns/black_filter"
+        target.write_text("original\n")
+        candidate = self.base / "candidate"
+        candidate.write_text("replacement\n")
+        digest = self.run_script(CONFIG, "revision", target).stdout.strip()
+        self.assertEqual(len(digest), 64)
+        self.run_script(CONFIG, "save-revision", target, candidate, digest)
+        self.assertEqual(target.read_text(), "replacement\n")
+        self.run_script(CONFIG, "save-revision", target, candidate, digest,
+                        successful=False)
+        self.assertEqual(target.read_text(), "replacement\n")
+
     def test_reject_oversized_content_without_touching_destination(self):
         target = self.base / "dns/black_filter"
         target.write_text("keep")

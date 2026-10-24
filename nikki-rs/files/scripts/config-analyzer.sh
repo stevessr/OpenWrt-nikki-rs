@@ -12,7 +12,7 @@ fail() { printf 'config-analyzer: %s\n' "$*" >&2; exit 1; }
 base="$1"
 module="$2"
 candidate="$3"
-case "$module" in general|dns|proxy-groups|rules|tun|sniffer|custom) ;; *) fail 'Unknown config module' ;; esac
+case "$module" in general|dns|dns2|proxy-groups|proxy-providers|rule-providers|rules|listeners|inbound-providers|tun|sniffer|hosts|geodata|custom) ;; *) fail 'Unknown config module' ;; esac
 [ -f "$base" ] && [ ! -L "$base" ] || fail 'Base profile missing or unsafe'
 [ -f "$candidate" ] && [ ! -L "$candidate" ] || fail 'Candidate missing or unsafe'
 [ "$(wc -c < "$candidate")" -le 262144 ] || fail 'Candidate exceeds 256 KiB'

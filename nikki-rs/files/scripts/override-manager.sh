@@ -7,7 +7,7 @@ HOME_DIR="${NIKKI_HOME_DIR:-/etc/nikki-rs}"
 OVERRIDES="$HOME_DIR/overrides"
 MAX_MODULE=262144
 MAX_PREVIEW=2097152
-MODULES="general dns proxy-groups rules tun sniffer custom"
+MODULES="general dns dns2 proxy-groups proxy-providers rule-providers rules listeners inbound-providers tun sniffer hosts geodata custom"
 
 fail() { echo "override-manager: $*" >&2; exit 1; }
 valid_module() {

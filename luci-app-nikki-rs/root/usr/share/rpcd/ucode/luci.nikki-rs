@@ -228,6 +228,58 @@ const methods = {
 
 
 
+    settings_read: {
+        args: { module: 'module' },
+        call: function(req) {
+            const module = req.args?.module;
+            if (!allowed_override_module(module) || module == 'proxy-groups' || module == 'rules')
+                return { success: false, error: 'Unsupported form module' };
+            const proc = popen('/etc/nikki-rs/scripts/settings-manager.sh read ' + module);
+            if (!proc) return { success: false, error: 'Settings manager unavailable' };
+            const output = trim(proc.read('all'));
+            proc.close();
+            if (length(output) < 2 || length(output) > 65536)
+                return { success: false, error: 'Unable to load settings' };
+            try {
+                const parsed = json(output);
+                if (type(parsed.fields) != 'array' || type(parsed.values) != 'object' ||
+                    !match(parsed.revision, /^[0-9a-f]{64}$/))
+                    return { success: false, error: 'Invalid settings response' };
+                return { success: true, fields: parsed.fields, values: parsed.values,
+                    revision: parsed.revision };
+            } catch (e) {
+                return { success: false, error: 'Settings parsing failed' };
+            }
+        }
+    },
+    settings_patch: {
+        args: { module: 'module', content: 'content', revision: 'revision' },
+        call: function(req) {
+            const module = req.args?.module;
+            const revision = req.args?.revision;
+            if (!allowed_override_module(module) || module == 'proxy-groups' ||
+                module == 'rules' || type(revision) != 'string' ||
+                !match(revision, /^[0-9a-f]{64}$/))
+                return { success: false, error: 'Invalid module or revision' };
+            const stage = staged_editor_content(req.args?.content);
+            if (!stage) return { success: false, error: 'Invalid or oversized patch' };
+            const proc = popen('/etc/nikki-rs/scripts/settings-manager.sh patch ' +
+                module + ' ' + stage + ' ' + revision);
+            if (!proc) {
+                unlink(stage);
+                return { success: false, error: 'Settings manager unavailable' };
+            }
+            const output = trim(proc.read('all'));
+            proc.close();
+            unlink(stage);
+            try {
+                const result = json(output);
+                if (result.success === true && match(result.revision, /^[0-9a-f]{64}$/))
+                    return { success: true, revision: result.revision };
+            } catch (e) {}
+            return { success: false, error: 'Settings validation failed or the module changed. Reload before saving.' };
+        }
+    },
     config_snapshot: {
         args: { path: 'path' },
         call: function(req) {

@@ -68,9 +68,9 @@ validate_value() {
         list)
             yq -p=json -e 'tag == "!!seq" and length <= 128' "$candidate" >/dev/null 2>&1 || return 1
             if yq -p=json -r '.[] | tag' "$candidate" | grep -qv '^!!str$'; then return 1; fi
-            expected="$(yq -p=json -r 'length' "$candidate")"
+            list_count="$(yq -p=json -r 'length' "$candidate")"
             yq -p=json -r '.[]' "$candidate" |
-                awk -v count="$expected" 'length($0) > 512 || length($0) == 0 { bad = 1 }
+                awk -v count="$list_count" 'length($0) > 512 || length($0) == 0 { bad = 1 }
                     END { if (NR != count || bad) exit 1 }' ;;
         *) return 1 ;;
     esac

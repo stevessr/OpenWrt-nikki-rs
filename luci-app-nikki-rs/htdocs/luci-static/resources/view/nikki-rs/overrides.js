@@ -253,6 +253,38 @@ return view.extend({
             });
         }));
         controls.appendChild(makeButton(_('Save module'), 'positive', save));
+        controls.appendChild(makeButton(_('Save, test and apply safely'), 'positive', function () {
+            if (!savedRevision) throw new Error(_('Reload this module before applying'));
+            if (!window.confirm(_('This will test the merged Clash configuration, save your changes and restart Nikki RS. Connectivity may be briefly interrupted. If the restart or health check fails, the previous module will be restored. Continue?')))
+                return;
+            const module = selector.value;
+            const path = pathFor(module);
+            const content = editor.value;
+            return nikki.configApply(module, content, savedRevision).then(function (result) {
+                if (!result.success) {
+                    if (result.status === 'ROLLED_BACK')
+                        throw new Error(_('The new configuration did not start correctly. The previous module was restored and the service was restarted. Your unsaved draft is still in the editor.'));
+                    if (result.status === 'ROLLBACK_FAILED')
+                        throw new Error(_('Recovery was not confirmed. Check Nikki RS status and the router console immediately before making further changes.'));
+                    if (result.status === 'SERVICE_NOT_RUNNING')
+                        throw new Error(_('Nikki RS is not running. Start the service first, or use Save module without applying.'));
+                    if (result.status === 'PREFLIGHT_FAILED')
+                        throw new Error(_('The installed clash-rs core rejected the candidate configuration, or a remote provider failed to initialize. Nothing was saved.'));
+                    if (result.status === 'CONFLICT')
+                        throw new Error(_('The module changed on disk. Reload it before trying again.'));
+                    throw new Error(_('Safe apply did not complete: ') + String(result.status || 'FAILED'));
+                }
+                return nikki.configSnapshot(path).then(function (snapshot) {
+                    if (!snapshot.success) throw new Error(_('Applied, but could not refresh the editor revision.'));
+                    savedContent = snapshot.content;
+                    savedRevision = snapshot.revision;
+                    editor.value = snapshot.content;
+                    dirtyStatus.textContent = _('All changes saved');
+                    notify(_('Configuration applied and the restarted Nikki RS service passed its health check.'), true);
+                });
+            });
+        }));
+
         controls.appendChild(makeButton(_('Revision history'), 'action', function () {
             const path = pathFor(selector.value);
             return nikki.listConfigBackups(path).then(function (result) {

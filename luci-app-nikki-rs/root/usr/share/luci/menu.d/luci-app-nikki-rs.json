@@ -93,5 +93,13 @@
             "type": "view",
             "path": "nikki-rs/rules-builder"
         }
+    },
+    "admin/services/nikki-rs/settings": {
+        "title": "Configuration Center",
+        "order": 46,
+        "action": {
+            "type": "view",
+            "path": "nikki-rs/settings"
+        }
     }
 }

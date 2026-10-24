@@ -49,7 +49,7 @@ return view.extend({
         // Tab: General
         s.tab('general', _('General'));
 
-        o = s.taboption('general', form.Flag, 'enabled', _('Enable'), _('When enabled, the Proxy Config will be ineffective.'));
+        o = s.taboption('general', form.Flag, 'enabled', _('Enable'), _('When enabled, the proxy routing options are bypassed. The generated Clash configuration automatically disables TUN and removes TUN listeners. Saved TUN settings are preserved for when eBPF is disabled.'));
         o.rmempty = false;
 
         o = s.taboption('general', form.DynamicList, 'lan_interface', _('LAN Interface'), _('LAN interfaces to attach eBPF ingress filter.'));

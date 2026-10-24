@@ -1,0 +1,418 @@
+{
+  "general": [
+    {
+      "id": "mode",
+      "path": "mode",
+      "kind": "enum",
+      "label": "流量工作模式",
+      "choices": [
+        "rule",
+        "global",
+        "direct"
+      ]
+    },
+    {
+      "id": "log-level",
+      "path": "log-level",
+      "kind": "enum",
+      "label": "日志级别",
+      "choices": [
+        "trace",
+        "debug",
+        "info",
+        "warning",
+        "error",
+        "off"
+      ]
+    },
+    {
+      "id": "allow-lan",
+      "path": "allow-lan",
+      "kind": "bool",
+      "label": "允许局域网设备接入代理"
+    },
+    {
+      "id": "bind-address",
+      "path": "bind-address",
+      "kind": "string",
+      "label": "代理监听地址"
+    },
+    {
+      "id": "ipv6",
+      "path": "ipv6",
+      "kind": "bool",
+      "label": "启用 IPv6"
+    },
+    {
+      "id": "quic",
+      "path": "quic",
+      "kind": "bool",
+      "label": "允许 QUIC"
+    },
+    {
+      "id": "port",
+      "path": "port",
+      "kind": "port",
+      "label": "HTTP 入站端口"
+    },
+    {
+      "id": "socks-port",
+      "path": "socks-port",
+      "kind": "port",
+      "label": "SOCKS5 入站端口"
+    },
+    {
+      "id": "mixed-port",
+      "path": "mixed-port",
+      "kind": "port",
+      "label": "Mixed 入站端口"
+    },
+    {
+      "id": "redir-port",
+      "path": "redir-port",
+      "kind": "port",
+      "label": "Redirect 入站端口"
+    },
+    {
+      "id": "tproxy-port",
+      "path": "tproxy-port",
+      "kind": "port",
+      "label": "TProxy 入站端口"
+    },
+    {
+      "id": "routing-mark",
+      "path": "routing-mark",
+      "kind": "int",
+      "label": "出站 FWMark",
+      "min": 0,
+      "max": 4294967295
+    },
+    {
+      "id": "interface",
+      "path": "interface",
+      "kind": "string",
+      "label": "出站绑定接口"
+    },
+    {
+      "id": "external-controller",
+      "path": "external-controller",
+      "kind": "string",
+      "label": "Controller 监听地址"
+    },
+    {
+      "id": "profile.store-selected",
+      "path": "profile.store-selected",
+      "kind": "bool",
+      "label": "记住策略组选择"
+    },
+    {
+      "id": "profile.store-fake-ip",
+      "path": "profile.store-fake-ip",
+      "kind": "bool",
+      "label": "缓存 Fake-IP"
+    },
+    {
+      "id": "profile.store-smart-stats",
+      "path": "profile.store-smart-stats",
+      "kind": "bool",
+      "label": "持久化智能策略统计"
+    },
+    {
+      "id": "experimental.tcp-buffer-size",
+      "path": "experimental.tcp-buffer-size",
+      "kind": "int",
+      "label": "TCP 缓冲区字节数",
+      "min": 1024,
+      "max": 16777216
+    }
+  ],
+  "dns": [
+    {
+      "id": "dns.enable",
+      "path": "dns.enable",
+      "kind": "bool",
+      "label": "启用传统 DNS"
+    },
+    {
+      "id": "dns.listen",
+      "path": "dns.listen",
+      "kind": "string",
+      "label": "DNS 监听地址"
+    },
+    {
+      "id": "dns.ipv6",
+      "path": "dns.ipv6",
+      "kind": "bool",
+      "label": "DNS IPv6 查询"
+    },
+    {
+      "id": "dns.use-hosts",
+      "path": "dns.use-hosts",
+      "kind": "bool",
+      "label": "优先使用 Hosts"
+    },
+    {
+      "id": "dns.enhanced-mode",
+      "path": "dns.enhanced-mode",
+      "kind": "enum",
+      "label": "传统 DNS 模式",
+      "choices": [
+        "fake-ip",
+        "redir-host"
+      ]
+    },
+    {
+      "id": "dns.fake-ip-range",
+      "path": "dns.fake-ip-range",
+      "kind": "string",
+      "label": "Fake-IP IPv4 地址池"
+    },
+    {
+      "id": "dns.fake-ip-range6",
+      "path": "dns.fake-ip-range6",
+      "kind": "string",
+      "label": "Fake-IP IPv6 地址池"
+    },
+    {
+      "id": "dns.fake-ip-filter-mode",
+      "path": "dns.fake-ip-filter-mode",
+      "kind": "enum",
+      "label": "Fake-IP 过滤模式",
+      "choices": [
+        "blacklist",
+        "whitelist"
+      ]
+    },
+    {
+      "id": "dns.nameserver",
+      "path": "dns.nameserver",
+      "kind": "list",
+      "label": "默认 DNS 上游"
+    },
+    {
+      "id": "dns.default-nameserver",
+      "path": "dns.default-nameserver",
+      "kind": "list",
+      "label": "Bootstrap DNS 上游"
+    },
+    {
+      "id": "dns.proxy-server-nameserver",
+      "path": "dns.proxy-server-nameserver",
+      "kind": "list",
+      "label": "节点域名 DNS 上游"
+    },
+    {
+      "id": "dns.fallback",
+      "path": "dns.fallback",
+      "kind": "list",
+      "label": "后备 DNS 上游"
+    },
+    {
+      "id": "dns.fake-ip-filter",
+      "path": "dns.fake-ip-filter",
+      "kind": "list",
+      "label": "Fake-IP 排除域名"
+    },
+    {
+      "id": "dns2.enable",
+      "path": "dns2.enable",
+      "kind": "bool",
+      "label": "启用 DNS2（优先于 DNS）"
+    },
+    {
+      "id": "dns2.ipv6",
+      "path": "dns2.ipv6",
+      "kind": "bool",
+      "label": "DNS2 IPv6 查询"
+    },
+    {
+      "id": "dns2.use-hosts",
+      "path": "dns2.use-hosts",
+      "kind": "bool",
+      "label": "DNS2 使用 Hosts"
+    },
+    {
+      "id": "dns2.optimistic-cache-ttl",
+      "path": "dns2.optimistic-cache-ttl",
+      "kind": "int",
+      "label": "DNS2 乐观缓存 TTL",
+      "min": 0,
+      "max": 86400
+    },
+    {
+      "id": "dns2.stale-cache-retention",
+      "path": "dns2.stale-cache-retention",
+      "kind": "int",
+      "label": "DNS2 过期缓存保留秒数",
+      "min": 0,
+      "max": 604800
+    },
+    {
+      "id": "dns2.cache-capacity",
+      "path": "dns2.cache-capacity",
+      "kind": "int",
+      "label": "DNS2 缓存容量",
+      "min": 1,
+      "max": 1048576
+    },
+    {
+      "id": "dns2.default-nameserver",
+      "path": "dns2.default-nameserver",
+      "kind": "list",
+      "label": "DNS2 Bootstrap 上游"
+    },
+    {
+      "id": "dns2.proxy-server-nameserver",
+      "path": "dns2.proxy-server-nameserver",
+      "kind": "list",
+      "label": "DNS2 节点域名上游"
+    }
+  ],
+  "tun": [
+    {
+      "id": "tun.enable",
+      "path": "tun.enable",
+      "kind": "bool",
+      "label": "TUN 开关（eBPF 模式自动关闭）"
+    },
+    {
+      "id": "tun.enable-tcp",
+      "path": "tun.enable-tcp",
+      "kind": "bool",
+      "label": "TUN 处理 TCP（eBPF 模式自动关闭）"
+    },
+    {
+      "id": "tun.device",
+      "path": "tun.device",
+      "kind": "string",
+      "label": "TUN 设备名"
+    },
+    {
+      "id": "tun.stack",
+      "path": "tun.stack",
+      "kind": "enum",
+      "label": "TUN 协议栈",
+      "choices": [
+        "system",
+        "gvisor",
+        "mixed"
+      ]
+    },
+    {
+      "id": "tun.mtu",
+      "path": "tun.mtu",
+      "kind": "int",
+      "label": "TUN MTU",
+      "min": 576,
+      "max": 9000
+    },
+    {
+      "id": "tun.gso",
+      "path": "tun.gso",
+      "kind": "bool",
+      "label": "TUN GSO"
+    },
+    {
+      "id": "tun.gso-max-size",
+      "path": "tun.gso-max-size",
+      "kind": "int",
+      "label": "TUN GSO 最大尺寸",
+      "min": 512,
+      "max": 65536
+    },
+    {
+      "id": "tun.dns-hijack",
+      "path": "tun.dns-hijack",
+      "kind": "list",
+      "label": "TUN DNS 劫持地址"
+    },
+    {
+      "id": "tun.auto-route",
+      "path": "tun.auto-route",
+      "kind": "bool",
+      "label": "自动安装 TUN 路由（Nikki 启动时托管）"
+    },
+    {
+      "id": "tun.auto-redirect",
+      "path": "tun.auto-redirect",
+      "kind": "bool",
+      "label": "自动重定向（Nikki 启动时托管）"
+    },
+    {
+      "id": "tun.auto-detect-interface",
+      "path": "tun.auto-detect-interface",
+      "kind": "bool",
+      "label": "自动检测网卡（Nikki 启动时托管）"
+    }
+  ],
+  "sniffer": [
+    {
+      "id": "sniffer.enable",
+      "path": "sniffer.enable",
+      "kind": "bool",
+      "label": "启用域名嗅探"
+    },
+    {
+      "id": "sniffer.force-dns-mapping",
+      "path": "sniffer.force-dns-mapping",
+      "kind": "bool",
+      "label": "强制 DNS 映射"
+    },
+    {
+      "id": "sniffer.parse-pure-ip",
+      "path": "sniffer.parse-pure-ip",
+      "kind": "bool",
+      "label": "嗅探纯 IP 连接"
+    },
+    {
+      "id": "sniffer.override-destination",
+      "path": "sniffer.override-destination",
+      "kind": "bool",
+      "label": "允许嗅探覆盖连接目标"
+    },
+    {
+      "id": "sniffer.force-domain",
+      "path": "sniffer.force-domain",
+      "kind": "list",
+      "label": "强制嗅探域名"
+    },
+    {
+      "id": "sniffer.skip-domain",
+      "path": "sniffer.skip-domain",
+      "kind": "list",
+      "label": "跳过嗅探域名"
+    }
+  ],
+  "custom": [
+    {
+      "id": "external-ui",
+      "path": "external-ui",
+      "kind": "string",
+      "label": "外部面板本地路径"
+    },
+    {
+      "id": "external-ui-name",
+      "path": "external-ui-name",
+      "kind": "string",
+      "label": "外部面板标识"
+    },
+    {
+      "id": "external-ui-url",
+      "path": "external-ui-url",
+      "kind": "string",
+      "label": "外部面板下载地址"
+    },
+    {
+      "id": "mmdb",
+      "path": "mmdb",
+      "kind": "string",
+      "label": "本地 MMDB 路径"
+    },
+    {
+      "id": "geosite",
+      "path": "geosite",
+      "kind": "string",
+      "label": "本地 GeoSite 路径"
+    }
+  ]
+}

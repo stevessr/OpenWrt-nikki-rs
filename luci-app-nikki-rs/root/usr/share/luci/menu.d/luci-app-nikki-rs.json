@@ -101,5 +101,13 @@
             "type": "view",
             "path": "nikki-rs/settings"
         }
+    },
+    "admin/services/nikki-rs/collections": {
+        "title": "Collections Builder",
+        "order": 47,
+        "action": {
+            "type": "view",
+            "path": "nikki-rs/collections"
+        }
     }
 }

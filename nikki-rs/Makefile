@@ -23,6 +23,13 @@ define Package/nikki-rs/conffiles
 /etc/nikki-rs/profiles/default.yaml
 /etc/nikki-rs/overrides/general.yaml
 /etc/nikki-rs/overrides/dns.yaml
+/etc/nikki-rs/overrides/dns2.yaml
+/etc/nikki-rs/overrides/proxy-providers.yaml
+/etc/nikki-rs/overrides/rule-providers.yaml
+/etc/nikki-rs/overrides/listeners.yaml
+/etc/nikki-rs/overrides/inbound-providers.yaml
+/etc/nikki-rs/overrides/hosts.yaml
+/etc/nikki-rs/overrides/geodata.yaml
 /etc/nikki-rs/overrides/proxy-groups.yaml
 /etc/nikki-rs/overrides/rules.yaml
 /etc/nikki-rs/overrides/tun.yaml

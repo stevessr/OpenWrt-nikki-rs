@@ -84,6 +84,13 @@ const callNikkiDebug = rpc.declare({
 });
 
 
+const callNikkiOverridePreview = rpc.declare({
+    object: 'luci.nikki-rs',
+    method: 'override_preview',
+    params: ['module', 'content'],
+    expect: { '': {} }
+});
+
 const callNikkiCoreStatus = rpc.declare({
     object: 'luci.nikki-rs', method: 'core_status', expect: { '': {} }
 });
@@ -145,6 +152,7 @@ return baseclass.extend({
     debugLogPath: debugLogPath,
 
 
+    overridePreview: function (module, content) { return callNikkiOverridePreview(module, content); },
     coreStatus: function () { return callNikkiCoreStatus(); },
     coreUpdate: function (variant, tag) { return callNikkiCoreUpdate(variant, tag); },
     coreRollback: function () { return callNikkiCoreRollback(); },

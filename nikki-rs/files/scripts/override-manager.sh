@@ -64,7 +64,12 @@ done
 # This mirrors Nikki's built-in mixin convention, while leaving subscription
 # files and UCI-generated settings untouched.
 if [ "$count" -eq 0 ]; then
-    if [ "$operation" = apply ]; then cp "$base" "$output"; else cat "$base"; fi
+    case "$operation" in
+        apply) cp "$base" "$output" ;;
+        preview) cat "$base" ;;
+        check) : ;;
+        inspect) yq -M -p yaml -o json '{mode: .mode, rules: (.rules // [] | length), proxies: (.proxies // [] | length), groups: (."proxy-groups" // [] | length)}' "$base" ;;
+    esac
     exit 0
 fi
 case "$operation" in

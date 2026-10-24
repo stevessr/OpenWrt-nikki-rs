@@ -60,7 +60,7 @@ cleanup() {
 module="$2"
 candidate="$3"
 expected="$4"
-case "$module" in general|dns|proxy-groups|rules|tun|sniffer|custom) ;; *) fail 'INVALID_MODULE' ;; esac
+case "$module" in general|dns|dns2|proxy-groups|proxy-providers|rule-providers|rules|listeners|inbound-providers|tun|sniffer|hosts|geodata|custom) ;; *) fail 'INVALID_MODULE' ;; esac
 case "$candidate" in /tmp/nikki-rs-edit.*|/var/run/nikki-rs/*) ;; *) fail 'INVALID_CANDIDATE' ;; esac
 case "$expected" in *[!0-9a-f]*|'') fail 'INVALID_REVISION' ;; esac
 [ "${#expected}" -eq 64 ] || fail 'INVALID_REVISION'

@@ -204,6 +204,35 @@ const methods = {
 	},
 
 
+
+    override_inspect: {
+        args: { module: 'module', content: 'content' },
+        call: function(req) {
+            const module = req.args?.module;
+            if (!allowed_override_module(module)) return { success: false, error: 'Unknown module' };
+            const stage = staged_editor_content(req.args?.content);
+            if (!stage) return { success: false, error: 'Invalid content' };
+            const base = '/etc/nikki-rs/run/base.yaml';
+            if (!access(base, 'r')) {
+                unlink(stage);
+                return { success: false, error: 'Generate a base profile by starting Nikki RS first' };
+            }
+            const manager = '/etc/nikki-rs/scripts/override-manager.sh';
+            if (system([manager, 'check', base, module, stage]) != 0) {
+                unlink(stage);
+                return { success: false, error: 'Merge failed; inspect the YAML mapping' };
+            }
+            const process = popen(manager + ' inspect ' + base + ' ' + module + ' ' + stage);
+            if (!process) {
+                unlink(stage);
+                return { success: false, error: 'Cannot inspect merged configuration' };
+            }
+            const info = trim(process.read('all'));
+            process.close();
+            unlink(stage);
+            return { success: length(info) > 0 && length(info) < 4096, info: info };
+        }
+    },
     override_preview: {
         args: { module: 'module', content: 'content' },
         call: function(req) {

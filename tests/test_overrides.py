@@ -108,6 +108,19 @@ class OverrideManagerTests(unittest.TestCase):
         self.assertEqual(summary['duplicate_rules'], 1)
         self.assertNotIn('example.org', diagnostics)
 
+    def test_core_preflight_does_not_change_active_profile(self):
+        core = self.home / 'mock-core'
+        core.write_text('#!/bin/sh\n'
+                        'test "$1" = "-d" && test "$3" = "-t" && '
+                        'grep -q "MATCH,DIRECT" "$2/config.yaml"\n')
+        core.chmod(0o755)
+        self.env['NIKKI_TEST_CORE'] = str(core)
+        old = self.base.read_bytes()
+        self.cli(SCRIPT, 'test', self.base)
+        self.assertEqual(self.base.read_bytes(), old)
+        core.write_text('#!/bin/sh\nexit 5\n')
+        self.cli(SCRIPT, 'test', self.base, success=False)
+
     def test_invalid_modules_and_yaml_rejected(self):
         (self.overrides / 'general.yaml').write_text('[]\n')
         self.cli(SCRIPT, 'check', self.base, success=False)

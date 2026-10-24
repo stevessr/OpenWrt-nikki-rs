@@ -59,56 +59,50 @@ for name in $MODULES; do
     count=$((count + 1))
 done
 
-# nikki-* arrays prepend to the matching Clash arrays; regular arrays/keys
-# use yq's map merge semantics (explicit override wins, including empty arrays).
-# This mirrors Nikki's built-in mixin convention, while leaving subscription
-# files and UCI-generated settings untouched.
+# nikki-* arrays prepend to Clash arrays; other YAML fields override by
+# deep-map merge. A pure function is used for checks, preview and startup.
+merge_yaml() {
+    yq -M eval-all '
+      . as $item ireduce ({}; . as $acc |
+        ($acc * $item) |
+        ."nikki-rules" = (($acc."nikki-rules" // []) + ($item."nikki-rules" // [])) |
+        ."nikki-proxies" = (($acc."nikki-proxies" // []) + ($item."nikki-proxies" // [])) |
+        ."nikki-proxy-groups" = (($acc."nikki-proxy-groups" // []) + ($item."nikki-proxy-groups" // []))
+      ) |
+      .rules = ((."nikki-rules" // []) + (.rules // [])) |
+      .proxies = ((."nikki-proxies" // []) + (.proxies // [])) |
+      .proxy-groups = ((."nikki-proxy-groups" // []) + (.proxy-groups // [])) |
+      del(."nikki-rules", ."nikki-proxies", ."nikki-proxy-groups")
+    ' "$@"
+}
+inspect_yaml() {
+    # Never print servers, passwords, proxy names or rules to the diagnostic RPC.
+    yq -M -p yaml -o json '{
+      mode: (.mode // ""),
+      dns_mode: (.dns."enhanced-mode" // ""),
+      rules: (.rules // [] | length),
+      proxies: (.proxies // [] | length),
+      groups: (."proxy-groups" // [] | length),
+      duplicate_rules: ((.rules // [] | length) - (.rules // [] | unique | length))
+    }' "$1"
+}
 if [ "$count" -eq 0 ]; then
     case "$operation" in
         apply) cp "$base" "$output" ;;
         preview) cat "$base" ;;
         check) : ;;
-        inspect) yq -M -p yaml -o json '{mode: .mode, rules: (.rules // [] | length), proxies: (.proxies // [] | length), groups: (."proxy-groups" // [] | length)}' "$base" ;;
+        inspect) inspect_yaml "$base" ;;
     esac
     exit 0
 fi
 case "$operation" in
-    check|inspect)
-        # Run the full merge and validate the resulting YAML without printing secrets.
-        yq -M eval-all '
-          . as $item ireduce ({}; . as $acc |
-            ($acc * $item) |
-            ."nikki-rules" = (($acc."nikki-rules" // []) + ($item."nikki-rules" // [])) |
-            ."nikki-proxies" = (($acc."nikki-proxies" // []) + ($item."nikki-proxies" // [])) |
-            ."nikki-proxy-groups" = (($acc."nikki-proxy-groups" // []) + ($item."nikki-proxy-groups" // []))
-          ) |
-          .rules = ((."nikki-rules" // []) + (.rules // [])) |
-          .proxies = ((."nikki-proxies" // []) + (.proxies // [])) |
-          .proxy-groups = ((."nikki-proxy-groups" // []) + (.proxy-groups // [])) |
-          del(."nikki-rules", ."nikki-proxies", ."nikki-proxy-groups")
-        ' "$@" >/dev/null || fail "Overlay merge failed"
-        [ "$operation" != inspect ] || {
-            # Counts are deliberately limited to non-secret fields.
-            yq -M -p yaml -o json '{mode: .mode, rules: (.rules // [] | length), proxies: (.proxies // [] | length), groups: (."proxy-groups" // [] | length)}' "$base"
-        }
-        ;;
-    preview|apply)
-        if [ "$operation" = apply ]; then
-            target="$output"
-        else
-            target="/dev/stdout"
-        fi
-        yq -M eval-all '
-          . as $item ireduce ({}; . as $acc |
-            ($acc * $item) |
-            ."nikki-rules" = (($acc."nikki-rules" // []) + ($item."nikki-rules" // [])) |
-            ."nikki-proxies" = (($acc."nikki-proxies" // []) + ($item."nikki-proxies" // [])) |
-            ."nikki-proxy-groups" = (($acc."nikki-proxy-groups" // []) + ($item."nikki-proxy-groups" // []))
-          ) |
-          .rules = ((."nikki-rules" // []) + (.rules // [])) |
-          .proxies = ((."nikki-proxies" // []) + (.proxies // [])) |
-          .proxy-groups = ((."nikki-proxy-groups" // []) + (.proxy-groups // [])) |
-          del(."nikki-rules", ."nikki-proxies", ."nikki-proxy-groups")
-        ' "$@" > "$target" || fail "Overlay merge failed"
+    check) merge_yaml "$@" >/dev/null || fail "Overlay merge failed" ;;
+    preview) merge_yaml "$@" || fail "Overlay preview failed" ;;
+    apply) merge_yaml "$@" > "$output" || fail "Overlay merge failed" ;;
+    inspect)
+        stage="$(mktemp /tmp/nikki-rs-inspect.XXXXXX)"
+        trap 'rm -f "$stage"' EXIT INT TERM
+        merge_yaml "$@" > "$stage" || fail "Overlay merge failed"
+        inspect_yaml "$stage"
         ;;
 esac

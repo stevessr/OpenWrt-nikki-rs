@@ -121,6 +121,74 @@ class OverrideManagerTests(unittest.TestCase):
         core.write_text('#!/bin/sh\nexit 5\n')
         self.cli(SCRIPT, 'test', self.base, success=False)
 
+    def test_ebpf_disables_subscription_tun_and_tun_listeners_without_overlays(self):
+        """eBPF/TUN exclusion applies even when no override modules exist."""
+        self.env['NIKKI_EBPF_ENABLED'] = '1'
+        self.base.write_text(
+            'ebpf:\n  enable: false\n  lan-interface: [br-lan]\n'
+            'tun:\n  enable: true\n  enable-tcp: true\n  device: utun\n'
+            'listeners:\n'
+            '  - name: tun-in\n    type: tun\n    device: tun0\n'
+            '  - name: tproxy-in\n    type: tproxy\n    port: 7893\n'
+        )
+        source = self.base.read_bytes()
+        self.cli(SCRIPT, 'apply', self.base, self.output)
+        result = self.parsed(self.output)
+        self.assertTrue(result['ebpf']['enable'])
+        self.assertFalse(result['tun']['enable'])
+        self.assertFalse(result['tun']['enable-tcp'])
+        self.assertEqual(result['tun']['device'], 'utun')
+        self.assertEqual([x['name'] for x in result['listeners']], ['tproxy-in'])
+        self.assertEqual(self.base.read_bytes(), source)
+
+    def test_ebpf_override_cannot_reenable_tun(self):
+        """Advanced tun.yaml/custom.yaml overrides must not bypass eBPF mode."""
+        self.env['NIKKI_EBPF_ENABLED'] = '1'
+        self.base.write_text('ebpf:\n  enable: true\ntun:\n  enable: false\n')
+        (self.overrides / 'tun.yaml').write_text(
+            'tun:\n  enable: true\n  enable-tcp: true\n'
+            'listeners:\n  - type: tun\n    name: advanced-tun\n'
+            '  - type: mixed\n    name: normal-in\n    port: 7890\n'
+        )
+        (self.overrides / 'custom.yaml').write_text('ebpf:\n  enable: false\n')
+        self.cli(SCRIPT, 'apply', self.base, self.output)
+        result = self.parsed(self.output)
+        self.assertTrue(result['ebpf']['enable'])
+        self.assertFalse(result['tun']['enable'])
+        self.assertFalse(result['tun']['enable-tcp'])
+        self.assertEqual([x['name'] for x in result['listeners']], ['normal-in'])
+        preview = self.cli(SCRIPT, 'preview', self.base).stdout
+        self.assertIn('enable: false', preview)
+        self.assertNotIn('advanced-tun', preview)
+        # Preview, check and startup use the same normalized merger.
+        self.cli(SCRIPT, 'check', self.base)
+
+    def test_profile_ebpf_disables_tun_without_uci(self):
+        self.env['NIKKI_EBPF_ENABLED'] = '0'
+        self.base.write_text(
+            'ebpf:\n  enable: true\ntun:\n  enable: true\n'
+            'listeners:\n  - type: tun\n    name: legacy\n'
+        )
+        self.cli(SCRIPT, 'apply', self.base, self.output)
+        result = self.parsed(self.output)
+        self.assertFalse(result['tun']['enable'])
+        self.assertEqual(result['listeners'], [])
+
+    def test_disabling_ebpf_restores_saved_tun_behavior(self):
+        """Generated output changes; saved subscription and UCI preferences do not."""
+        self.env['NIKKI_EBPF_ENABLED'] = '0'
+        self.base.write_text(
+            'ebpf:\n  enable: false\ntun:\n  enable: true\n'
+            '  enable-tcp: true\nlisteners:\n  - type: tun\n    name: tun-in\n'
+        )
+        original = self.base.read_bytes()
+        self.cli(SCRIPT, 'apply', self.base, self.output)
+        result = self.parsed(self.output)
+        self.assertTrue(result['tun']['enable'])
+        self.assertTrue(result['tun']['enable-tcp'])
+        self.assertEqual(result['listeners'][0]['type'], 'tun')
+        self.assertEqual(self.base.read_bytes(), original)
+
     def test_invalid_modules_and_yaml_rejected(self):
         (self.overrides / 'general.yaml').write_text('[]\n')
         self.cli(SCRIPT, 'check', self.base, success=False)

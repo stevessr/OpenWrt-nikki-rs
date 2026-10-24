@@ -53,7 +53,7 @@ function editor_operation(action, path, content) {
 
 function allowed_override_module(module) {
     if (type(module) != 'string') return false;
-    return index(['general', 'dns', 'proxy-groups', 'rules', 'tun', 'sniffer', 'custom'], module) >= 0;
+    return index(['general', 'dns', 'dns2', 'proxy-groups', 'proxy-providers', 'rule-providers', 'rules', 'listeners', 'inbound-providers', 'tun', 'sniffer', 'hosts', 'geodata', 'custom'], module) >= 0;
 }
 
 function override_preview(module, content) {

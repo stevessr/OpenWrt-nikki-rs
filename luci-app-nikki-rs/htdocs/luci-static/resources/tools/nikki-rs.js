@@ -84,6 +84,19 @@ const callNikkiDebug = rpc.declare({
 });
 
 
+const callNikkiSettingsRead = rpc.declare({
+    object: 'luci.nikki-rs', method: 'settings_read',
+    params: ['module'], expect: { '': {} }
+});
+const callNikkiSettingsPatch = rpc.declare({
+    object: 'luci.nikki-rs', method: 'settings_patch',
+    params: ['module', 'content', 'revision'], expect: { '': {} }
+});
+const callNikkiSettingsDraft = rpc.declare({
+    object: 'luci.nikki-rs', method: 'settings_draft',
+    params: ['module', 'content', 'revision'], expect: { '': {} }
+});
+
 const callNikkiConfigSnapshot = rpc.declare({
     object: 'luci.nikki-rs', method: 'config_snapshot',
     params: ['path'], expect: { '': {} }
@@ -193,6 +206,13 @@ return baseclass.extend({
     debugLogPath: debugLogPath,
 
 
+    settingsRead: function (module) { return callNikkiSettingsRead(module); },
+    settingsPatch: function (module, changes, revision) {
+        return callNikkiSettingsPatch(module, JSON.stringify(changes), revision);
+    },
+    settingsDraft: function (module, changes, revision) {
+        return callNikkiSettingsDraft(module, JSON.stringify(changes), revision);
+    },
     configSnapshot: function (path) { return callNikkiConfigSnapshot(path); },
     saveConfigRevision: function (path, content, revision) {
         return callNikkiSaveConfigRevision(path, content, revision);

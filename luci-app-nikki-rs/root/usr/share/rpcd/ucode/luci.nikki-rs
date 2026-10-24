@@ -14,6 +14,8 @@ function editor_path_valid(path) {
         index(path, ';') >= 0 || index(path, '|') >= 0 ||
         index(path, '\\') >= 0) return false;
     const relative = substr(path, length(base));
+    const overrideModule = match(relative, /^overrides\/([a-z-]+)\.yaml$/);
+    if (overrideModule != null) return allowed_override_module(overrideModule[1]);
     const fixed = [
         'mixin.yaml', 'run/config.yaml',
         'dns/black_filter', 'dns/fake_ip_filter', 'dns/fallback_filter',
@@ -46,6 +48,40 @@ function editor_operation(action, path, content) {
     const success = system(['/etc/nikki-rs/scripts/config-manager.sh', action, path, staged]) == 0;
     unlink(staged);
     return { success: success, error: success ? '' : 'Configuration validation or file operation failed' };
+}
+
+
+function allowed_override_module(module) {
+    if (type(module) != 'string') return false;
+    return index(['general', 'dns', 'proxy-groups', 'rules', 'tun', 'sniffer', 'custom'], module) >= 0;
+}
+
+function override_preview(module, content) {
+    if (!allowed_override_module(module)) return { success: false, error: 'Unknown module' };
+    const stage = staged_editor_content(content);
+    if (!stage) return { success: false, error: 'Invalid or oversized YAML' };
+    const base = '/etc/nikki-rs/run/base.yaml';
+    if (!access(base, 'r')) {
+        unlink(stage);
+        return { success: false, error: 'No generated base configuration yet; start Nikki RS to generate it' };
+    }
+    const manager = '/etc/nikki-rs/scripts/override-manager.sh';
+    const valid = system([manager, 'check', base, module, stage]) == 0;
+    if (!valid) {
+        unlink(stage);
+        return { success: false, error: 'YAML invalid or merge failed. Check structure and module content' };
+    }
+    const proc = popen(manager + ' preview ' + base + ' ' + module + ' ' + stage);
+    if (!proc) {
+        unlink(stage);
+        return { success: false, error: 'Failed to create a merged preview' };
+    }
+    const output = proc.read('all');
+    proc.close();
+    unlink(stage);
+    if (length(output) > 1048576)
+        return { success: false, error: 'Merged YAML exceeds 1 MiB preview limit; inspect generated config on the router' };
+    return { success: length(output) > 0, content: output };
 }
 
 const methods = {
@@ -167,6 +203,13 @@ const methods = {
 		}
 	},
 
+
+    override_preview: {
+        args: { module: 'module', content: 'content' },
+        call: function(req) {
+            return override_preview(req.args?.module, req.args?.content);
+        }
+    },
     core_status: {
         call: function() {
             const proc = popen('/etc/nikki-rs/scripts/core-manager.sh status');

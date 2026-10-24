@@ -100,6 +100,13 @@ const callNikkiRulesSave = rpc.declare({
     params: ['content', 'revision'], expect: { '': {} }
 });
 
+const callNikkiOverrideAnalyze = rpc.declare({
+    object: 'luci.nikki-rs',
+    method: 'override_analyze',
+    params: ['module', 'content'],
+    expect: { '': {} }
+});
+
 const callNikkiOverrideTest = rpc.declare({
     object: 'luci.nikki-rs', method: 'override_test',
     params: ['module', 'content'], expect: { '': {} }
@@ -185,6 +192,9 @@ return baseclass.extend({
     },
     rulesList: function () { return callNikkiRulesList(); },
     rulesSave: function (rules, revision) { return callNikkiRulesSave(JSON.stringify(rules), revision); },
+    overrideAnalyze: function (module, content) {
+        return callNikkiOverrideAnalyze(module, content);
+    },
     overrideTest: function (module, content) { return callNikkiOverrideTest(module, content); },
     overrideInspect: function (module, content) { return callNikkiOverrideInspect(module, content); },
     overridePreview: function (module, content) { return callNikkiOverridePreview(module, content); },

@@ -32,7 +32,7 @@ function staged_editor_content(content) {
     const path = trim(process.read('all'));
     process.close();
     if (index(path, '/tmp/nikki-rs-edit.') != 0) return null;
-    if (!writefile(path, content)) {
+    if (writefile(path, content) == null) {
         unlink(path);
         return null;
     }

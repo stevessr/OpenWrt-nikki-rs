@@ -2,7 +2,7 @@
 
 'use strict';
 
-import { access, popen, writefile, unlink } from 'fs';
+import { access, popen, readfile, writefile, unlink } from 'fs';
 import { get_users, get_groups, get_cgroups, load_profile } from '/etc/nikki-rs/ucode/include.uc';
 
 
@@ -82,6 +82,26 @@ function override_preview(module, content) {
     if (length(output) > 1048576)
         return { success: false, error: 'Merged YAML exceeds 1 MiB preview limit; inspect generated config on the router' };
     return { success: length(output) > 0, content: output };
+}
+
+
+function config_file_hash(path) {
+    const proc = popen('sha256sum ' + path + " | cut -d ' ' -f 1");
+    if (!proc) return null;
+    const hash = trim(proc.read('all'));
+    proc.close();
+    return match(hash, /^[0-9a-f]{64}$/) ? hash : null;
+}
+
+function config_snapshot(path) {
+    if (!editor_path_valid(path)) return { success: false, error: 'Unsupported configuration path' };
+    const before = config_file_hash(path);
+    if (!before) return { success: false, error: 'Configuration file missing or inaccessible' };
+    const content = readfile(path);
+    const after = config_file_hash(path);
+    if (type(content) != 'string' || before != after || length(content) > 2097152)
+        return { success: false, error: 'Configuration changed while reading or is too large' };
+    return { success: true, content: content, revision: before };
 }
 
 const methods = {
@@ -206,6 +226,57 @@ const methods = {
 
 
 
+
+
+    config_snapshot: {
+        args: { path: 'path' },
+        call: function(req) {
+            return config_snapshot(req.args?.path);
+        }
+    },
+    save_config_revision: {
+        args: { path: 'path', content: 'content', revision: 'revision' },
+        call: function(req) {
+            const path = req.args?.path;
+            const revision = req.args?.revision;
+            if (!editor_path_valid(path) || type(revision) != 'string' ||
+                !match(revision, /^[0-9a-f]{64}$/))
+                return { success: false, error: 'Invalid file or expected revision' };
+            const stage = staged_editor_content(req.args?.content);
+            if (!stage) return { success: false, error: 'Invalid or oversized content' };
+            const success = system(['/etc/nikki-rs/scripts/config-manager.sh',
+                'save-revision', path, stage, revision]) == 0;
+            unlink(stage);
+            return { success: success, error: success ? '' : 'Save blocked: invalid YAML, concurrent edit, or filesystem error. Reload before retrying.' };
+        }
+    },
+    rule_list: {
+        call: function() {
+            const proc = popen('/etc/nikki-rs/scripts/rules-manager.sh list');
+            if (!proc) return { success: false, error: 'Could not read rules' };
+            const output = trim(proc.read('all'));
+            proc.close();
+            try {
+                const result = json(output);
+                return { success: true, revision: result.revision, rules: result.rules };
+            } catch (e) {
+                return { success: false, error: 'Invalid rules module; open the YAML editor to repair it' };
+            }
+        }
+    },
+    rule_save: {
+        args: { content: 'content', revision: 'revision' },
+        call: function(req) {
+            const revision = req.args?.revision;
+            if (type(revision) != 'string' || !match(revision, /^[0-9a-f]{64}$/))
+                return { success: false, error: 'Invalid revision' };
+            const stage = staged_editor_content(req.args?.content);
+            if (!stage) return { success: false, error: 'Invalid or oversized rule payload' };
+            const result = system(['/etc/nikki-rs/scripts/rules-manager.sh', 'save', stage, revision]) == 0;
+            unlink(stage);
+            return { success: result, error: result ? '' : 'Save rejected: invalid rules, concurrent edits, or filesystem error. Reload the rule list before retrying.' };
+        }
+    },
     override_test: {
         args: { module: 'module', content: 'content' },
         call: function(req) {

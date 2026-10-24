@@ -85,5 +85,13 @@
             "type": "view",
             "path": "nikki-rs/overrides"
         }
+    },
+    "admin/services/nikki-rs/rules-builder": {
+        "title": "Ordered Rules",
+        "order": 49,
+        "action": {
+            "type": "view",
+            "path": "nikki-rs/rules-builder"
+        }
     }
 }

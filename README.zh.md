@@ -87,6 +87,28 @@ dns:
 
 ---
 
+
+## 有序规则编辑与并发保护
+
+LuCI **服务 → Nikki RS → Ordered Rules** 支持更直观的 Clash 规则管理：
+
+- 上移、下移、复制、删除规则；支持通过规则类型、匹配条件、策略目标快速添加，并支持逐行批量追加。
+- 检测完全重复的规则，以及出现在中间位置、可能遮蔽后续规则的 `MATCH` 规则。
+- 只修改 `overrides/rules.yaml` 中的 `nikki-rules` 列表，**保留这个 YAML 文件中的其它字段**，不会更改原始订阅。
+- 每次保存都会创建备份，保存前验证规则格式；与其他 LuCI 页面共同使用 SHA256 版本标记，发现文件已在其他窗口修改时拒绝覆盖，必须重新加载。
+- 高级配置模块切换前会检查尚未保存的修改，避免切换时丢失；保存、切换、恢复后自动更新版本标记。
+
+例如：
+
+```yaml
+nikki-rules:
+  - DOMAIN-SUFFIX,example.net,DIRECT
+  - IP-CIDR,192.0.2.0/24,REJECT,no-resolve
+  - RULE-SET,example-list,PROXY
+```
+
+规则保存不会自动重启服务。请先用 **Advanced Config** 的配置预览、诊断及内核测试确认结果，再重启 Nikki RS 应用变更。
+
 ## 环境要求
 
 - **OpenWrt** >= 24.10

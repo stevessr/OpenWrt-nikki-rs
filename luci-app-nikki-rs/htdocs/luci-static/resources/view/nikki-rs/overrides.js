@@ -24,9 +24,12 @@ function pathFor(module) {
 
 return view.extend({
     load: function () {
-        return L.resolveDefault(fs.read_direct(pathFor('general')), '{}\n');
+        return nikki.configSnapshot(pathFor('general'));
     },
     render: function (initial) {
+        let activeModule = 'general';
+        let savedContent = initial && initial.success ? initial.content : '{}\n';
+        let savedRevision = initial && initial.success ? initial.revision : '';
         const heading = E('h2', {}, _('Advanced Clash Config'));
         const introduction = E('p', {},
             _('Manage advanced configuration as separate YAML modules. Original profiles and subscriptions are not modified. Each module overrides the selected profile and LuCI mixin; nikki-rules, nikki-proxies and nikki-proxy-groups prepend entries.'));
@@ -41,7 +44,8 @@ return view.extend({
             'wrap': 'off',
             'spellcheck': 'false',
             'style': 'width:100%;min-height:440px;font-family:monospace;resize:vertical'
-        }, initial);
+        }, savedContent);
+        const dirtyStatus = E('p', { 'class': 'cbi-value-description' }, _('All changes saved'));
         const status = E('p', { 'class': 'cbi-value-description' },
             _('Saving does not restart the proxy. Preview uses the last generated base profile; restart Nikki RS after saving to apply changes.'));
         const history = E('div', {});
@@ -60,24 +64,50 @@ return view.extend({
                 busy(false);
             });
         };
+        editor.addEventListener('input', function () {
+            dirtyStatus.textContent = editor.value === savedContent ? _('All changes saved') :
+                _('Unsaved changes — save or discard before switching modules');
+        });
         selector.addEventListener('change', function () {
             const selected = selector.value;
+            if (editor.value !== savedContent &&
+                !window.confirm(_('Discard unsaved changes in this module?'))) {
+                selector.value = activeModule;
+                return;
+            }
             const item = modules.find(function (module) { return module.id === selected; });
             hint.textContent = item.hint;
             run(function () {
-                return L.resolveDefault(fs.read_direct(pathFor(selected)), '{}\n').then(function (content) {
+                return nikki.configSnapshot(pathFor(selected)).then(function (snapshot) {
+                    if (!snapshot.success) throw new Error(snapshot.error || _('Cannot read module'));
                     if (selector.value === selected) {
-                        editor.value = content;
+                        editor.value = snapshot.content;
+                        savedContent = snapshot.content;
+                        savedRevision = snapshot.revision;
+                        activeModule = selected;
+                        dirtyStatus.textContent = _('All changes saved');
                         history.replaceChildren();
                     }
+                }).catch(function (error) {
+                    selector.value = activeModule;
+                    throw error;
                 });
             });
         });
 
         const save = function () {
-            return nikki.saveConfig(pathFor(selector.value), editor.value).then(function (result) {
+            const content = editor.value;
+            const path = pathFor(selector.value);
+            if (!savedRevision) throw new Error(_('Reload this module before saving'));
+            return nikki.saveConfigRevision(path, content, savedRevision).then(function (result) {
                 if (!result.success) throw new Error(result.error || _('Save failed'));
-                notify(_('Module saved. Restart Nikki RS after checking the preview to apply it.'), true);
+                return nikki.configSnapshot(path).then(function (snapshot) {
+                    if (!snapshot.success) throw new Error(snapshot.error || _('Cannot refresh saved module'));
+                    savedContent = snapshot.content;
+                    savedRevision = snapshot.revision;
+                    dirtyStatus.textContent = _('All changes saved');
+                    notify(_('Module saved. Restart Nikki RS after checking the preview to apply it.'), true);
+                });
             });
         };
         const makeButton = function (label, style, onclick) {
@@ -172,8 +202,14 @@ return view.extend({
                                 run(function () {
                                     return nikki.restoreConfig(path, backup).then(function (result) {
                                         if (!result.success) throw new Error(_('Could not restore revision'));
-                                        return fs.read_direct(path).then(function (content) {
-                                            if (path === pathFor(selector.value)) editor.value = content;
+                                        return nikki.configSnapshot(path).then(function (snapshot) {
+                                            if (!snapshot.success) throw new Error(_('Cannot reload restored module'));
+                                            if (path === pathFor(selector.value)) {
+                                                editor.value = snapshot.content;
+                                                savedContent = snapshot.content;
+                                                savedRevision = snapshot.revision;
+                                                dirtyStatus.textContent = _('All changes saved');
+                                            }
                                             notify(_('Revision restored. Restart to apply.'), true);
                                         });
                                     });
@@ -189,7 +225,7 @@ return view.extend({
             heading, introduction,
             E('div', { 'class': 'cbi-section' }, [
                 E('h3', {}, _('Configuration module')),
-                selector, hint, editor, controls, status, history
+                selector, hint, dirtyStatus, editor, controls, status, history
             ])
         ]);
     },

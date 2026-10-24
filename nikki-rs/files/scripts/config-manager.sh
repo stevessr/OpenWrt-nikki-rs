@@ -51,6 +51,11 @@ check() {
 save() {
     candidate="$1"
     check "$candidate"
+    if [ -n "${expected_revision:-}" ]; then
+        [ -f "$path" ] && [ ! -L "$path" ] || fail "Target is missing or unsafe"
+        [ "$(sha256sum "$path" | cut -d ' ' -f 1)" = "$expected_revision" ] ||
+            fail "The configuration has changed since it was opened; reload before saving"
+    fi
     parent="$(dirname "$path")"
     [ -d "$parent" ] || fail "Target directory does not exist"
     dir="$(backup_dir "$path")"
@@ -71,6 +76,21 @@ command="${1:-}"
 path="${2:-}"
 valid_path "$path"
 case "$command" in
+    revision)
+        [ "$#" -eq 2 ] || fail "Usage: revision PATH"
+        [ -f "$path" ] && [ ! -L "$path" ] || fail "File missing or unsafe"
+        sha256sum "$path" | cut -d ' ' -f 1
+        ;;
+    save-revision)
+        [ "$#" -eq 4 ] || fail "Usage: save-revision PATH CANDIDATE EXPECTED_SHA256"
+        expected_revision="$4"
+        case "$expected_revision" in
+            *[!0-9a-f]*|'') fail "Invalid expected revision" ;;
+        esac
+        [ "${#expected_revision}" -eq 64 ] || fail "Invalid revision size"
+        save "$3"
+        echo "Saved"
+        ;;
     validate) [ "$#" -eq 3 ] || fail "Usage: validate PATH CANDIDATE"; check "$3"; echo "OK" ;;
     save) [ "$#" -eq 3 ] || fail "Usage: save PATH CANDIDATE"; save "$3"; echo "Saved" ;;
     backups)

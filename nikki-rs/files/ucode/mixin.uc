@@ -61,9 +61,11 @@ if (uci_bool(uci.get('nikki-rs', 'mixin', 'authentication'))) {
 	});
 }
 
+const ebpf_enabled = uci_bool(uci.get('nikki-rs', 'ebpf', 'enabled'));
+
 config['tun'] = {};
-config['tun']['enable'] = uci_bool(uci.get('nikki-rs', 'mixin', 'tun_enabled'));
-config['tun']['enable-tcp'] = uci_bool(uci.get('nikki-rs', 'mixin', 'tun_enable_tcp'));
+config['tun']['enable'] = !ebpf_enabled && uci_bool(uci.get('nikki-rs', 'mixin', 'tun_enabled'));
+config['tun']['enable-tcp'] = !ebpf_enabled && uci_bool(uci.get('nikki-rs', 'mixin', 'tun_enable_tcp'));
 config['tun']['device'] = uci.get('nikki-rs', 'mixin', 'tun_device');
 config['tun']['stack'] = uci.get('nikki-rs', 'mixin', 'tun_stack');
 config['tun']['mtu'] = uci_int(uci.get('nikki-rs', 'mixin', 'tun_mtu'));
@@ -285,7 +287,7 @@ if (uci_bool(uci.get('nikki-rs', 'mixin', 'proxy_node'))) {
 	});
 }
 
-if (uci_bool(uci.get('nikki-rs', 'ebpf', 'enabled'))) {
+if (ebpf_enabled) {
 	config['ebpf'] = {
 		'enable': true,
 		'lan-interface': uci_array(uci.get('nikki-rs', 'ebpf', 'lan_interface')),

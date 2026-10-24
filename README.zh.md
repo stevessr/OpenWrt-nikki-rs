@@ -88,6 +88,16 @@ dns:
 ---
 
 
+## eBPF 与 TUN 自动互斥
+
+开启 LuCI **eBPF Config → Enable**（对应 `nikki-rs.ebpf.enabled=1`）后，Nikki RS 生成最终 Clash 配置时会自动执行兼容处理：
+
+- 强制 `ebpf.enable: true`、`tun.enable: false`、`tun.enable-tcp: false`。
+- 移除 `listeners` 中所有 `type: tun` 的监听器，保留 TPROXY、HTTP、SOCKS 等其他监听器。
+- 兼容处理在订阅、`mixin.yaml`、UCI 和 Advanced Config 的各模块合并后执行，防止后续覆写重新打开 TUN；配置预览和内核测试同样使用处理后的内容。
+- **不更改订阅文件、`mixin.tun_enabled` 或 `overrides/tun.yaml` 的保存值**。关闭 eBPF 并重新生成配置后，原有 TUN 设置继续生效。
+- 只影响生成的配置文件。切换开关后需要重新应用或重启 Nikki RS，才能影响正在运行的 clash-rs 进程。
+
 ## 有序规则编辑与并发保护
 
 LuCI **服务 → Nikki RS → Ordered Rules** 支持更直观的 Clash 规则管理：

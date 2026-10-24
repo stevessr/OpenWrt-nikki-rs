@@ -742,7 +742,7 @@ return view.extend({
 
         s.tab('tun', _('TUN Config'));
 
-        o = s.taboption('tun', form.ListValue, 'tun_enabled', _('Enable'));
+        o = s.taboption('tun', form.ListValue, 'tun_enabled', _('Enable'), _('eBPF takes precedence: when enabled, generated Clash profiles force TUN off without changing this saved preference.'));
         o.optional = true;
         o.placeholder = _('Unmodified');
         o.value('0', _('Disable'));

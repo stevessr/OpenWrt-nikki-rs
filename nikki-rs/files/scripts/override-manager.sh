@@ -48,6 +48,15 @@ case "$operation" in
     *) fail "Unknown command" ;;
 esac
 
+# The eBPF switch in UCI wins over imported profiles and override files.
+# During offline tests NIKKI_EBPF_ENABLED can override the UCI lookup.
+ebpf_requested="${NIKKI_EBPF_ENABLED:-}"
+if [ -z "$ebpf_requested" ] && command -v uci >/dev/null 2>&1; then
+    ebpf_requested="$(uci -q get nikki-rs.ebpf.enabled 2>/dev/null || true)"
+fi
+case "$ebpf_requested" in 1) ;; *) ebpf_requested=0 ;; esac
+export NIKKI_EBPF_FORCE="$ebpf_requested"
+
 set -- "$base"
 count=0
 for name in $MODULES; do
@@ -72,7 +81,12 @@ merge_yaml() {
       .rules = ((."nikki-rules" // []) + (.rules // [])) |
       .proxies = ((."nikki-proxies" // []) + (.proxies // [])) |
       .proxy-groups = ((."nikki-proxy-groups" // []) + (.proxy-groups // [])) |
-      del(."nikki-rules", ."nikki-proxies", ."nikki-proxy-groups")
+      del(."nikki-rules", ."nikki-proxies", ."nikki-proxy-groups") |
+      (. | select(strenv(NIKKI_EBPF_FORCE) == "1") | .ebpf.enable) = true |
+      (. | select(.ebpf.enable == true) | .tun.enable) = false |
+      (. | select(.ebpf.enable == true) | .tun."enable-tcp") = false |
+      (. | select(.ebpf.enable == true and (.listeners | tag) == "!!seq") | .listeners) |=
+        map(select(.type != "tun"))
     ' "$@"
 }
 inspect_yaml() {
@@ -86,7 +100,13 @@ inspect_yaml() {
       "duplicate_rules": ((.rules // [] | length) - (.rules // [] | unique | length))
     }' "$1"
 }
-if [ "$count" -eq 0 ]; then
+# Even without overlay modules, a core-only profile may have TUN enabled
+# while its own eBPF section (or the LuCI eBPF switch) is active.
+config_has_ebpf=0
+if yq -e '.ebpf.enable == true' "$base" >/dev/null 2>&1; then
+    config_has_ebpf=1
+fi
+if [ "$count" -eq 0 ] && [ "$ebpf_requested" != 1 ] && [ "$config_has_ebpf" != 1 ]; then
     case "$operation" in
         apply) cp "$base" "$output"; exit 0 ;;
         preview) cat "$base"; exit 0 ;;
@@ -101,11 +121,7 @@ case "$operation" in
     test)
         tmpdir="$(mktemp -d /tmp/nikki-rs-core-test.XXXXXX)"
         trap 'rm -rf "$tmpdir"' EXIT INT TERM
-        if [ "$count" -eq 0 ]; then
-            cp "$base" "$tmpdir/config.yaml"
-        else
-            merge_yaml "$@" > "$tmpdir/config.yaml" || fail "Candidate merge failed"
-        fi
+        merge_yaml "$@" > "$tmpdir/config.yaml" || fail "Candidate merge failed"
         core="${NIKKI_TEST_CORE:-/usr/bin/clash-rs}"
         [ ! -x /etc/nikki-rs/core/clash-rs ] || core=/etc/nikki-rs/core/clash-rs
         [ -x "$core" ] || fail "clash-rs executable is missing"

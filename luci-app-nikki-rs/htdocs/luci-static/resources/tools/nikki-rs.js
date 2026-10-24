@@ -84,6 +84,14 @@ const callNikkiDebug = rpc.declare({
 });
 
 
+const callNikkiConfigSnapshot = rpc.declare({
+    object: 'luci.nikki-rs', method: 'config_snapshot',
+    params: ['path'], expect: { '': {} }
+});
+const callNikkiSaveConfigRevision = rpc.declare({
+    object: 'luci.nikki-rs', method: 'save_config_revision',
+    params: ['path', 'content', 'revision'], expect: { '': {} }
+});
 const callNikkiRulesList = rpc.declare({
     object: 'luci.nikki-rs', method: 'rule_list', expect: { '': {} }
 });
@@ -171,6 +179,10 @@ return baseclass.extend({
     debugLogPath: debugLogPath,
 
 
+    configSnapshot: function (path) { return callNikkiConfigSnapshot(path); },
+    saveConfigRevision: function (path, content, revision) {
+        return callNikkiSaveConfigRevision(path, content, revision);
+    },
     rulesList: function () { return callNikkiRulesList(); },
     rulesSave: function (rules, revision) { return callNikkiRulesSave(JSON.stringify(rules), revision); },
     overrideTest: function (module, content) { return callNikkiOverrideTest(module, content); },

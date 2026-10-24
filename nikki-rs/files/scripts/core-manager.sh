@@ -14,7 +14,7 @@ LOG="$CORE_DIR/update.log"
 STAGE=''
 LOCK="$CORE_DIR/.update.lock"
 
-message() { printf '%s\n' "$*" >&2; }
+message() { printf '%s\n' "$*" >&2; [ ! -d "$CORE_DIR" ] || printf '%s\n' "$*" >> "$LOG" || :; }
 fail() { message "ERROR: $*"; exit 1; }
 cleanup() {
     [ -z "$STAGE" ] || rm -rf "$STAGE"
@@ -179,7 +179,7 @@ do_rollback() {
 
 case "${1:-}" in
     status) status ;;
-    update) do_update "${2:-}" "${3:-}" 2>&1 | tee -a "$LOG" ;;
-    rollback) do_rollback 2>&1 | tee -a "$LOG" ;;
+    update) do_update "${2:-}" "${3:-}" ;;
+    rollback) do_rollback ;;
     *) message "Usage: $0 {status|update [minimal|standard] [latest|vTAG]|rollback}"; exit 2 ;;
 esac

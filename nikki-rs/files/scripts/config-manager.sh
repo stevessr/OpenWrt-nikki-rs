@@ -22,7 +22,7 @@ valid_path() {
     case "$relative" in
         overrides/*)
             case "${relative#overrides/}" in
-                general.yaml|dns.yaml|proxy-groups.yaml|rules.yaml|tun.yaml|sniffer.yaml|custom.yaml) ;;
+                general.yaml|dns.yaml|dns2.yaml|proxy-groups.yaml|proxy-providers.yaml|rule-providers.yaml|rules.yaml|listeners.yaml|inbound-providers.yaml|tun.yaml|sniffer.yaml|hosts.yaml|geodata.yaml|custom.yaml) ;;
                 *) fail "Unknown override module" ;;
             esac ;;
         profiles/*|subscriptions/*)

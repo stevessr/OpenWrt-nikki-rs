@@ -88,6 +88,24 @@ dns:
 ---
 
 
+## OpenClash 风格配置中心（clash-rs）
+
+在 LuCI **服务 → Nikki RS → Configuration Center** 中，以表单方式管理高频 clash-rs 设置；机场专属功能不在本次范围内。
+
+当前实现 **61 个带类型校验的设置项**，分类覆盖：
+
+- **通用/入站**：HTTP、SOCKS、Mixed、Redirect、TProxy 端口，工作模式，日志级别，绑定网卡，LAN、IPv6、QUIC，Controller，路由标记，状态缓存、TCP 缓冲区。
+- **DNS / DNS2**：传统 DNS、Fake-IP、上游/Bootstrap/备用服务器、DNS2 开关、IPv6、缓存容量、TTL 与 Serve-Stale 等。
+- **TUN**：TUN 开关、协议栈、设备、MTU、GSO、DNS 劫持、路由相关字段。eBPF 模式的 **TUN 自动禁用** 仍然优先于手工设置；Nikki RS 启动时托管的路由标志也仍然优先。
+- **嗅探**：DNS 映射、纯 IP 连接、覆盖目标、强制和跳过嗅探域名。
+- **UI / Geo**：面板路径、外部 UI 和 MMDB/GeoSite 文件路径。
+
+表单字段有 **Override/继承** 切换：关闭覆写会从对应模块中删除该字段，恢复订阅或 UCI 的原始值；不会删除其他 YAML 字段。表单只发送实际编辑的字段，不会整体覆盖 YAML 文件。支持未保存草稿预览、历史备份、SHA256 并发编辑检测，以及显式点击后才执行的安全内核预检与回退流程。
+
+复杂数据继续使用 **Advanced Config**：除既有模块外，新增 `dns2`、`proxy-providers`、`rule-providers`、`listeners`、`inbound-providers`、`hosts`、`geodata` 独立 YAML 模块；它们预置的 `{}` 模板默认无副作用，升级时标为用户配置文件保留。这些模块用于通用配置，并没有集成任何机场品牌专用订阅 API。
+
+功能定位是**接近 OpenClash 的日常配置可操作范围**，并不是完整复制 OpenClash：Mihomo 专有的 Smart 内核、脚本覆写引擎和特定机场 API 不会映射到 clash-rs；完整 DNS2 上游路由、监听器及策略组的复杂结构仍以高级 YAML 编辑为主。不同版本 clash-rs 对个别字段的支持以本机内核预检结果为准。
+
 ## 候选配置内核预检与安全应用
 
 LuCI **服务 → Nikki RS → Advanced Config** 现提供两种保存方式：

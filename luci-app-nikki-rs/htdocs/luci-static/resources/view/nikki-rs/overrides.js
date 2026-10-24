@@ -116,6 +116,13 @@ return view.extend({
                 ], 'wide');
             });
         }));
+        controls.appendChild(makeButton(_('Test with installed core'), 'action', function () {
+            return nikki.overrideTest(selector.value, editor.value).then(function (result) {
+                notify(result.success ?
+                    _('The installed clash-rs core accepted this candidate configuration.') :
+                    (result.error || _('Core preflight failed')), result.success);
+            });
+        }));
         controls.appendChild(makeButton(_('Diagnose effective config'), 'action', function () {
             return nikki.overrideInspect(selector.value, editor.value).then(function (result) {
                 if (!result.success) {

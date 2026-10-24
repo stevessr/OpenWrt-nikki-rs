@@ -23,8 +23,8 @@ trap 'exit 130' INT
 trap 'exit 143' TERM
 # Compare saved overrides with the proposed replacement using the same
 # eBPF/TUN-aware merger that production startup, preview and preflight use.
-"$COMPOSER" preview "$base" > "$work/before.yaml" || fail 'Saved configuration cannot be merged'
-"$COMPOSER" preview "$base" "$module" "$candidate" > "$work/after.yaml" ||
+sh "$COMPOSER" preview "$base" > "$work/before.yaml" || fail 'Saved configuration cannot be merged'
+sh "$COMPOSER" preview "$base" "$module" "$candidate" > "$work/after.yaml" ||
     fail 'Proposed configuration cannot be merged'
 [ "$(wc -c < "$work/before.yaml")" -le 4194304 ] || fail 'Saved profile too large'
 [ "$(wc -c < "$work/after.yaml")" -le 4194304 ] || fail 'Proposed profile too large'

@@ -5,7 +5,8 @@
 
 const modules = [
     ['general', _('General / Inbound / Cache')],
-    ['dns', _('DNS / DNS2')],
+    ['dns', _('DNS')],
+    ['dns2', _('DNS2')],
     ['tun', _('TUN')],
     ['sniffer', _('Sniffer')],
     ['custom', _('Controller UI / Geo')]

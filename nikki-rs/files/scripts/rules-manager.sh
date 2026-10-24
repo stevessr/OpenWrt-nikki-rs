@@ -74,7 +74,7 @@ case "$cmd" in
             fail "Unable to encode ordered rules"
         yq -M eval-all 'select(fi == 0) * select(fi == 1)' "$FILE" "$STAGING/changes.yaml" > "$STAGING/result.yaml" ||
             fail "Unable to preserve existing YAML fields"
-        sh "$CONFIG_MANAGER" save "$FILE" "$STAGING/result.yaml" >/dev/null ||
+        sh "$CONFIG_MANAGER" save-revision "$FILE" "$STAGING/result.yaml" "$expected" >/dev/null ||
             fail "Versioned rule save failed"
         printf '{"success":true,"revision":"%s"}\n' "$(revision)"
         ;;

@@ -331,6 +331,63 @@ const methods = {
             return { success: success, error: success ? '' : 'Save blocked: invalid YAML, concurrent edit, or filesystem error. Reload before retrying.' };
         }
     },
+    collection_read: {
+        args: { module: 'module' },
+        call: function(req) {
+            const module = req.args?.module;
+            if (index(['proxy-groups', 'listeners', 'rule-providers', 'proxy-providers'], module) < 0)
+                return { success: false, error: 'Unsupported collection module' };
+            const proc = popen('/etc/nikki-rs/scripts/collections-manager.sh read ' + module);
+            if (!proc) return { success: false, error: 'Collection manager is unavailable' };
+            const output = proc.read('all');
+            proc.close();
+            if (length(output) < 2 || length(output) > 300000)
+                return { success: false, error: 'Collection read failed or too large' };
+            try {
+                const data = json(output);
+                if (type(data.revision) != 'string' ||
+                    !match(data.revision, /^[0-9a-f]{64}$/) ||
+                    (type(data.items) != 'array' && type(data.items) != 'object'))
+                    return { success: false, error: 'Unexpected collection data' };
+                return { success: true, items: data.items, revision: data.revision };
+            } catch (e) {
+                return { success: false, error: 'Invalid collection data' };
+            }
+        }
+    },
+    collection_write: {
+        args: { module: 'module', content: 'content', revision: 'revision', draft: 'draft' },
+        call: function(req) {
+            const module = req.args?.module;
+            const revision = req.args?.revision;
+            const mode = req.args?.draft === true ? 'draft' : 'save';
+            if (index(['proxy-groups', 'listeners', 'rule-providers', 'proxy-providers'], module) < 0 ||
+                type(revision) != 'string' || !match(revision, /^[0-9a-f]{64}$/))
+                return { success: false, error: 'Invalid collection module or revision' };
+            const stage = staged_editor_content(req.args?.content);
+            if (!stage) return { success: false, error: 'Invalid or oversized collection' };
+            const proc = popen('/etc/nikki-rs/scripts/collections-manager.sh ' +
+                mode + ' ' + module + ' ' + stage + ' ' + revision);
+            if (!proc) {
+                unlink(stage);
+                return { success: false, error: 'Collection manager is unavailable' };
+            }
+            const output = proc.read('all');
+            proc.close();
+            unlink(stage);
+            if (length(output) > 262144)
+                return { success: false, error: 'Collection output too large' };
+            if (mode == 'draft')
+                return length(output) > 1 ? { success: true, content: output } :
+                    { success: false, error: 'Could not generate a valid collection draft' };
+            try {
+                const data = json(output);
+                if (data.success === true && match(data.revision, /^[0-9a-f]{64}$/))
+                    return { success: true, revision: data.revision };
+            } catch (e) {}
+            return { success: false, error: 'Collection validation failed or file changed. Reload before saving.' };
+        }
+    },
     rule_list: {
         call: function() {
             const proc = popen('/etc/nikki-rs/scripts/rules-manager.sh list');

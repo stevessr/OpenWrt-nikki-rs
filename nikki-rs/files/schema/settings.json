@@ -212,60 +212,6 @@
       "path": "dns.fake-ip-filter",
       "kind": "list",
       "label": "Fake-IP 排除域名"
-    },
-    {
-      "id": "dns2.enable",
-      "path": "dns2.enable",
-      "kind": "bool",
-      "label": "启用 DNS2（优先于 DNS）"
-    },
-    {
-      "id": "dns2.ipv6",
-      "path": "dns2.ipv6",
-      "kind": "bool",
-      "label": "DNS2 IPv6 查询"
-    },
-    {
-      "id": "dns2.use-hosts",
-      "path": "dns2.use-hosts",
-      "kind": "bool",
-      "label": "DNS2 使用 Hosts"
-    },
-    {
-      "id": "dns2.optimistic-cache-ttl",
-      "path": "dns2.optimistic-cache-ttl",
-      "kind": "int",
-      "label": "DNS2 乐观缓存 TTL",
-      "min": 0,
-      "max": 86400
-    },
-    {
-      "id": "dns2.stale-cache-retention",
-      "path": "dns2.stale-cache-retention",
-      "kind": "int",
-      "label": "DNS2 过期缓存保留秒数",
-      "min": 0,
-      "max": 604800
-    },
-    {
-      "id": "dns2.cache-capacity",
-      "path": "dns2.cache-capacity",
-      "kind": "int",
-      "label": "DNS2 缓存容量",
-      "min": 1,
-      "max": 1048576
-    },
-    {
-      "id": "dns2.default-nameserver",
-      "path": "dns2.default-nameserver",
-      "kind": "list",
-      "label": "DNS2 Bootstrap 上游"
-    },
-    {
-      "id": "dns2.proxy-server-nameserver",
-      "path": "dns2.proxy-server-nameserver",
-      "kind": "list",
-      "label": "DNS2 节点域名上游"
     }
   ],
   "tun": [
@@ -413,6 +359,62 @@
       "path": "geosite",
       "kind": "string",
       "label": "本地 GeoSite 路径"
+    }
+  ],
+  "dns2": [
+    {
+      "id": "dns2.enable",
+      "path": "dns2.enable",
+      "kind": "bool",
+      "label": "启用 DNS2（优先于 DNS）"
+    },
+    {
+      "id": "dns2.ipv6",
+      "path": "dns2.ipv6",
+      "kind": "bool",
+      "label": "DNS2 IPv6 查询"
+    },
+    {
+      "id": "dns2.use-hosts",
+      "path": "dns2.use-hosts",
+      "kind": "bool",
+      "label": "DNS2 使用 Hosts"
+    },
+    {
+      "id": "dns2.optimistic-cache-ttl",
+      "path": "dns2.optimistic-cache-ttl",
+      "kind": "int",
+      "label": "DNS2 乐观缓存 TTL",
+      "min": 0,
+      "max": 86400
+    },
+    {
+      "id": "dns2.stale-cache-retention",
+      "path": "dns2.stale-cache-retention",
+      "kind": "int",
+      "label": "DNS2 过期缓存保留秒数",
+      "min": 0,
+      "max": 604800
+    },
+    {
+      "id": "dns2.cache-capacity",
+      "path": "dns2.cache-capacity",
+      "kind": "int",
+      "label": "DNS2 缓存容量",
+      "min": 1,
+      "max": 1048576
+    },
+    {
+      "id": "dns2.default-nameserver",
+      "path": "dns2.default-nameserver",
+      "kind": "list",
+      "label": "DNS2 Bootstrap 上游"
+    },
+    {
+      "id": "dns2.proxy-server-nameserver",
+      "path": "dns2.proxy-server-nameserver",
+      "kind": "list",
+      "label": "DNS2 节点域名上游"
     }
   ]
 }

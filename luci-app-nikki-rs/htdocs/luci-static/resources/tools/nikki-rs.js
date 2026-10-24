@@ -105,6 +105,15 @@ const callNikkiSaveConfigRevision = rpc.declare({
     object: 'luci.nikki-rs', method: 'save_config_revision',
     params: ['path', 'content', 'revision'], expect: { '': {} }
 });
+const callNikkiCollectionRead = rpc.declare({
+    object: 'luci.nikki-rs', method: 'collection_read',
+    params: ['module'], expect: { '': {} }
+});
+const callNikkiCollectionWrite = rpc.declare({
+    object: 'luci.nikki-rs', method: 'collection_write',
+    params: ['module', 'content', 'revision', 'draft'], expect: { '': {} }
+});
+
 const callNikkiRulesList = rpc.declare({
     object: 'luci.nikki-rs', method: 'rule_list', expect: { '': {} }
 });
@@ -216,6 +225,10 @@ return baseclass.extend({
     configSnapshot: function (path) { return callNikkiConfigSnapshot(path); },
     saveConfigRevision: function (path, content, revision) {
         return callNikkiSaveConfigRevision(path, content, revision);
+    },
+    collectionRead: function (module) { return callNikkiCollectionRead(module); },
+    collectionWrite: function (module, items, revision, draft) {
+        return callNikkiCollectionWrite(module, JSON.stringify(items), revision, !!draft);
     },
     rulesList: function () { return callNikkiRulesList(); },
     rulesSave: function (rules, revision) { return callNikkiRulesSave(JSON.stringify(rules), revision); },

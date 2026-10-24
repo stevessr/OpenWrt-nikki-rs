@@ -88,6 +88,24 @@ dns:
 ---
 
 
+
+## 集合式可视化管理（策略组、监听器、Providers）
+
+LuCI **服务 → Nikki RS → Collections Builder** 新增四类结构化编辑器：
+
+- **Proxy Groups**：创建、复制、删除、上移/下移自定义策略组；表单支持 `select`、`url-test`、`fallback`、`load-balance`、`smart` 等类型、节点列表、`use` 提供者、测速 URL/周期、容差、正则过滤、空组回退等。
+- **Inbound Listeners**：独立管理 HTTP、SOCKS、Mixed、Redirect、TProxy、TUN 监听器，常用 IP/端口/设备可表单编辑。
+- **Rule Providers**：本地文件或 HTTP 规则提供者，填写名称、`behavior`、`format`、文件路径、URL 和更新周期。
+- **Proxy Providers**：本地文件和通用 HTTP 提供者，不包含特定机场 API 集成；高级 JSON 可定义健康检查等字段。
+
+每个集合条目都支持 **Advanced JSON**，用于保留并继续编辑表单未显示的 clash-rs 扩展字段。支持整页草稿预览、按修订版本保存、原子历史备份，以及 **Test and apply safely** 内核预检与失败回退。不同版本 clash-rs 对高级字段的接受程度，以已安装内核测试为准。
+
+**避免覆盖订阅**：自定义组存入 `nikki-proxy-groups`，自定义监听器存入 `nikki-listeners`；在生成有效配置时按顺序置于订阅原有 `proxy-groups` / `listeners` 之前。原始订阅文件不变。Provider 映射在合并时按键覆盖或补充；从覆写模块移除某个 Provider 并不删除订阅自身定义的同名 Provider。eBPF 模式依然会删除最终配置中的 TUN 监听器。
+
+**DNS2 编辑统一**：Configuration Center 的 DNS2 控件现在直接对应 `overrides/dns2.yaml`，与 Advanced Config 使用相同文件。旧版写入 `overrides/dns.yaml` 内的 `dns2` 字段不自动删除，需要手动检查迁移；较后的 `dns2.yaml` 继续拥有覆写优先级。
+
+**安全提示**：从仅在本机监听改为监听 `0.0.0.0` 或 `::` 时，应自行检查身份验证与防火墙；对公网上可访问的代理监听器不要使用默认开放配置。
+
 ## OpenClash 风格配置中心（clash-rs）
 
 在 LuCI **服务 → Nikki RS → Configuration Center** 中，以表单方式管理高频 clash-rs 设置；机场专属功能不在本次范围内。

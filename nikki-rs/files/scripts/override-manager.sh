@@ -76,12 +76,14 @@ merge_yaml() {
         ($acc * $item) |
         ."nikki-rules" = (($acc."nikki-rules" // []) + ($item."nikki-rules" // [])) |
         ."nikki-proxies" = (($acc."nikki-proxies" // []) + ($item."nikki-proxies" // [])) |
-        ."nikki-proxy-groups" = (($acc."nikki-proxy-groups" // []) + ($item."nikki-proxy-groups" // []))
+        ."nikki-proxy-groups" = (($acc."nikki-proxy-groups" // []) + ($item."nikki-proxy-groups" // [])) |
+        ."nikki-listeners" = (($acc."nikki-listeners" // []) + ($item."nikki-listeners" // []))
       ) |
       .rules = ((."nikki-rules" // []) + (.rules // [])) |
       .proxies = ((."nikki-proxies" // []) + (.proxies // [])) |
       .proxy-groups = ((."nikki-proxy-groups" // []) + (.proxy-groups // [])) |
-      del(."nikki-rules", ."nikki-proxies", ."nikki-proxy-groups") |
+      (. | select(.listeners != null or ((."nikki-listeners" // []) | length) > 0) | .listeners) = ((."nikki-listeners" // []) + (.listeners // [])) |
+      del(."nikki-rules", ."nikki-proxies", ."nikki-proxy-groups", ."nikki-listeners") |
       (. | select(strenv(NIKKI_EBPF_FORCE) == "1") | .ebpf.enable) = true |
       (. | select(.ebpf.enable == true) | .tun.enable) = false |
       (. | select(.ebpf.enable == true) | .tun."enable-tcp") = false |

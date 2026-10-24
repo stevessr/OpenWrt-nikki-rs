@@ -9,7 +9,7 @@ MANAGER="${NIKKI_CONFIG_MANAGER:-$HOME_DIR/scripts/config-manager.sh}"
 action="${1:-}"
 module="${2:-}"
 fail() { printf 'settings-manager: %s\n' "$*" >&2; exit 1; }
-case "$module" in general|dns|tun|sniffer|custom) ;; *) fail 'Unknown module' ;; esac
+case "$module" in general|dns|dns2|tun|sniffer|custom) ;; *) fail 'Unknown module' ;; esac
 [ -f "$SCHEMA" ] && [ ! -L "$SCHEMA" ] || fail 'Settings schema missing or unsafe'
 file="$HOME_DIR/overrides/$module.yaml"
 [ -f "$file" ] && [ ! -L "$file" ] || fail 'Override file missing or unsafe'

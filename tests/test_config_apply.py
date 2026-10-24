@@ -39,7 +39,7 @@ class ConfigApplyTest(unittest.TestCase):
         self.service.write_text(
             "#!/bin/sh\n"
             'case "$1" in\n'
-            '  status) test -f "$TEST_SERVICE_DIR/running" ;;\n'
+            '  status) test -f "$TEST_SERVICE_DIR/running"; exit $? ;;\n'
             '  restart)\n'
             '    if [ -f "$TEST_SERVICE_DIR/fail-first" ]; then\n'
             '      rm "$TEST_SERVICE_DIR/fail-first"\n'

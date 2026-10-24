@@ -63,8 +63,8 @@ class StructuredSettingsTest(unittest.TestCase):
         self.assertEqual(result["revision"], self.revision())
         self.assertFalse(result["values"]["dns.enable"])
         self.assertEqual(result["values"]["dns.nameserver"], ["1.1.1.1"])
-        self.assertIsNone(result["values"]["dns2.enable"])
-        self.assertIn("dns2.cache-capacity", [field["id"] for field in result["fields"]])
+        self.assertNotIn("dns2.enable", result["values"])
+        self.assertNotIn("dns2.cache-capacity", [field["id"] for field in result["fields"]])
         self.assertNotIn("sensitive-value", json.dumps(result))
 
     def test_typed_update_preserves_unrelated_fields(self):
@@ -72,13 +72,13 @@ class StructuredSettingsTest(unittest.TestCase):
         result = json.loads(self.cli("patch", patch={
             "dns.enable": True,
             "dns.nameserver": ["1.1.1.1", "https://dns.example/dns-query"],
-            "dns2.cache-capacity": 8192
+            "dns.fake-ip-filter-mode": "blacklist"
         }).stdout)
         self.assertTrue(result["success"])
         doc = self.yaml()
         self.assertTrue(doc["dns"]["enable"])
         self.assertEqual(len(doc["dns"]["nameserver"]), 2)
-        self.assertEqual(doc["dns2"]["cache-capacity"], 8192)
+        self.assertEqual(doc["dns"]["fake-ip-filter-mode"], "blacklist")
         self.assertEqual(doc["secret"], "sensitive-value")
         self.assertNotEqual(old, self.file.read_bytes())
         self.assertEqual(len(list((self.home / "backups/overrides_dns.yaml").iterdir())), 1)

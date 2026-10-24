@@ -86,13 +86,20 @@ do_update() {
 
     lock_core
     STAGE="$(mktemp -d "$CORE_DIR/.stage.XXXXXX")" || fail "Cannot allocate staging directory"
+    release_api="https://api.github.com/repos/CHKayanami/clash-rs/releases"
     if [ "$tag" = latest ]; then
-        curl --proto '=https' --proto-redir '=https' -fLsS --retry 2 --connect-timeout 10 --max-time 40 \
-            https://api.github.com/repos/CHKayanami/clash-rs/releases/latest -o "$STAGE/release.json" \
-            || fail "Could not fetch release metadata"
-        tag="$(jsonfilter -i "$STAGE/release.json" -e '@.tag_name')"
-        case "$tag" in v[0-9A-Za-z._-]*) ;; *) fail "Release API returned invalid tag" ;; esac
+        release_api="$release_api/latest"
+    else
+        release_api="$release_api/tags/$tag"
     fi
+    curl --proto '=https' --proto-redir '=https' -fLsS --retry 2 --connect-timeout 10 --max-time 40 \
+        "$release_api" -o "$STAGE/release.json" || fail "Could not fetch release metadata"
+    published_tag="$(jsonfilter -i "$STAGE/release.json" -e '@.tag_name')"
+    case "$published_tag" in v[0-9A-Za-z._-]*) ;; *) fail "Release API returned invalid tag" ;; esac
+    if [ "$tag" != latest ] && [ "$tag" != "$published_tag" ]; then
+        fail "Release tag does not match requested version"
+    fi
+    tag="$published_tag"
     asset="clash-rs-$variant-$triple.tar.gz"
     url="https://github.com/CHKayanami/clash-rs/releases/download/$tag/$asset"
     message "Downloading $asset ($tag)"
@@ -100,29 +107,33 @@ do_update() {
         "$url" -o "$STAGE/core.tar.gz" || fail "Core download failed"
 
     # Verify a digest supplied by GitHub's release API when one is available.
-    if [ -f "$STAGE/release.json" ] && [ -f /usr/share/libubox/jshn.sh ]; then
+    [ -f /usr/share/libubox/jshn.sh ] || fail "jshn.sh is required to validate release assets"
+    if [ -f "$STAGE/release.json" ]; then
         . /usr/share/libubox/jshn.sh
         json_load "$(cat "$STAGE/release.json")"
         json_select assets
         json_get_keys indexes
         digest=''
+        found=0
         for index in $indexes; do
             json_select "$index"
             json_get_var name name
             if [ "$name" = "$asset" ]; then
+                found=1
                 json_get_var digest digest
                 json_select ..
                 break
             fi
             json_select ..
         done
+        [ "$found" = 1 ] || fail "Upstream release has no asset for $asset"
         case "$digest" in
             sha256:*)
                 expected="${digest#sha256:}"
                 actual="$(sha256sum "$STAGE/core.tar.gz" | cut -d ' ' -f 1)"
                 [ "$actual" = "$expected" ] || fail "SHA256 digest mismatch"
                 ;;
-            '') message "Release API has no SHA256 digest for this asset; relying on HTTPS" ;;
+            '') fail "Release asset is missing its SHA256 digest" ;;
             *) fail "Unexpected digest format from release API" ;;
         esac
     fi

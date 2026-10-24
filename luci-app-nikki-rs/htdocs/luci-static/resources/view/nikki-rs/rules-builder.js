@@ -55,6 +55,7 @@ return view.extend({
             if (tokens.length < 2 || tokens.length > 4 ||
                 tokens.some(function (value) { return !value.trim(); })) return false;
             if (tokens[0] === 'MATCH') return tokens.length === 2;
+            if (tokens.length < 3) return false;
             if (tokens.length === 4 && tokens[3] !== 'no-resolve') return false;
             return !(tokens.length === 3 && tokens[2] === 'no-resolve');
         }

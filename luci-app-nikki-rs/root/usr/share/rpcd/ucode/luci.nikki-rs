@@ -315,6 +315,42 @@ const methods = {
             }
         }
     },
+    config_apply: {
+        args: { module: 'module', content: 'content', revision: 'revision' },
+        call: function(req) {
+            const module = req.args?.module;
+            const revision = req.args?.revision;
+            if (!allowed_override_module(module) || type(revision) != 'string' ||
+                !match(revision, /^[0-9a-f]{64}$/))
+                return { success: false, status: 'INVALID_REQUEST' };
+            const stage = staged_editor_content(req.args?.content);
+            if (!stage) return { success: false, status: 'INVALID_CANDIDATE' };
+            const proc = popen('/etc/nikki-rs/scripts/config-apply.sh apply ' +
+                module + ' ' + stage + ' ' + revision);
+            if (!proc) {
+                unlink(stage);
+                return { success: false, status: 'UNAVAILABLE' };
+            }
+            const status = trim(proc.read('all'));
+            proc.close();
+            unlink(stage);
+            // The CLI emits only fixed status tokens, never profile contents.
+            if (status == 'APPLIED') return { success: true, status: 'APPLIED' };
+            if (index(status, 'ROLLBACK_FAILED') >= 0)
+                return { success: false, status: 'ROLLBACK_FAILED' };
+            if (index(status, 'ROLLED_BACK') >= 0)
+                return { success: false, status: 'ROLLED_BACK' };
+            const codes = [
+                'INVALID_REQUEST', 'INVALID_MODULE', 'INVALID_CANDIDATE',
+                'INVALID_REVISION', 'INVALID_WAIT', 'MODULE_UNAVAILABLE',
+                'BASE_UNAVAILABLE', 'SERVICE_UNAVAILABLE', 'APPLY_BUSY',
+                'STAGING_FAILED', 'CONFLICT', 'SERVICE_NOT_RUNNING',
+                'PREFLIGHT_FAILED', 'SAVE_FAILED', 'RESTART_FAILED',
+                'HEALTHCHECK_FAILED'
+            ];
+            return { success: false, status: index(codes, status) >= 0 ? status : 'FAILED' };
+        }
+    },
     override_test: {
         args: { module: 'module', content: 'content' },
         call: function(req) {

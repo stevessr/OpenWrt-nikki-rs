@@ -116,6 +116,34 @@ return view.extend({
                 ], 'wide');
             });
         }));
+        controls.appendChild(makeButton(_('Diagnose effective config'), 'action', function () {
+            return nikki.overrideInspect(selector.value, editor.value).then(function (result) {
+                if (!result.success) {
+                    notify(result.error || _('Diagnostics unavailable'), false);
+                    return;
+                }
+                const info = JSON.parse(result.info);
+                const line = function (label, value) {
+                    return E('div', { 'style': 'padding:.25em 0' }, [
+                        E('strong', {}, label + ': '), String(value)
+                    ]);
+                };
+                ui.showModal(_('Clash configuration diagnostics'), [
+                    E('p', {}, _('Summary of the merged configuration. No proxy credentials or rule contents are shown.')),
+                    line(_('Routing mode'), info.mode || _('Not specified')),
+                    line(_('DNS enhanced mode'), info.dns_mode || _('Not specified')),
+                    line(_('Rules'), info.rules),
+                    line(_('Proxies'), info.proxies),
+                    line(_('Proxy groups'), info.groups),
+                    line(_('Duplicate rules'), info.duplicate_rules),
+                    info.duplicate_rules > 0 ? E('p', { 'style': 'font-weight:bold' },
+                        _('Duplicate routing rules were detected; consider removing redundant entries.')) : E('p', {}, _('No exact duplicate rules found.')),
+                    E('div', { 'class': 'right' }, E('button', {
+                        'class': 'btn', 'click': ui.hideModal
+                    }, _('Close')))
+                ]);
+            });
+        }));
         controls.appendChild(makeButton(_('Save module'), 'positive', save));
         controls.appendChild(makeButton(_('Revision history'), 'action', function () {
             const path = pathFor(selector.value);

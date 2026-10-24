@@ -6,8 +6,15 @@
 
 const modules = [
     { id: 'general', label: _('General'), hint: _('Log level, mode, ports, IPv6 and general Clash options') },
-    { id: 'dns', label: _('DNS / DNS2'), hint: _('DNS servers, Fake IP and DNS2 overrides') },
+    { id: 'dns', label: _('DNS'), hint: _('Legacy DNS, Fake IP, policy and upstreams') },
+    { id: 'dns2', label: _('DNS2'), hint: _('Tagged upstream pools and DNS2 request/response routing') },
     { id: 'proxy-groups', label: _('Proxy Groups'), hint: _('Prepend custom selector or test groups without editing a subscription') },
+    { id: 'proxy-providers', label: _('Proxy Providers'), hint: _('Generic local or remote proxy provider mappings; no vendor-specific integrations') },
+    { id: 'rule-providers', label: _('Rule Providers'), hint: _('Rule-set endpoints, behavior, format and refresh settings') },
+    { id: 'listeners', label: _('Listeners'), hint: _('HTTP, SOCKS, mixed, redirect, TProxy and other inbound listeners') },
+    { id: 'inbound-providers', label: _('Inbound Providers'), hint: _('Dynamic inbound listener providers (clash-rs extension)') },
+    { id: 'hosts', label: _('Hosts'), hint: _('Static hosts mapping and DNS host overrides') },
+    { id: 'geodata', label: _('Geo / Databases'), hint: _('GeoIP, Geosite and geodata path settings') },
     { id: 'rules', label: _('Rules'), hint: _('Ordered priority rules (nikki-rules prepends to subscription rules)') },
     { id: 'tun', label: _('TUN'), hint: _('TUN properties; router-managed routing flags are enforced on startup') },
     { id: 'sniffer', label: _('Sniffer'), hint: _('HTTP, TLS and QUIC sniffing settings') },

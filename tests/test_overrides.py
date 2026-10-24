@@ -97,6 +97,17 @@ class OverrideManagerTests(unittest.TestCase):
         self.assertIn('DOMAIN,override.example,DIRECT', p.stdout)
         self.assertEqual((self.overrides / 'rules.yaml').read_text(), 'nikki-rules: []\n')
 
+    def test_diagnostics_only_return_non_secret_counts(self):
+        (self.overrides / 'rules.yaml').write_text(
+            'nikki-rules:\n  - "DOMAIN,example.org,DIRECT"\n  - "DOMAIN,example.org,DIRECT"\n'
+        )
+        diagnostics = self.cli(SCRIPT, 'inspect', self.base).stdout
+        summary = json.loads(diagnostics)
+        self.assertEqual(summary['rules'], 3)
+        self.assertEqual(summary['groups'], 1)
+        self.assertEqual(summary['duplicate_rules'], 1)
+        self.assertNotIn('example.org', diagnostics)
+
     def test_invalid_modules_and_yaml_rejected(self):
         (self.overrides / 'general.yaml').write_text('[]\n')
         self.cli(SCRIPT, 'check', self.base, success=False)

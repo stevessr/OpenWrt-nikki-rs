@@ -91,11 +91,27 @@ class StructuredSettingsTest(unittest.TestCase):
 
     def test_draft_does_not_write_or_backup(self):
         old = self.file.read_bytes()
-        out = self.cli("draft", patch={"dns.enable": True, "dns2.ipv6": False}).stdout
+        out = self.cli("draft", patch={"dns.enable": True, "dns.ipv6": False}).stdout
         self.assertIn("enable: true", out)
         self.assertIn("ipv6: false", out)
         self.assertEqual(self.file.read_bytes(), old)
         self.assertFalse((self.home / "backups").exists())
+
+    def test_dns2_has_independent_file_and_unchanged_dns(self):
+        previous = self.file.read_bytes()
+        dns2 = self.overrides / "dns2.yaml"
+        dns2.write_text("{}\n")
+        self.file = dns2
+        fields = json.loads(self.cli("read", "dns2").stdout)
+        self.assertIn("dns2.cache-capacity", [field["id"] for field in fields["fields"]])
+        self.cli("patch", "dns2", patch={
+            "dns2.enable": True, "dns2.cache-capacity": 8192
+        })
+        doc = self.yaml()
+        self.assertEqual(doc["dns2"]["cache-capacity"], 8192)
+        self.assertTrue(doc["dns2"]["enable"])
+        self.assertEqual((self.overrides / "dns.yaml").read_bytes(), previous)
+        self.cli("patch", "dns2", patch={"dns2.cache-capacity": 0}, success=False)
 
     def test_wrong_module_and_field_rejected(self):
         self.cli("read", "airports", success=False)

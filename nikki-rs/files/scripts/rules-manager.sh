@@ -41,13 +41,13 @@ case "$cmd" in
         case "$candidate" in /tmp/nikki-rs-edit.*|/var/run/nikki-rs/*) ;; *) fail "Untrusted staging path" ;; esac
         [ -f "$candidate" ] && [ ! -L "$candidate" ] || fail "Candidate missing or unsafe"
         [ "$(wc -c < "$candidate")" -le 262144 ] || fail "Too many rules"
-        yq -p=json -e 'tag == "!!seq"' "$candidate" >/dev/null ||
+        yq -p=json -o=json -e 'tag == "!!seq"' "$candidate" >/dev/null ||
             fail "Expected JSON array of rules"
-        if yq -p=json -r '.[] | tag' "$candidate" | grep -qv '^!!str$'; then
+        if yq -p=json -o=json -r '.[] | tag' "$candidate" | grep -qv '^!!str$'; then
             fail "Rules must all be strings"
         fi
-        expected_count="$(yq -p=json '. | length' "$candidate")"
-        yq -r -p=json '.[]' "$candidate" | LC_ALL=C awk -v expected="$expected_count" '
+        expected_count="$(yq -p=json -o=json '. | length' "$candidate")"
+        yq -r -p=json -o=json '.[]' "$candidate" | LC_ALL=C awk -v expected="$expected_count" '
           length($0) > 1024 || $0 ~ /[[:cntrl:]]/ { bad = 1 }
           {
               n = split($0, segments, ",")
@@ -73,7 +73,7 @@ case "$cmd" in
             fail "Unable to encode ordered rules"
         yq -M eval-all 'select(fi == 0) * select(fi == 1)' "$FILE" "$STAGING/changes.yaml" > "$STAGING/result.yaml" ||
             fail "Unable to preserve existing YAML fields"
-        "$CONFIG_MANAGER" save "$FILE" "$STAGING/result.yaml" >/dev/null ||
+        sh "$CONFIG_MANAGER" save "$FILE" "$STAGING/result.yaml" >/dev/null ||
             fail "Versioned rule save failed"
         printf '{"success":true,"revision":"%s"}\n' "$(revision)"
         ;;

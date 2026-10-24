@@ -54,6 +54,7 @@ case "$cmd" in
               if (n < 2 || n > 4) bad = 1
               for (i=1; i<=n; i++) if (segments[i] == "") bad = 1
               if (segments[1] == "MATCH" && n != 2) bad = 1
+              if (segments[1] != "MATCH" && n < 3) bad = 1
               if (n == 4 && segments[4] != "no-resolve") bad = 1
               if (n == 3 && segments[3] == "no-resolve") bad = 1
           }

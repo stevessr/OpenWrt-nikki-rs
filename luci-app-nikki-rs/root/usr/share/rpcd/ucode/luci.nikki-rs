@@ -277,6 +277,44 @@ const methods = {
             return { success: result, error: result ? '' : 'Save rejected: invalid rules, concurrent edits, or filesystem error. Reload the rule list before retrying.' };
         }
     },
+    override_analyze: {
+        args: { module: 'module', content: 'content' },
+        call: function(req) {
+            const module = req.args?.module;
+            if (!allowed_override_module(module))
+                return { success: false, error: 'Unknown configuration module' };
+            const stage = staged_editor_content(req.args?.content);
+            if (!stage)
+                return { success: false, error: 'Invalid or oversized candidate' };
+            const base = '/etc/nikki-rs/run/base.yaml';
+            if (!access(base, 'r')) {
+                unlink(stage);
+                return { success: false, error: 'Start Nikki RS first to generate a base profile' };
+            }
+            // Only the checked module name and server-generated random path are
+            // passed to the command. Never return merged YAML or credentials.
+            const proc = popen('/etc/nikki-rs/scripts/config-analyzer.sh ' +
+                base + ' ' + module + ' ' + stage);
+            if (!proc) {
+                unlink(stage);
+                return { success: false, error: 'Unable to analyze configuration' };
+            }
+            const output = trim(proc.read('all'));
+            proc.close();
+            unlink(stage);
+            if (length(output) == 0 || length(output) > 8192)
+                return { success: false, error: 'Configuration analysis failed' };
+            try {
+                const data = json(output);
+                if (type(data) != 'object' || type(data.changed_sections) != 'array' ||
+                    type(data.before) != 'object' || type(data.after) != 'object')
+                    return { success: false, error: 'Invalid analysis response' };
+                return { success: true, report: data };
+            } catch (e) {
+                return { success: false, error: 'Configuration analysis failed' };
+            }
+        }
+    },
     override_test: {
         args: { module: 'module', content: 'content' },
         call: function(req) {

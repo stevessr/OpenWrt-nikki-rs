@@ -36,7 +36,7 @@ backup_dir() {
 }
 check() {
     file="$1"
-    [ -f "$file" ] || fail "Candidate is missing"
+    [ -f "$file" ] && [ ! -L "$file" ] || fail "Candidate is missing or unsafe"
     bytes="$(wc -c < "$file")"
     [ "$bytes" -le "$MAX_SIZE" ] || fail "Configuration is larger than 2 MiB"
     case "$path" in
@@ -51,26 +51,36 @@ check() {
 save() {
     candidate="$1"
     check "$candidate"
+    parent="$(dirname "$path")"
+    [ -d "$parent" ] && [ ! -L "$parent" ] || fail "Target directory missing or unsafe"
+    [ ! -L "$path" ] || fail "Refusing to replace a symlink"
+    dir="$(backup_dir "$path")"
+    mkdir -p "$dir" "$BACKUPS/.locks"
+    # A per-target lock serializes normal saves, revision-checked saves and
+    # restores. The expected SHA256 is checked *after* taking the lock.
+    lockdir="$BACKUPS/.locks/$(basename "$dir")"
+    mkdir "$lockdir" 2>/dev/null || fail "Another configuration edit is in progress"
+    pending=''
+    trap 'if [ -n "$pending" ]; then rm -f "$pending"; fi; rmdir "$lockdir" 2>/dev/null || :' EXIT
+    trap 'exit 130' INT
+    trap 'exit 143' TERM
     if [ -n "${expected_revision:-}" ]; then
         [ -f "$path" ] && [ ! -L "$path" ] || fail "Target is missing or unsafe"
         [ "$(sha256sum "$path" | cut -d ' ' -f 1)" = "$expected_revision" ] ||
-            fail "The configuration has changed since it was opened; reload before saving"
+            fail "The configuration changed since it was opened; reload before saving"
     fi
-    parent="$(dirname "$path")"
-    [ -d "$parent" ] || fail "Target directory does not exist"
-    dir="$(backup_dir "$path")"
-    mkdir -p "$dir"
     if [ -f "$path" ]; then
         archived="$(mktemp "$dir/$(date +%Y%m%dT%H%M%S).XXXXXX")"
         cp -p "$path" "$archived" || { rm -f "$archived"; fail "Backup failed"; }
     fi
     pending="$(mktemp "$parent/.nikki-rs-edit.XXXXXX")"
-    trap 'rm -f "$pending"' EXIT
     cp "$candidate" "$pending"
     chmod 600 "$pending"
     mv -f "$pending" "$path"
-    trap - EXIT
+    pending=''
     ls -1t "$dir" | sed -n '11,$p' | while IFS= read -r old; do rm -f "$dir/$old"; done
+    rmdir "$lockdir" || fail "Unable to release edit lock"
+    trap - EXIT INT TERM
 }
 command="${1:-}"
 path="${2:-}"

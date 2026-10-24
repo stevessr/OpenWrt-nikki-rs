@@ -54,7 +54,7 @@ validate_value() {
                 .[strenv(MODULE)][] | select(.id == strenv(FIELD)) | .max // 4294967295
             ' "$SCHEMA")"
             MIN="$min" MAX="$max" yq -p=json -e '
-                tag == "!!int" and . >= (env(MIN) | to_number) and . <= (env(MAX) | to_number)
+                tag == "!!int" and . >= env(MIN) and . <= env(MAX)
             ' "$candidate" >/dev/null 2>&1 ;;
         string)
             yq -p=json -e 'tag == "!!str" and length <= 2048' "$candidate" >/dev/null 2>&1 &&
@@ -91,8 +91,8 @@ case "$action" in
         done
         printf '}}\n'
         ;;
-    patch)
-        [ "$#" -eq 4 ] || fail 'Usage: patch MODULE JSON EXPECTED_REVISION'
+    patch|draft)
+        [ "$#" -eq 4 ] || fail 'Usage: patch|draft MODULE JSON EXPECTED_REVISION'
         input="$3"
         expected="$4"
         case "$input" in /tmp/nikki-rs-edit.*|/var/run/nikki-rs/*) ;; *) fail 'Untrusted candidate' ;; esac
@@ -141,6 +141,10 @@ case "$action" in
             esac
         done
         [ "$FIELD_COUNT" -gt 0 ] || fail 'Nothing to save'
+        if [ "$action" = 'draft' ]; then
+            cat "$work/result.yaml"
+            exit 0
+        fi
         sh "$MANAGER" save-revision "$file" "$work/result.yaml" "$expected" >/dev/null ||
             fail 'Revision conflict or invalid YAML'
         printf '{"success":true,"revision":"%s"}\n' "$(revision)"

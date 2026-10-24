@@ -2,8 +2,51 @@
 
 'use strict';
 
-import { access, popen, writefile } from 'fs';
+import { access, popen, writefile, unlink } from 'fs';
 import { get_users, get_groups, get_cgroups, load_profile } from '/etc/nikki-rs/ucode/include.uc';
+
+
+function editor_path_valid(path) {
+    if (type(path) != 'string') return false;
+    const base = '/etc/nikki-rs/';
+    if (index(path, base) != 0 || index(path, '..') >= 0 ||
+        index(path, "'") >= 0 || index(path, ' ') >= 0 ||
+        index(path, ';') >= 0 || index(path, '|') >= 0 ||
+        index(path, '\\') >= 0) return false;
+    const relative = substr(path, length(base));
+    const fixed = [
+        'mixin.yaml', 'run/config.yaml',
+        'dns/black_filter', 'dns/fake_ip_filter', 'dns/fallback_filter',
+        'nftables/proxy_whitelist.txt', 'nftables/proxy_whitelist6.txt'
+    ];
+    if (index(fixed, relative) >= 0) return true;
+    const parts = split(relative, '/');
+    if (length(parts) != 2 || (parts[0] != 'profiles' && parts[0] != 'subscriptions')) return false;
+    return match(parts[1], /^[a-zA-Z0-9_.-]+\.(yaml|yml)$/) != null;
+}
+
+function staged_editor_content(content) {
+    if (type(content) != 'string' || length(content) > 2097152) return null;
+    const process = popen('mktemp /tmp/nikki-rs-edit.XXXXXX');
+    if (!process) return null;
+    const path = trim(process.read('all'));
+    process.close();
+    if (index(path, '/tmp/nikki-rs-edit.') != 0) return null;
+    if (writefile(path, content) == null) {
+        unlink(path);
+        return null;
+    }
+    return path;
+}
+
+function editor_operation(action, path, content) {
+    if (!editor_path_valid(path)) return { success: false, error: 'Invalid editor path' };
+    const staged = staged_editor_content(content);
+    if (!staged) return { success: false, error: 'Invalid or oversized content' };
+    const success = system(['/etc/nikki-rs/scripts/config-manager.sh', action, path, staged]) == 0;
+    unlink(staged);
+    return { success: success, error: success ? '' : 'Configuration validation or file operation failed' };
+}
 
 const methods = {
 	version: {
@@ -24,7 +67,7 @@ const methods = {
 				}
 			}
 			let core = '';
-			process = popen('clash-rs -v | cut -d " " -f 2');
+			process = popen('if [ -x /etc/nikki-rs/core/clash-rs ]; then /etc/nikki-rs/core/clash-rs -v; else /usr/bin/clash-rs -v; fi');
 			if (process) {
 				core = trim(process.read('all'));
 				process.close();
@@ -123,6 +166,63 @@ const methods = {
 			return { users: users, groups: groups, cgroups: cgroups };
 		}
 	},
+
+    core_status: {
+        call: function() {
+            const proc = popen('/etc/nikki-rs/scripts/core-manager.sh status');
+            if (!proc) return { info: 'Core status unavailable' };
+            const info = trim(proc.read('all'));
+            proc.close();
+            return { info: info };
+        }
+    },
+    core_update: {
+        args: { variant: 'variant', tag: 'tag' },
+        call: function(req) {
+            const variant = req.args?.variant ?? 'minimal';
+            const tag = req.args?.tag ?? 'latest';
+            if (variant != 'minimal' && variant != 'standard') return { success: false };
+            return { success: system(['/etc/nikki-rs/scripts/core-manager.sh', 'update', variant, tag]) == 0 };
+        }
+    },
+    core_rollback: {
+        call: function() {
+            return { success: system(['/etc/nikki-rs/scripts/core-manager.sh', 'rollback']) == 0 };
+        }
+    },
+    validate_config: {
+        args: { path: 'path', content: 'content' },
+        call: function(req) {
+            return editor_operation('validate', req.args?.path, req.args?.content);
+        }
+    },
+    save_config: {
+        args: { path: 'path', content: 'content' },
+        call: function(req) {
+            return editor_operation('save', req.args?.path, req.args?.content);
+        }
+    },
+    list_config_backups: {
+        args: { path: 'path' },
+        call: function(req) {
+            const path = req.args?.path;
+            if (!editor_path_valid(path)) return { backups: [] };
+            const proc = popen('/etc/nikki-rs/scripts/config-manager.sh backups ' + path);
+            if (!proc) return { backups: [] };
+            const output = trim(proc.read('all'));
+            proc.close();
+            return { backups: output ? split(output, '\n') : [] };
+        }
+    },
+    restore_config: {
+        args: { path: 'path', backup: 'backup' },
+        call: function(req) {
+            const path = req.args?.path;
+            const backup = req.args?.backup;
+            if (!editor_path_valid(path) || type(backup) != 'string') return { success: false };
+            return { success: system(['/etc/nikki-rs/scripts/config-manager.sh', 'restore', path, backup]) == 0 };
+        }
+    },
 	debug: {
 		call: function() {
 			const success = system('/etc/nikki-rs/scripts/debug.sh > /var/log/nikki-rs/debug.log') == 0;

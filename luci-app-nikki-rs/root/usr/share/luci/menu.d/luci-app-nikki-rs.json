@@ -69,5 +69,13 @@
             "type": "view",
             "path": "nikki-rs/log"
         }
+    },
+    "admin/services/nikki-rs/core": {
+        "title": "Core Management",
+        "order": 15,
+        "action": {
+            "type": "view",
+            "path": "nikki-rs/core"
+        }
     }
 }

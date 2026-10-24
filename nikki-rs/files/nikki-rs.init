@@ -5,6 +5,7 @@ STOP=10
 USE_PROCD=1
 
 PROG="/usr/bin/clash-rs"
+[ ! -x "/etc/nikki-rs/core/clash-rs" ] || PROG="/etc/nikki-rs/core/clash-rs"
 
 . "$IPKG_INSTROOT/etc/nikki-rs/scripts/include.sh"
 
@@ -346,6 +347,13 @@ start_service() {
 	if [ "$mixin_rule_provider" = 1 ] && [ "$rule_provider_scheduled_update" = 1 ] && [ -n "$rule_provider_scheduled_update_cron" ]; then
 		log "App" "Set scheduled update for rule providers."
 		echo "$rule_provider_scheduled_update_cron /etc/init.d/nikki-rs update_rule_provider #nikki-rs rule_provider scheduled update" >> "/etc/crontabs/root"
+	fi
+	# Optional weekly unattended core updates (disabled by default).
+	local core_auto_update core_update_cron
+	config_get_bool core_auto_update "core_update" "auto_update" 0
+	config_get core_update_cron "core_update" "cron" "15 4 * * 0"
+	if [ "$core_auto_update" = 1 ]; then
+		echo "$core_update_cron /etc/nikki-rs/scripts/core-manager.sh update >> /var/log/nikki-rs/core-update.log 2>&1 #nikki-rs core update" >> "/etc/crontabs/root"
 	fi
 	# set started flag
 	touch "$STARTED_FLAG_PATH"

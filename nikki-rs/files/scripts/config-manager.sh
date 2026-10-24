@@ -11,7 +11,7 @@ valid_path() {
     case "$path" in
         "$BASE"/profiles/*.yaml|"$BASE"/profiles/*.yml|\
         "$BASE"/subscriptions/*.yaml|"$BASE"/subscriptions/*.yml|\
-        "$BASE"/mixin.yaml|"$BASE"/run/config.yaml|\
+        "$BASE"/mixin.yaml|"$BASE"/run/config.yaml|"$BASE"/overrides/*.yaml|\
         "$BASE"/dns/black_filter|"$BASE"/dns/fake_ip_filter|"$BASE"/dns/fallback_filter|\
         "$BASE"/nftables/proxy_whitelist.txt|"$BASE"/nftables/proxy_whitelist6.txt) ;;
         *) fail "File is not managed by the editor" ;;
@@ -20,6 +20,11 @@ valid_path() {
     case "$relative" in *..*|*[!a-zA-Z0-9/_.-]*|/*|*//* ) fail "Invalid file name" ;; esac
     # Only the expected one-level named profile or subscription is allowed.
     case "$relative" in
+        overrides/*)
+            case "${relative#overrides/}" in
+                general.yaml|dns.yaml|proxy-groups.yaml|rules.yaml|tun.yaml|sniffer.yaml|custom.yaml) ;;
+                *) fail "Unknown override module" ;;
+            esac ;;
         profiles/*|subscriptions/*)
             tail_part="${relative#*/}"
             case "$tail_part" in */*|'') fail "Nested paths are not supported" ;; esac ;;
@@ -36,6 +41,9 @@ check() {
     [ "$bytes" -le "$MAX_SIZE" ] || fail "Configuration is larger than 2 MiB"
     case "$path" in
         *.yaml|*.yml)
+            if [ "${path#"$BASE"/overrides/}" != "$path" ]; then
+                [ "$bytes" -le 262144 ] || fail "Override module exceeds 256 KiB"
+            fi
             yq -M -e 'tag == "!!map"' "$file" >/dev/null 2>&1 || fail "Invalid YAML: top-level mapping required"
             ;;
     esac

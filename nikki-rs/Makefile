@@ -21,6 +21,13 @@ define Package/nikki-rs/conffiles
 /etc/config/nikki-rs
 /etc/nikki-rs/mixin.yaml
 /etc/nikki-rs/profiles/default.yaml
+/etc/nikki-rs/overrides/general.yaml
+/etc/nikki-rs/overrides/dns.yaml
+/etc/nikki-rs/overrides/proxy-groups.yaml
+/etc/nikki-rs/overrides/rules.yaml
+/etc/nikki-rs/overrides/tun.yaml
+/etc/nikki-rs/overrides/sniffer.yaml
+/etc/nikki-rs/overrides/custom.yaml
 /etc/nikki-rs/nftables/proxy_whitelist.txt
 /etc/nikki-rs/nftables/proxy_whitelist6.txt
 /etc/nikki-rs/dns/black_filter

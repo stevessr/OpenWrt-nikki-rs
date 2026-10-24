@@ -112,6 +112,9 @@ mixin_profile() (
 		set -- "$RUN_PROFILE_PATH" "$mixin_tmpdir/mixin.yaml"
 	fi
 	yq -M -i eval-all '... comments="" | . as $item ireduce ({}; . as $acc | ($acc * $item) | .dns2 = ($item.dns2 // $acc.dns2) | ."nikki-proxies" = (($acc."nikki-proxies" // []) + ($item."nikki-proxies" // [])) | ."nikki-proxy-groups" = (($acc."nikki-proxy-groups" // []) + ($item."nikki-proxy-groups" // [])) | ."nikki-rules" = (($acc."nikki-rules" // []) + ($item."nikki-rules" // [])) ) | .proxies = .nikki-proxies + .proxies | del(.nikki-proxies) | .proxy-groups = .nikki-proxy-groups + .proxy-groups | del(.nikki-proxy-groups) | .rules = .nikki-rules + .rules | del(.nikki-rules) | explode(.)' "$@" 2>> "$APP_LOG_PATH" || exit 1
+	cp "$RUN_PROFILE_PATH" "$mixin_tmpdir/base.yaml" || exit 1
+	"$SH_DIR/override-manager.sh" apply "$RUN_PROFILE_PATH" "$mixin_tmpdir/overridden.yaml" 2>> "$APP_LOG_PATH" || exit 1
+	mv -f "$mixin_tmpdir/overridden.yaml" "$RUN_PROFILE_PATH" || exit 1
 	if [ "$proxy_enabled" = 1 ]; then
 		if yq -M -e 'has("tun")' "$RUN_PROFILE_PATH" > /dev/null 2>&1; then
 			yq -M -i '(.tun) |= (.auto-route = false | .auto-redirect = false | .auto-detect-interface = false | .disable-icmp-forwarding = true)' "$RUN_PROFILE_PATH" 2>> "$APP_LOG_PATH" || exit 1
@@ -121,6 +124,7 @@ mixin_profile() (
 		fi
 	fi
 	mv -f "$RUN_PROFILE_PATH" "$mixin_target" || exit 1
+	mv -f "$mixin_tmpdir/base.yaml" "$RUN_DIR/base.yaml" || exit 1
 )
 
 start_service() {

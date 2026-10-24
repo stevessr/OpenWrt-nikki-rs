@@ -82,14 +82,11 @@ merge_yaml() {
       .proxies = ((."nikki-proxies" // []) + (.proxies // [])) |
       .proxy-groups = ((."nikki-proxy-groups" // []) + (.proxy-groups // [])) |
       del(."nikki-rules", ."nikki-proxies", ."nikki-proxy-groups") |
-      (if strenv(NIKKI_EBPF_FORCE) == "1" then .ebpf.enable = true else . end) |
-      (if .ebpf.enable == true then
-        .tun.enable = false |
-        .tun."enable-tcp" = false |
-        (if (.listeners | tag) == "!!seq" then
-          .listeners |= map(select(.type != "tun"))
-        else . end)
-      else . end)
+      (. | select(strenv(NIKKI_EBPF_FORCE) == "1") | .ebpf.enable) = true |
+      (. | select(.ebpf.enable == true) | .tun.enable) = false |
+      (. | select(.ebpf.enable == true) | .tun."enable-tcp") = false |
+      (. | select(.ebpf.enable == true and (.listeners | tag) == "!!seq") | .listeners) |=
+        map(select(.type != "tun"))
     ' "$@"
 }
 inspect_yaml() {

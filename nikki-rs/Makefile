@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nikki-rs
 PKG_VERSION:=1.0.7
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_LICENSE:=GPL3.0+
 PKG_MAINTAINER:=Joseph Mory <morytyann@gmail.com>
@@ -33,6 +33,7 @@ define Package/nikki-rs/install
 	$(INSTALL_DIR) $(1)/etc/nikki-rs/ucode
 	$(INSTALL_DIR) $(1)/etc/nikki-rs/scripts
 	$(INSTALL_DIR) $(1)/etc/nikki-rs/core
+	$(INSTALL_DIR) $(1)/etc/nikki-rs/overrides
 	$(INSTALL_DIR) $(1)/etc/nikki-rs/backups
 	$(INSTALL_DIR) $(1)/etc/nikki-rs/dns
 	$(INSTALL_DIR) $(1)/etc/nikki-rs/nftables
@@ -58,6 +59,8 @@ define Package/nikki-rs/install
 	$(INSTALL_BIN) $(CURDIR)/files/scripts/debug.sh $(1)/etc/nikki-rs/scripts/debug.sh
 	$(INSTALL_BIN) $(CURDIR)/files/scripts/core-manager.sh $(1)/etc/nikki-rs/scripts/core-manager.sh
 	$(INSTALL_BIN) $(CURDIR)/files/scripts/config-manager.sh $(1)/etc/nikki-rs/scripts/config-manager.sh
+	$(INSTALL_BIN) $(CURDIR)/files/scripts/override-manager.sh $(1)/etc/nikki-rs/scripts/override-manager.sh
+	$(INSTALL_DATA) $(CURDIR)/files/overrides/*.yaml $(1)/etc/nikki-rs/overrides/
 
 	$(INSTALL_DATA) $(CURDIR)/files/dns/black_filter $(1)/etc/nikki-rs/dns/black_filter
 	$(INSTALL_DATA) $(CURDIR)/files/dns/fake_ip_filter $(1)/etc/nikki-rs/dns/fake_ip_filter

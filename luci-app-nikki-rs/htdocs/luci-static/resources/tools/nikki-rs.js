@@ -84,6 +84,13 @@ const callNikkiDebug = rpc.declare({
 });
 
 
+const callNikkiOverrideInspect = rpc.declare({
+    object: 'luci.nikki-rs',
+    method: 'override_inspect',
+    params: ['module', 'content'],
+    expect: { '': {} }
+});
+
 const callNikkiOverridePreview = rpc.declare({
     object: 'luci.nikki-rs',
     method: 'override_preview',
@@ -152,6 +159,7 @@ return baseclass.extend({
     debugLogPath: debugLogPath,
 
 
+    overrideInspect: function (module, content) { return callNikkiOverrideInspect(module, content); },
     overridePreview: function (module, content) { return callNikkiOverridePreview(module, content); },
     coreStatus: function () { return callNikkiCoreStatus(); },
     coreUpdate: function (variant, tag) { return callNikkiCoreUpdate(variant, tag); },

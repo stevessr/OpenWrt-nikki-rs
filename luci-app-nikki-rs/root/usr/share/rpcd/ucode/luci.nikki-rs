@@ -252,6 +252,35 @@ const methods = {
             }
         }
     },
+    settings_draft: {
+        args: { module: 'module', content: 'content', revision: 'revision' },
+        call: function(req) {
+            const module = req.args?.module;
+            const revision = req.args?.revision;
+            if (!allowed_override_module(module) || module == 'proxy-groups' ||
+                module == 'rules' || type(revision) != 'string' ||
+                !match(revision, /^[0-9a-f]{64}$/))
+                return { success: false, error: 'Invalid settings request' };
+            // Optimistic revision check before generating a draft.
+            const path = '/etc/nikki-rs/overrides/' + module + '.yaml';
+            if (config_file_hash(path) != revision)
+                return { success: false, error: 'This module changed on disk. Reload before preview.' };
+            const stage = staged_editor_content(req.args?.content);
+            if (!stage) return { success: false, error: 'Invalid patch' };
+            const proc = popen('/etc/nikki-rs/scripts/settings-manager.sh draft ' +
+                module + ' ' + stage + ' ' + revision);
+            if (!proc) {
+                unlink(stage);
+                return { success: false, error: 'Settings manager unavailable' };
+            }
+            const draft = proc.read('all');
+            proc.close();
+            unlink(stage);
+            if (length(draft) < 2 || length(draft) > 262144)
+                return { success: false, error: 'Could not construct a valid YAML draft' };
+            return { success: true, content: draft };
+        }
+    },
     settings_patch: {
         args: { module: 'module', content: 'content', revision: 'revision' },
         call: function(req) {

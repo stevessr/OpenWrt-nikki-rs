@@ -82,7 +82,7 @@ merge_yaml() {
       .rules = ((."nikki-rules" // []) + (.rules // [])) |
       .proxies = ((."nikki-proxies" // []) + (.proxies // [])) |
       .proxy-groups = ((."nikki-proxy-groups" // []) + (.proxy-groups // [])) |
-      .listeners = ((."nikki-listeners" // []) + (.listeners // [])) |
+      (. | select(.listeners != null or ((."nikki-listeners" // []) | length) > 0) | .listeners) = ((."nikki-listeners" // []) + (.listeners // [])) |
       del(."nikki-rules", ."nikki-proxies", ."nikki-proxy-groups", ."nikki-listeners") |
       (. | select(strenv(NIKKI_EBPF_FORCE) == "1") | .ebpf.enable) = true |
       (. | select(.ebpf.enable == true) | .tun.enable) = false |

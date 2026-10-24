@@ -206,6 +206,34 @@ const methods = {
 
 
 
+
+    rule_list: {
+        call: function() {
+            const proc = popen('/etc/nikki-rs/scripts/rules-manager.sh list');
+            if (!proc) return { success: false, error: 'Could not read rules' };
+            const output = trim(proc.read('all'));
+            proc.close();
+            try {
+                const result = json(output);
+                return { success: true, revision: result.revision, rules: result.rules };
+            } catch (e) {
+                return { success: false, error: 'Invalid rules module; open the YAML editor to repair it' };
+            }
+        }
+    },
+    rule_save: {
+        args: { content: 'content', revision: 'revision' },
+        call: function(req) {
+            const revision = req.args?.revision;
+            if (type(revision) != 'string' || !match(revision, /^[0-9a-f]{64}$/))
+                return { success: false, error: 'Invalid revision' };
+            const stage = staged_editor_content(req.args?.content);
+            if (!stage) return { success: false, error: 'Invalid or oversized rule payload' };
+            const result = system(['/etc/nikki-rs/scripts/rules-manager.sh', 'save', stage, revision]) == 0;
+            unlink(stage);
+            return { success: result, error: result ? '' : 'Save rejected: invalid rules, concurrent edits, or filesystem error. Reload the rule list before retrying.' };
+        }
+    },
     override_test: {
         args: { module: 'module', content: 'content' },
         call: function(req) {

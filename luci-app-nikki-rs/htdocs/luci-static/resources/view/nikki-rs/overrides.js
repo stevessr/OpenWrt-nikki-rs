@@ -181,6 +181,77 @@ return view.extend({
                 ]);
             });
         }));
+        controls.appendChild(makeButton(_('Review configuration changes'), 'action', function () {
+            return nikki.overrideAnalyze(selector.value, editor.value).then(function (result) {
+                if (!result.success || !result.report) {
+                    notify(result.error || _('Configuration impact analysis failed'), false);
+                    return;
+                }
+                const report = result.report;
+                const changes = Array.isArray(report.changed_sections) ? report.changed_sections : [];
+                const before = report.before || {};
+                const after = report.after || {};
+                const metrics = [
+                    [_('Rules'), 'rules'],
+                    [_('Proxy nodes'), 'proxies'],
+                    [_('Proxy groups'), 'groups'],
+                    [_('Rule providers'), 'rule_providers']
+                ];
+                const rows = metrics.map(function (metric) {
+                    return E('tr', {}, [
+                        E('td', {}, metric[0]),
+                        E('td', {}, String(before[metric[1]] ?? 0)),
+                        E('td', {}, String(after[metric[1]] ?? 0))
+                    ]);
+                });
+                const warnings = [];
+                if ((after.duplicate_rules || 0) > 0)
+                    warnings.push(_('Duplicate rules detected: ') + after.duplicate_rules);
+                if ((after.duplicate_proxy_names || 0) > 0)
+                    warnings.push(_('Duplicate proxy names detected: ') + after.duplicate_proxy_names);
+                if ((after.duplicate_group_names || 0) > 0)
+                    warnings.push(_('Duplicate proxy group names detected: ') + after.duplicate_group_names);
+                if (!after.dns && !after.dns2)
+                    warnings.push(_('Neither DNS nor DNS2 is enabled in the effective profile.'));
+                if (after.ebpf && (after.tun || after.tun_listeners > 0))
+                    warnings.push(_('eBPF and TUN conflict in the effective profile.'));
+                ui.showModal(_('Configuration change review'), [
+                    E('p', {}, _('Compared the saved effective profile with the proposed unsaved module change. Values, node credentials and rule text are not included.')),
+                    E('p', {}, [
+                        E('strong', {}, _('Changed top-level sections: ')),
+                        changes.length ? changes.map(function (key, index) {
+                            return E('span', {}, [
+                                index ? ', ' : '',
+                                E('code', {}, String(key))
+                            ]);
+                        }) : _('None')
+                    ]),
+                    E('table', { 'class': 'table', 'style': 'width:100%' }, [
+                        E('thead', {}, E('tr', {}, [
+                            E('th', {}, _('Metric')),
+                            E('th', {}, _('Saved')),
+                            E('th', {}, _('Proposed'))
+                        ])),
+                        E('tbody', {}, rows)
+                    ]),
+                    E('p', {}, [
+                        E('strong', {}, _('eBPF: ')),
+                        after.ebpf ? _('Enabled') : _('Disabled'),
+                        ' · ',
+                        E('strong', {}, _('TUN: ')),
+                        after.tun ? _('Enabled') : _('Disabled')
+                    ]),
+                    warnings.length ? E('ul', {}, warnings.map(function (message) {
+                        return E('li', {}, message);
+                    })) : E('p', {}, _('No basic structural warnings found.')),
+                    E('p', { 'class': 'cbi-value-description' },
+                        _('This is a static review, not a successful clash-rs core test. Use Test with installed core for runtime validation.')),
+                    E('div', { 'class': 'right' }, E('button', {
+                        'type': 'button', 'class': 'btn', 'click': ui.hideModal
+                    }, _('Close')))
+                ], 'wide');
+            });
+        }));
         controls.appendChild(makeButton(_('Save module'), 'positive', save));
         controls.appendChild(makeButton(_('Revision history'), 'action', function () {
             const path = pathFor(selector.value);

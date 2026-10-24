@@ -1,6 +1,6 @@
 #!/bin/sh
 # Compose advanced YAML overrides without editing subscription originals.
-# Usage: override-manager.sh {check|preview|apply|inspect} BASE [OUTPUT|MODULE CANDIDATE]
+# Usage: override-manager.sh {check|preview|apply|inspect|test} BASE [OUTPUT|MODULE CANDIDATE]
 set -eu
 
 HOME_DIR="${NIKKI_HOME_DIR:-/etc/nikki-rs}"
@@ -29,7 +29,7 @@ module=''
 candidate=''
 output=''
 case "$operation" in
-    check|preview|inspect)
+    check|preview|inspect|test)
         [ "$#" -eq 2 ] || [ "$#" -eq 4 ] || fail "Usage: $operation BASE [MODULE CANDIDATE]"
         if [ "$#" -eq 4 ]; then
             module="$3"
@@ -88,17 +88,33 @@ inspect_yaml() {
 }
 if [ "$count" -eq 0 ]; then
     case "$operation" in
-        apply) cp "$base" "$output" ;;
-        preview) cat "$base" ;;
-        check) : ;;
-        inspect) inspect_yaml "$base" ;;
+        apply) cp "$base" "$output"; exit 0 ;;
+        preview) cat "$base"; exit 0 ;;
+        check) exit 0 ;;
+        inspect) inspect_yaml "$base"; exit 0 ;;
     esac
-    exit 0
 fi
 case "$operation" in
     check) merge_yaml "$@" >/dev/null || fail "Overlay merge failed" ;;
     preview) merge_yaml "$@" || fail "Overlay preview failed" ;;
     apply) merge_yaml "$@" > "$output" || fail "Overlay merge failed" ;;
+    test)
+        tmpdir="$(mktemp -d /tmp/nikki-rs-core-test.XXXXXX)"
+        trap 'rm -rf "$tmpdir"' EXIT INT TERM
+        if [ "$count" -eq 0 ]; then
+            cp "$base" "$tmpdir/config.yaml"
+        else
+            merge_yaml "$@" > "$tmpdir/config.yaml" || fail "Candidate merge failed"
+        fi
+        core="${NIKKI_TEST_CORE:-/usr/bin/clash-rs}"
+        [ ! -x /etc/nikki-rs/core/clash-rs ] || core=/etc/nikki-rs/core/clash-rs
+        [ -x "$core" ] || fail "clash-rs executable is missing"
+        if command -v timeout >/dev/null 2>&1; then
+            timeout 35 "$core" -d "$tmpdir" -t
+        else
+            "$core" -d "$tmpdir" -t
+        fi
+        ;;
     inspect)
         stage="$(mktemp /tmp/nikki-rs-inspect.XXXXXX)"
         trap 'rm -f "$stage"' EXIT INT TERM

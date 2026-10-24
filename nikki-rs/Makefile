@@ -2,7 +2,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nikki-rs
 PKG_VERSION:=1.0.7
-PKG_RELEASE:=7
+PKG_RELEASE:=8
 
 PKG_LICENSE:=GPL3.0+
 PKG_MAINTAINER:=Joseph Mory <morytyann@gmail.com>
@@ -39,6 +39,7 @@ define Package/nikki-rs/install
 	$(INSTALL_DIR) $(1)/etc/nikki-rs
 	$(INSTALL_DIR) $(1)/etc/nikki-rs/ucode
 	$(INSTALL_DIR) $(1)/etc/nikki-rs/scripts
+	$(INSTALL_DIR) $(1)/etc/nikki-rs/schema
 	$(INSTALL_DIR) $(1)/etc/nikki-rs/core
 	$(INSTALL_DIR) $(1)/etc/nikki-rs/overrides
 	$(INSTALL_DIR) $(1)/etc/nikki-rs/backups
@@ -69,6 +70,8 @@ define Package/nikki-rs/install
 	$(INSTALL_BIN) $(CURDIR)/files/scripts/override-manager.sh $(1)/etc/nikki-rs/scripts/override-manager.sh
 	$(INSTALL_BIN) $(CURDIR)/files/scripts/config-analyzer.sh $(1)/etc/nikki-rs/scripts/config-analyzer.sh
 	$(INSTALL_BIN) $(CURDIR)/files/scripts/config-apply.sh $(1)/etc/nikki-rs/scripts/config-apply.sh
+	$(INSTALL_BIN) $(CURDIR)/files/scripts/settings-manager.sh $(1)/etc/nikki-rs/scripts/settings-manager.sh
+	$(INSTALL_DATA) $(CURDIR)/files/schema/settings.json $(1)/etc/nikki-rs/schema/settings.json
 	$(INSTALL_BIN) $(CURDIR)/files/scripts/rules-manager.sh $(1)/etc/nikki-rs/scripts/rules-manager.sh
 	$(INSTALL_DATA) $(CURDIR)/files/overrides/*.yaml $(1)/etc/nikki-rs/overrides/
 

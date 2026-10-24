@@ -21,6 +21,37 @@
 - **配置精简**：针对 `clash-rs` 的核心特性进行了适配，移除了不支持的冗余配置项，使控制界面更加纯粹易用。
 ---
 
+## 内核管理与安全配置编辑
+
+相较于直接替换系统内核，Nikki RS 现在支持独立管理 clash-rs 核心（功能借鉴 OpenClash）：
+
+- **内核在线升级**：LuCI **服务 → Nikki RS → Core Management**，选择 `minimal` 或 `standard`，支持 `latest` 或指定官方 Release 标签。
+- **安全更新**：根据 `uname -m` 选择架构，校验 GitHub Release 中的 SHA256 digest、解包后的可执行文件和当前启动配置；服务无法重新启动时自动恢复原内核。
+- **不覆盖系统包**：下载的核心位于 `/etc/nikki-rs/core/clash-rs`，保留 `/usr/bin/clash-rs` 为基础版本。支持手动回退到上一个覆盖版本，或回退到系统包。
+- **自动更新**：可在 LuCI 中开启，并设置 cron（默认每周日 04:15），默认**关闭**。
+- **安全编辑器**：配置文件保存前校验 YAML 根节点格式，原子覆盖保存，并在 `/etc/nikki-rs/backups/` 保留最近 10 个版本。LuCI **Editor → Validate Before Saving / History / Restore** 可检测和回退。修改 `run/config.yaml` 是临时的，服务重启会重新生成，应优先编辑源配置或 `mixin.yaml`。
+
+命令行示例：
+
+```sh
+# 读取实际生效的内核位置及版本
+/etc/nikki-rs/scripts/core-manager.sh status
+
+# 跟踪上游最新发行版（根据 UCI 内核类型选择）
+/etc/nikki-rs/scripts/core-manager.sh update
+
+# 切换到标准内核，或安装指定官方标签
+/etc/nikki-rs/scripts/core-manager.sh update standard latest
+/etc/nikki-rs/scripts/core-manager.sh update minimal v0.20.23-alpha
+
+# 回退到更新前的核心
+/etc/nikki-rs/scripts/core-manager.sh rollback
+```
+
+**兼容性限制**：本项目的执行内核仍为 clash-rs，而不是 Mihomo；OpenClash 的所有高级规则和协议不能直接视为已兼容。上游目前未提供 i686 / riscv64 的 standard 版本。内核更新需要路由器能直接访问官方 GitHub API 和 Release 下载站点，且设备有足够可用存储空间。
+
+---
+
 ## 环境要求
 
 - **OpenWrt** >= 24.10

@@ -205,6 +205,25 @@ const methods = {
 
 
 
+
+    override_test: {
+        args: { module: 'module', content: 'content' },
+        call: function(req) {
+            const module = req.args?.module;
+            if (!allowed_override_module(module)) return { success: false, error: 'Unknown module' };
+            const stage = staged_editor_content(req.args?.content);
+            if (!stage) return { success: false, error: 'Invalid or oversized candidate' };
+            const base = '/etc/nikki-rs/run/base.yaml';
+            if (!access(base, 'r')) {
+                unlink(stage);
+                return { success: false, error: 'Start Nikki RS once to generate the base profile' };
+            }
+            const success = system(['/etc/nikki-rs/scripts/override-manager.sh',
+                'test', base, module, stage]) == 0;
+            unlink(stage);
+            return { success: success, error: success ? '' : 'The core rejected the merged profile or provider initialization timed out' };
+        }
+    },
     override_inspect: {
         args: { module: 'module', content: 'content' },
         call: function(req) {

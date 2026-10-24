@@ -1,0 +1,4 @@
+# Free-form clash-rs configuration overrides.
+# Rule of thumb: prefer nikki-rules / nikki-proxies / nikki-proxy-groups
+# to prepend entries. Regular YAML keys/maps override the current values.
+{}

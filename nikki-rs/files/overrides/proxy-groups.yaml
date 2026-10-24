@@ -1,0 +1,6 @@
+# Prepend groups while preserving subscription groups.
+# nikki-proxy-groups:
+#   - name: MANUAL
+#     type: select
+#     proxies: [DIRECT]
+{}

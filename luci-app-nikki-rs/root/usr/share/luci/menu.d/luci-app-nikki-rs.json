@@ -77,5 +77,13 @@
             "type": "view",
             "path": "nikki-rs/core"
         }
+    },
+    "admin/services/nikki-rs/overrides": {
+        "title": "Advanced Config",
+        "order": 48,
+        "action": {
+            "type": "view",
+            "path": "nikki-rs/overrides"
+        }
     }
 }

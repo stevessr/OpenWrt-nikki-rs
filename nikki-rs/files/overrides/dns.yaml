@@ -1,0 +1,5 @@
+# DNS overrides. Use dns2: for the clash-rs DNS2 engine.
+# dns:
+#   enable: true
+#   enhanced-mode: fake-ip
+{}

@@ -1,0 +1,5 @@
+# Clash general settings (optional). Override UCI and subscription values.
+# mode: rule
+# ipv6: true
+# log-level: warning
+{}

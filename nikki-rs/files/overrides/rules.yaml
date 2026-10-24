@@ -1,0 +1,5 @@
+# Prepend rules in priority order. MATCH remains in the subscription.
+# nikki-rules:
+#   - DOMAIN-SUFFIX,example.org,DIRECT
+#   - DOMAIN,example.com,DIRECT
+{}

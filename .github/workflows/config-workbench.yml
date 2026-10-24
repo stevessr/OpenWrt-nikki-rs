@@ -1,0 +1,23 @@
+name: Clash configuration workbench tests
+
+on:
+  push:
+    branches: [main, feat/clash-config-workbench]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  config-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install mikefarah yq
+        run: |
+          curl -fsSL --retry 3 https://github.com/mikefarah/yq/releases/download/v4.45.4/yq_linux_amd64 -o /tmp/yq
+          sudo install -m 755 /tmp/yq /usr/local/bin/yq
+          yq --version
+      - name: Run config and core regressions
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Validate LuCI JavaScript syntax
+        run: |
+          node -e "const fs=require('fs');for(const p of ['luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js','luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-rs.js'])new Function(fs.readFileSync(p,'utf8'));"

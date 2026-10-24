@@ -52,6 +52,41 @@
 
 ---
 
+
+## Clash 高级配置工作台
+
+新增 LuCI **服务 → Nikki RS → Advanced Config**，按照 General、DNS/DNS2、Proxy Groups、Rules、TUN、Sniffer 和 Custom YAML 七个模块分别维护高级配置。
+
+- 各模块位于 `/etc/nikki-rs/overrides/<模块名>.yaml`，软件包升级保留用户修改。
+- 模块在原始订阅、`mixin.yaml` 和 UCI 生成的配置合并之后再覆盖，**不会改写订阅文件**。
+- 标准 YAML 字段以覆盖方式合并；`nikki-rules`、`nikki-proxies`、`nikki-proxy-groups` 是专用的前置数组。规则优先级遵循 **general → dns → proxy-groups → rules → tun → sniffer → custom** 的读取顺序。
+- 页面提供 YAML 校验、配置合并预览、使用安装内核进行候选配置测试、非敏感规则统计与重复规则检测、备份版本选择和历史恢复；编辑后**保存但不立即重启服务**。
+- 首次预览前需至少启动一次 Nikki RS，以生成 `/etc/nikki-rs/run/base.yaml`。预览使用最近生成的配置快照，下一次启动会重新读取订阅/UCI，因此最终效果可能随订阅改变。
+- 应用更新后由 Nikki RS 重新启动生成 `/etc/nikki-rs/run/config.yaml`。防火墙管理模式下 TUN 的自动路由相关选项仍会被强制关闭。
+
+例如，若要新增自己的高优先级规则，可在 Rules 模块中填写：
+
+```yaml
+nikki-rules:
+  - DOMAIN-SUFFIX,example.org,DIRECT
+  - DOMAIN,example.com,DIRECT
+```
+
+DNS 模块可以设置覆盖项，而保留其它原有 DNS 配置：
+
+```yaml
+dns:
+  enhanced-mode: fake-ip
+  nameserver:
+    - https://1.1.1.1/dns-query
+```
+
+**候选配置内核测试**：使用临时目录执行当前 `clash-rs -t`，不会改动运行中的配置。核心在初始化远程 rule-provider 等资源时可能因网络超时而失败，不能把此类结果直接理解为 YAML 语法错误。测试最长约 35 秒。
+
+**注意**：规则优先级和 `nikki-*` 字段是 Nikki RS 的扩展约定，不是通用 Mihomo 配置字段。版本更新前可先通过预览与内核兼容性检查。合并预览可能包含订阅中的代理凭据，仅应在可信任的管理员会话中查看。
+
+---
+
 ## 环境要求
 
 - **OpenWrt** >= 24.10

@@ -1,0 +1,5 @@
+# TUN overrides (Nikki may disable auto-route to manage firewall itself).
+# tun:
+#   enable: true
+#   stack: system
+{}

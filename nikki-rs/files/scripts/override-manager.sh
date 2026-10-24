@@ -78,12 +78,12 @@ merge_yaml() {
 inspect_yaml() {
     # Never print servers, passwords, proxy names or rules to the diagnostic RPC.
     yq -M -p yaml -o json '{
-      mode: (.mode // ""),
-      dns_mode: (.dns."enhanced-mode" // ""),
-      rules: (.rules // [] | length),
-      proxies: (.proxies // [] | length),
-      groups: (."proxy-groups" // [] | length),
-      duplicate_rules: ((.rules // [] | length) - (.rules // [] | unique | length))
+      "mode": (.mode // ""),
+      "dns_mode": (.dns."enhanced-mode" // ""),
+      "rules": (.rules // [] | length),
+      "proxies": (.proxies // [] | length),
+      "groups": (."proxy-groups" // [] | length),
+      "duplicate_rules": ((.rules // [] | length) - (.rules // [] | unique | length))
     }' "$1"
 }
 if [ "$count" -eq 0 ]; then

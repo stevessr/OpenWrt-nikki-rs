@@ -98,6 +98,17 @@ class ManagersTest(unittest.TestCase):
         self.assertTrue(target.is_symlink())
         self.assertEqual(important.read_text(), "do not alter\\n")
 
+    def test_symlink_candidate_is_rejected(self):
+        target = self.base / "dns/black_filter"
+        target.write_text("keep\\n")
+        real = self.base / "real-candidate"
+        real.write_text("updated\\n")
+        candidate = self.base / "linked-candidate"
+        candidate.symlink_to(real)
+        self.run_script(CONFIG, "validate", target, candidate, successful=False)
+        self.run_script(CONFIG, "save", target, candidate, successful=False)
+        self.assertEqual(target.read_text(), "keep\\n")
+
     def test_reject_oversized_content_without_touching_destination(self):
         target = self.base / "dns/black_filter"
         target.write_text("keep")

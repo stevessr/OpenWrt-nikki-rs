@@ -36,7 +36,7 @@ backup_dir() {
 }
 check() {
     file="$1"
-    [ -f "$file" ] || fail "Candidate is missing"
+    [ -f "$file" ] && [ ! -L "$file" ] || fail "Candidate is missing or unsafe"
     bytes="$(wc -c < "$file")"
     [ "$bytes" -le "$MAX_SIZE" ] || fail "Configuration is larger than 2 MiB"
     case "$path" in

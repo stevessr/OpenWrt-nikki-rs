@@ -83,6 +83,29 @@ const callNikkiDebug = rpc.declare({
     expect: { '': {} }
 });
 
+
+const callNikkiCoreStatus = rpc.declare({
+    object: 'luci.nikki-rs', method: 'core_status', expect: { '': {} }
+});
+const callNikkiCoreUpdate = rpc.declare({
+    object: 'luci.nikki-rs', method: 'core_update', params: ['variant', 'tag'], expect: { '': {} }
+});
+const callNikkiCoreRollback = rpc.declare({
+    object: 'luci.nikki-rs', method: 'core_rollback', expect: { '': {} }
+});
+const callNikkiValidateConfig = rpc.declare({
+    object: 'luci.nikki-rs', method: 'validate_config', params: ['path', 'content'], expect: { '': {} }
+});
+const callNikkiSaveConfig = rpc.declare({
+    object: 'luci.nikki-rs', method: 'save_config', params: ['path', 'content'], expect: { '': {} }
+});
+const callNikkiConfigBackups = rpc.declare({
+    object: 'luci.nikki-rs', method: 'list_config_backups', params: ['path'], expect: { '': {} }
+});
+const callNikkiRestoreConfig = rpc.declare({
+    object: 'luci.nikki-rs', method: 'restore_config', params: ['path', 'backup'], expect: { '': {} }
+});
+
 const homeDir = '/etc/nikki-rs';
 const profilesDir = `${homeDir}/profiles`;
 const subscriptionsDir = `${homeDir}/subscriptions`;
@@ -120,6 +143,15 @@ return baseclass.extend({
     appLogPath: appLogPath,
     coreLogPath: coreLogPath,
     debugLogPath: debugLogPath,
+
+
+    coreStatus: function () { return callNikkiCoreStatus(); },
+    coreUpdate: function (variant, tag) { return callNikkiCoreUpdate(variant, tag); },
+    coreRollback: function () { return callNikkiCoreRollback(); },
+    validateConfig: function (path, content) { return callNikkiValidateConfig(path, content); },
+    saveConfig: function (path, content) { return callNikkiSaveConfig(path, content); },
+    listConfigBackups: function (path) { return callNikkiConfigBackups(path); },
+    restoreConfig: function (path, backup) { return callNikkiRestoreConfig(path, backup); },
 
     status: async function () {
         const res = await callRCList('nikki-rs');

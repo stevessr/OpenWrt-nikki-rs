@@ -29,14 +29,34 @@ sh "$COMPOSER" preview "$base" "$module" "$candidate" > "$work/after.yaml" ||
 [ "$(wc -c < "$work/before.yaml")" -le 4194304 ] || fail 'Saved profile too large'
 [ "$(wc -c < "$work/after.yaml")" -le 4194304 ] || fail 'Proposed profile too large'
 
+# Compare canonical JSON *values*, not YAML nodes: styles, comments and
+# internal metadata differ between copied profiles and yq's merged output.
+# Neither JSON documents nor their checksums leave this temporary directory.
+yq -r 'keys | .[]' "$work/before.yaml" "$work/after.yaml" |
+    LC_ALL=C sort -u > "$work/sections"
+{
+    printf '['
+    first=1
+    while IFS= read -r key; do
+        current="$(KEY="$key" yq -o=json -I=0 '.[strenv(KEY)]' "$work/before.yaml" | sha256sum | cut -d ' ' -f 1)"
+        proposed="$(KEY="$key" yq -o=json -I=0 '.[strenv(KEY)]' "$work/after.yaml" | sha256sum | cut -d ' ' -f 1)"
+        if [ "$current" != "$proposed" ]; then
+            [ "$first" = 1 ] || printf ','
+            KEY="$key" yq -n -o=json -I=0 'strenv(KEY)' | tr -d '\n'
+            first=0
+        fi
+    done < "$work/sections"
+    printf ']\n'
+} > "$work/changes.json"
+export NIKKI_CHANGES_FILE="$work/changes.json"
+
 # Do not expose URLs, passwords, proxy names or rule bodies. Only top-level
 # changed field names and numerical/boolean diagnostics are returned.
 yq -M -o=json eval-all '
   . as $item ireduce ([]; . + [$item]) |
   .[0] as $old | .[1] as $new |
   {
-    "changed_sections": ((($old | keys) + ($new | keys)) |
-      unique | map(select($old[.] != $new[.]))),
+    "changed_sections": load(strenv(NIKKI_CHANGES_FILE)),
     "before": {
       "rules": ($old.rules // [] | length),
       "proxies": ($old.proxies // [] | length),

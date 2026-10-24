@@ -73,6 +73,31 @@ class ManagersTest(unittest.TestCase):
                         successful=False)
         self.assertEqual(target.read_text(), "replacement\n")
 
+    def test_configuration_edit_lock_blocks_concurrent_writers(self):
+        target = self.base / "dns/black_filter"
+        target.write_text("safe\\n")
+        incoming = self.base / "candidate"
+        incoming.write_text("unsaved\\n")
+        locked = self.base / "backups/.locks/dns_black_filter"
+        locked.mkdir(parents=True)
+        self.run_script(CONFIG, "save", target, incoming, successful=False)
+        self.assertEqual(target.read_text(), "safe\\n")
+        locked.rmdir()
+        self.run_script(CONFIG, "save", target, incoming)
+        self.assertEqual(target.read_text(), "unsaved\\n")
+        self.assertFalse(locked.exists())
+
+    def test_symlink_config_target_is_rejected(self):
+        important = self.base / "important.txt"
+        important.write_text("do not alter\\n")
+        target = self.base / "dns/black_filter"
+        target.symlink_to(important)
+        incoming = self.base / "candidate"
+        incoming.write_text("replacement\\n")
+        self.run_script(CONFIG, "save", target, incoming, successful=False)
+        self.assertTrue(target.is_symlink())
+        self.assertEqual(important.read_text(), "do not alter\\n")
+
     def test_reject_oversized_content_without_touching_destination(self):
         target = self.base / "dns/black_filter"
         target.write_text("keep")

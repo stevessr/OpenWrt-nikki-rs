@@ -72,11 +72,15 @@ class Package:
     section: str = "net"
 
 
+def package_version(text):
+    return variable(text, "PKG_VERSION") + "-r" + variable(text, "PKG_RELEASE", "1")
+
+
 def make_metadata(name, payload):
     text = (ROOT / name / "Makefile").read_text()
     definition = block(text, f"Package/{name}")
     package = Package(
-        name, variable(text, "PKG_VERSION") + "-r" + variable(text, "PKG_RELEASE", "1"),
+        name, package_version(text),
         payload, variable(definition, "TITLE"),
         [dep.lstrip("+") for dep in variable(definition, "DEPENDS", "").split()],
         license=variable(text, "PKG_LICENSE", "GPL-3.0-or-later"),
@@ -121,7 +125,7 @@ def prepare(work, cache):
     payload = work / "payloads/luci-app-nikki-rs"
     shutil.copytree(luci / "htdocs", payload / "www")
     shutil.copytree(luci / "root", payload, dirs_exist_ok=True)
-    version = variable((luci / "Makefile").read_text(), "PKG_VERSION") + "-r1"
+    version = package_version((luci / "Makefile").read_text())
     # Equivalent to luci.mk's postinst-pkg. JS source is shipped unminified.
     postinst = ('#!/bin/sh\n[ -n "${IPKG_INSTROOT}" ] || {\n'
                 '\trm -f /tmp/luci-indexcache.*\n\trm -rf /tmp/luci-modulecache/\n'

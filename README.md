@@ -117,3 +117,23 @@ Sincere thanks to the contributions from upstream projects and open source devel
 - **[clash-rs](https://github.com/Watfaq/clash-rs)**: For developing the exceptional, lightweight, and high-performance Clash proxy core written in Rust.
 
 
+
+## LuCI additions
+
+New pages follow the existing LuCI form and table conventions rather than
+duplicating Mixin Config:
+
+- **Additional Settings** contains only bind address, routing mark, three profile
+  cache options and TCP buffer size. Existing ports, DNS/DNS2, TUN, sniffer, Geo,
+  routing rules and rule providers remain in **Mixin Config**.
+- **Local Collections** uses native GridSection tables and edit dialogs for local
+  proxy groups, listeners and generic proxy providers. Extension properties are
+  retained and editable under **Additional fields (JSON)**.
+- **Advanced Config** keeps revision-safe YAML editing, preview, core preflight,
+  change review and safe apply. Old Ordered Rules bookmarks open its Rules module.
+  Previously saved YAML overrides are preserved, not silently migrated or cleared;
+  inspect them if they override Mixin Config.
+
+Run `python tests/browser/verify_luci.py --luci /path/to/luci` with Playwright and
+Chromium for real LuCI/Bootstrap rendering with mocked RPC data. This does not
+deploy to or restart a router.

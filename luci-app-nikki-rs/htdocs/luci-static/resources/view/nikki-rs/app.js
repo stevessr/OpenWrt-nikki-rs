@@ -4,6 +4,7 @@
 'require uci';
 'require poll';
 'require tools.nikki-rs as nikki';
+'require tools.nikki-cron as cron';
 
 function renderStatus(running) {
     return updateStatus(E('input', { id: 'core_status', style: 'border: unset; font-style: italic; font-weight: bold;', readonly: '' }), running);
@@ -117,10 +118,22 @@ return view.extend({
         o.placeholder = _('Start Immidiately');
         o.depends('boot_start', '1');
 
-        o = s.option(form.Flag, 'scheduled_restart', _('Scheduled Restart'));
+        o = s.option(form.Flag, 'scheduled_restart', _('Scheduled Restart'),
+            _('Restart the Nikki RS service periodically, not the router. Existing connections may be interrupted.'));
         o.rmempty = false;
 
-        o = s.option(form.Value, 'scheduled_restart_cron', _('Scheduled Restart Cron'));
+        o = s.option(form.Value, 'scheduled_restart_cron', _('Restart Schedule'));
+        o.value('0 3 * * *', _('Daily at 03:00'));
+        o.value('0 3 * * 0', _('Every Sunday at 03:00'));
+        o.value('0 3 * * 1-5', _('Weekdays at 03:00'));
+        o.value('0 3 1 * *', _('First day of each month at 03:00'));
+        o.default = '0 3 * * *';
+        o.placeholder = '0 3 * * *';
+        o.description = _('Choose a preset or enter a custom Cron expression. Uses the router’s local time: minute hour day month weekday.');
+        o.validate = cron.validate;
+        o.write = function (sectionId, value) {
+            uci.set('nikki-rs', sectionId, this.option, value.trim().replace(/[ \t]+/g, ' '));
+        };
         o.retain = true;
         o.rmempty = false;
         o.depends('scheduled_restart', '1');

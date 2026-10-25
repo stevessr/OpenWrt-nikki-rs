@@ -1,2610 +1,2517 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:579
-msgid "API Listen"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:356
+msgid ". Previously saved YAML overrides remain editable here."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:583
-msgid "API Secret"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:119
-msgid "API TLS Cert"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:125
-msgid "API TLS ECH Key"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:122
-msgid "API TLS Key"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:115
-msgid "API TLS Listen"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:72
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:125
-msgid "Access Control"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:240
-msgid "Adaptive Replacement Cache (ARC)"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:149
-msgid "Address Space Size Hard Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:145
-msgid "Address Space Size Soft Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:210
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:215
-msgid "All Port"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:589
-msgid "Allow Lan"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:281
-msgid "Allow Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:96
-msgid "App Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:54
-msgid "App Log"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:43
-msgid "App Version"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:896
-msgid "Append Rule"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:806
-msgid "Append Rule Provider"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:889
-msgid "Behavior"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:947
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:964
-msgid "Supported protocols: %s"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:280
-msgid "Block Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:174
-msgid "Bypass"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:176
-msgid "Bypass China Mainland IP"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:192
-msgid "Bypass China Mainland IP6"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:218
-msgid "Bypass DSCP"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:221
-msgid "Bypass FWMark"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:96
-msgid "CGroup"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:25
-msgid "Choose File"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:101
-msgid "Choose Profile"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:29
-msgid "Clear At Stop"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:58
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:91
-msgid "Clear Log"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:211
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:216
-msgid "Commonly Used Port"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:87
-msgid "Core Log"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:127
-msgid "Core Only"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:38
-msgid "Black Filter File"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:39
-msgid "Fake IP Filter File"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:40
-msgid "Fallback Filter File"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:57
-msgid "Core Status"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:50
-msgid "Core Version"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:102
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:168
-msgid "DNS"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:236
-msgid "DNS Cache Algorithm"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:677
-msgid "DNS Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:685
-msgid "DNS Listen"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:695
-msgid "DNS Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:120
-msgid "Debug Log"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:919
-msgid "Destination IP"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:923
-msgid "Destination IP Geo"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:920
-msgid "Destination Port"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:208
-msgid "Destination TCP Port to Proxy"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:213
-msgid "Destination UDP Port to Proxy"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:644
-msgid "Device Name"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:531
-msgid "Direct Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:375
-msgid "Direct Nameserver Follow Policy"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:554
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:592
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:641
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:661
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:682
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:692
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:730
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:736
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:38
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:45
-msgid "Disable"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:81
-msgid "Disable TCP Keep Alive"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:296
-msgid "DoH Prefer HTTP/3"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:757
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:914
-msgid "Domain Name"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:922
-msgid "Domain Name Geo"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:917
-msgid "Domain Name Keyword"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:918
-msgid "Domain Name Regex"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:915
-msgid "Domain Name Suffix"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:916
-msgid "Domain Name Wildcard"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:618
-msgid "Edit Authentications"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:671
-msgid "Edit DNS Hijacks"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:716
-msgid "Edit Fake-IP Filters"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:746
-msgid "Edit Hosts"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:384
-msgid "Edit Nameserver Policies"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:765
-msgid "Edit Nameservers"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:788
-msgid "Edit Proxy Server Nameserver Policies"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:818
-msgid "Edit Rule Providers"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:899
-msgid "Edit Rules"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:32
-msgid "Edit Subscription"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:23
-msgid "Editor"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:98
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:555
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:593
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:626
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:638
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:642
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:662
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:679
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:683
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:693
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:731
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:737
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:754
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:773
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:796
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:826
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:907
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:955
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1045
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:33
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:69
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:80
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:110
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:133
-msgid "Enable"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:745
-msgid "Enable TCP"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:47
-msgid "Expire At"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:557
-msgid "External Control Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:284
-msgid "Fake-IP Cache"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:277
-msgid "Fake-IP Filter Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:61
-msgid "Fake-IP Ping Hijack"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:701
-msgid "Fake-IP Range"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:709
-msgid "Fake-IP TTL"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:705
-msgid "Fake-IP6 Range"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:134
-msgid "Fast Reload"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:883
-msgid "File Format"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:877
-msgid "File Path"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:871
-msgid "File Size Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:36
-msgid "File for Mixin"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:105
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:29
-msgid "File:"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:658
-msgid "GSO"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:664
-msgid "GSO Max Size"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:132
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:515
-msgid "General Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:124
-msgid "Generate & Download"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:529
-msgid "Global Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/root/usr/share/rpcd/acl.d/luci-app-nikki-rs.json:3
-msgid "Grant access to nikki procedures"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:90
-msgid "Group"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:595
-msgid "HTTP Port"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:157
-msgid "Heap Size Hard Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:153
-msgid "Heap Size Soft Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:38
-msgid "How To Use"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:49
-msgid "IPv4 DNS Hijack"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:55
-msgid "IPv4 Proxy"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:52
-msgid "IPv6 DNS Hijack"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:58
-msgid "IPv6 Proxy"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:587
-msgid "Inbound Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:113
-msgid "Inbound Interface"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:108
-msgid "LAN Proxy"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:239
-msgid "Least Recently Used (LRU)"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:89
-msgid "Local"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:25
-msgid "Log"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:27
-msgid "Log Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:517
-msgid "Log Level"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:654
-msgid "MTU"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:533
-msgid "Match Process"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:799
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:925
-msgid "Matcher"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:588
-msgid "Memory Conservative Loader"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:223
-msgid "Misc"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:603
-msgid "Mixed Port"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:29
-msgid "Mixin Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1043
-msgid "Mixin File Content"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:513
-msgid "Mixin Option"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:526
-msgid "Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:832
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:961
-msgid "Name"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:783
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:802
-msgid "Nameserver"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:38
-msgid "Nikki RS"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:936
-msgid "No Resolve"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:929
-msgid "Node"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:15
-msgid "Not Running"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:172
-msgid "Number of Open Files Hard Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:169
-msgid "Number of Open Files Soft Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:142
-msgid "Number of Processes Hard Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:139
-msgid "Number of Processes Soft Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:91
-msgid "Open Dashboard"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:540
-msgid "Outbound Interface"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:615
-msgid "Overwrite Authentication"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:668
-msgid "Overwrite DNS Hijack"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:713
-msgid "Overwrite Fake-IP Filter"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:739
-msgid "Overwrite Hosts"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:742
-msgid "Import dnsmasq Hosts"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:762
-msgid "Overwrite Nameserver"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:381
-msgid "Overwrite Nameserver Policy"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:785
-msgid "Overwrite Proxy Server Nameserver Policy"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:632
-msgid "Password"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1045
-msgid "Please go to the editor tab to edit the file for mixin"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:84
-msgid "Prefer"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:921
-msgid "Process Name"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:18
-msgid "Profile"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:37
-msgid "Profile for Startup"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:105
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:171
-msgid "Proxy"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:29
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:31
-msgid "Proxy Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:137
-msgid "RLIMIT Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:39
-msgid "Redirect Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:607
-msgid "Redirect Port"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:69
-msgid "Reload Service"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:88
-msgid "Remote"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:225
-msgid "Reserved IP"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:228
-msgid "Reserved IP6"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:727
-msgid "Respect Rules"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:76
-msgid "Restart Service"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:67
-msgid "Router Proxy"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:804
-msgid "Rule Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:530
-msgid "Rule Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:913
-msgid "Rule Set"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:15
-msgid "Running"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:599
-msgid "SOCKS Port"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:32
-msgid "Scheduled Clear"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:35
-msgid "Scheduled Clear Cron"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:40
-msgid "Scheduled Clear Size Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:46
-msgid "Scheduled Clear Size Limit Unit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:116
-msgid "Scheduled Restart"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:119
-msgid "Scheduled Restart Cron"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:81
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:114
-msgid "Scroll To Bottom"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:647
-msgid "Stack"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:165
-msgid "Stack Size Hard Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:161
-msgid "Stack Size Soft Limit"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:587
-msgid "Standard Loader"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:112
-msgid "Start Delay"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:114
-msgid "Start Immidiately"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:101
-msgid "Start on Boot"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:40
-msgid "Status"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:28
-msgid "Subscription"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:68
-msgid "Subscription Info Url"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:34
-msgid "Subscription Name"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:71
-msgid "Subscription Url"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:109
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:33
-msgid "Subscription:"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:75
-msgid "TCP Concurrent"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:87
-msgid "TCP Keep Alive Idle"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:91
-msgid "TCP Keep Alive Interval"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:36
-msgid "TCP Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:40
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:46
-msgid "TPROXY Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:611
-msgid "TPROXY Port"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:636
-msgid "TUN Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:235
-msgid "TUN Interval"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:41
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:47
-msgid "TUN Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:231
-msgid "TUN Timeout"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:124
-msgid "Test Profile"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:42
-msgid "Total"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:38
-msgid "Transparent Proxy with clash-rs on OpenWrt."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:776
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:835
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:911
-msgid "Type"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:43
-msgid "UDP Mode"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:566
-msgid "UI Name"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:562
-msgid "UI Path"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:570
-msgid "UI Url"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:69
-msgid "Unify Delay"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:147
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:151
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:155
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:159
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:163
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:167
-msgid "Unlimited"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:519
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:528
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:535
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:542
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:553
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:563
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:567
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:571
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:581
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:585
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:591
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:597
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:601
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:605
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:609
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:613
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:640
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:645
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:649
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:656
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:660
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:666
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:681
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:687
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:691
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:697
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:703
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:707
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:711
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:729
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:735
-msgid "Unmodified"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:849
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:60
-msgid "Update"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:841
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:52
-msgid "Update At"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:84
-msgid "Update Dashboard"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:524
-msgid "Update Interval"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:20
-msgid "Upload Profile"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:857
-msgid "Url"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:733
-msgid "Use Hosts"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:302
-msgid "Use System Hosts"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:37
-msgid "Used"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:84
-msgid "User"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:862
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:75
-msgid "User Agent"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:629
-msgid "Username"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:130
-msgid "procd Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:64
-msgid "Only Proxy Fake-IP and Whitelist"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:980
-msgid "Automatically generated from link or edit manually"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:185
-msgid "Download China Mainland IP File"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:986
-msgid "Regenerate"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:944
-msgid "Append Proxy Node"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:41
-msgid "Proxy Whitelist File (IPv4)"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:179
-msgid "China Mainland IP Download URL"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:962
-msgid "Extracted from link if empty"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:204
-msgid "China Mainland IP6 file downloaded successfully."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:947
-msgid "Edit Proxy Nodes"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:978
-msgid "YAML Configuration"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:942
-msgid "Proxy Node Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:42
-msgid "Proxy Whitelist File (IPv6)"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:195
-msgid "China Mainland IP6 Download URL"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:201
-msgid "Download China Mainland IP6 File"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:809
-msgid "Scheduled Update Rule Providers"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:813
-msgid "Scheduled Update Cron"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:188
-msgid "China Mainland IP file downloaded successfully."
-msgstr ""
-
-msgid "Scheduled Update"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:964
-msgid "Node Link"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:559
-msgid "Use Internal UI"
-msgstr ""
-
-msgid "Sniffer Config"
-msgstr ""
-
-msgid "Sniff Redir-Host"
-msgstr ""
-
-msgid "Sniff Pure IP"
-msgstr ""
-
-msgid "Overwrite Force Sniff Domain Name"
-msgstr ""
-
-msgid "Force Sniff Domain Name"
-msgstr ""
-
-msgid "Overwrite Ignore Sniff Domain Name"
-msgstr ""
-
-msgid "Ignore Sniff Domain Name"
-msgstr ""
-
-msgid "Overwrite Sniff By Protocol"
-msgstr ""
-
-msgid "Sniff By Protocol"
-msgstr ""
-
-msgid "Protocol"
-msgstr ""
-
-msgid "Port"
-msgstr ""
-
-msgid "Overwrite Destination"
-msgstr ""
-
-msgid "Edit Sniff Protocols"
-msgstr ""
-
-msgid "GEO Data Config"
-msgstr ""
-
-msgid "Overwrite MMDB Config"
-msgstr ""
-
-msgid "MMDB Database File Path (mmdb)"
-msgstr ""
-
-msgid "MMDB Download URL (mmdb-download-url)"
-msgstr ""
-
-msgid "Overwrite GeoSite Config"
-msgstr ""
-
-msgid "GeoSite Database File Path (geosite)"
-msgstr ""
-
-msgid "GeoSite Download URL (geosite-download-url)"
-msgstr ""
-
-msgid "Overwrite ASN Database Config"
-msgstr ""
-
-msgid "ASN Database File Path (asn-mmdb)"
-msgstr ""
-
-msgid "ASN Database Download URL (asn-mmdb-download-url)"
-msgstr ""
-
-msgid "Blacklist"
-msgstr ""
-
-msgid "Whitelist"
-msgstr ""
-
-msgid "Overwrite Proxy Server Nameserver"
-msgstr ""
-
-msgid "Edit Proxy Server Nameservers"
-msgstr ""
-
-msgid "eBPF Config"
-msgstr ""
-
-msgid "LAN Interface"
-msgstr ""
-
-msgid "LAN interfaces to attach eBPF ingress filter."
-msgstr ""
-
-msgid "WAN Interface"
-msgstr ""
-
-msgid "WAN interface to attach eBPF egress filter."
-msgstr ""
-
-msgid "Transparent proxy port inside daens."
-msgstr ""
-
-msgid "Auto Direct Offload"
-msgstr ""
-
-msgid "Automatically offload DIRECT traffic to eBPF dynamic bypass map."
-msgstr ""
-
-msgid "Proxy Client IPs / CIDRs"
-msgstr ""
-
-msgid "Specific LAN client IPs or CIDRs to proxy (if empty, all clients except bypassed ones will be proxied)."
-msgstr ""
-
-msgid "Proxy Client MACs"
-msgstr ""
-
-msgid "Specific LAN client MAC addresses to proxy (if set, ONLY traffic from these MACs will be proxied)."
-msgstr ""
-
-msgid "Bypass Client IPs / CIDRs"
-msgstr ""
-
-msgid "Specific LAN client IPs or CIDRs to bypass directly (direct connection, no proxy)."
-msgstr ""
-
-msgid "Proxy Source Ports"
-msgstr ""
-
-msgid "Source ports to proxy (if set, ONLY traffic from these source ports will be proxied)."
-msgstr ""
-
-msgid "Bypass Source Ports"
-msgstr ""
-
-msgid "Source ports to bypass (e.g. 22, 67, 68, 5353)."
-msgstr ""
-
-msgid "Proxy Router Traffic"
-msgstr ""
-
-msgid "Proxy traffic originating from the local router/gateway."
-msgstr ""
-
-msgid "Proxy Processes"
-msgstr ""
-
-msgid "Process whitelist: ONLY traffic originating from these process names will be proxied on the router."
-msgstr ""
-
-msgid "Bypass Processes"
-msgstr ""
-
-msgid "Process blacklist: Traffic originating from these process names will always bypass proxy."
-msgstr ""
-
-msgid "WAN Proxy"
-msgstr ""
-
-msgid "Proxy Destination IPs / CIDRs"
-msgstr ""
-
-msgid "Destination IP whitelist: if set, ONLY traffic to matching IPs/CIDRs will be proxied."
-msgstr ""
-
-msgid "Bypass Destination IPs / CIDRs"
-msgstr ""
-
-msgid "Destination IPs, CIDRs or reserved ranges to bypass directly (e.g. 127.0.0.0/8, 169.254.0.0/16, ::1/128)."
-msgstr ""
-
-msgid "Proxy Destination Ports"
-msgstr ""
-
-msgid "Destination ports to proxy (if set, ONLY traffic to these ports will be proxied)."
-msgstr ""
-
-msgid "Bypass Destination Ports"
-msgstr ""
-
-msgid "Destination ports to bypass directly (e.g. 123, 500, 4500)."
-msgstr ""
-
-msgid "Traffic with matching DSCP (0-63) values will bypass proxy directly."
-msgstr ""
-
-msgid "Traffic with matching firewall mark (e.g. 0x200 or 512) will bypass proxy directly."
-msgstr ""
-
-msgid "Expecting a valid decimal (0-4294967295) or hex (0x0-0xffffffff) fwmark"
-msgstr ""
-
-msgid "When enabled, the Proxy Config will be ineffective."
-msgstr ""
-
-msgid "Allow QUIC"
-msgstr ""
-
-msgid "Allow QUIC traffic (UDP port 443). When disabled, QUIC packets are dropped to force fallback to TCP."
-msgstr ""
-
-msgid "DNS2 Config"
-msgstr ""
-
-msgid "Enable DNS2"
-msgstr ""
-
-msgid "Domestic and LAN domains use domestic DNS and return real IPs. Other domains use the foreign DNS mode. DNS2 takes priority over legacy DNS."
-msgstr ""
-
-msgid "Domestic DNS"
-msgstr ""
-
-msgid "Supports IP addresses and udp://, tcp://, tls:// or https:// addresses. Always connects directly and returns real IPs."
-msgstr ""
-
-msgid "Foreign DNS mode"
-msgstr ""
-
-msgid "Real IP"
-msgstr ""
-
-msgid "Foreign DNS"
-msgstr ""
-
-msgid "Foreign DNS outbound"
-msgstr ""
-
-msgid "Use DIRECT or an existing proxy group or node name. In Fake IP mode, the proxy resolves domains when connecting."
-msgstr ""
-
-msgid "Resolve IPv6"
-msgstr ""
-
-msgid "Listen address"
-msgstr ""
-
-msgid "DNS2 takes priority over legacy DNS. Configure upstreams and ordered routing rules below."
-msgstr ""
-
-msgid "Hosts files"
-msgstr ""
-
-msgid "Bootstrap DNS"
-msgstr ""
-
-msgid "Proxy Server Nameserver"
-msgstr ""
-
-msgid "Domestic DNS always connects directly and returns real IPs."
-msgstr ""
-
-msgid "Optimistic cache TTL"
-msgstr ""
-
-msgid "Stale cache retention"
-msgstr ""
-
-msgid "Cache capacity"
-msgstr ""
-
-msgid "DNS2 routing rules"
-msgstr ""
-
-msgid "Rules match from top to bottom; first match wins. Drag rows to change priority. Fake IP is only a foreign-domain target; place domestic exceptions above it."
-msgstr ""
-
-msgid "Query type"
-msgstr ""
-
-msgid "Source IP"
-msgstr ""
-
-msgid "Rule set names must not be empty."
-msgstr ""
-
-msgid "Resolve DNS"
-msgstr ""
-
-msgid "Foreign Fake IP"
-msgstr ""
-
-msgid "Reject"
-msgstr ""
-
-msgid "Invert match"
-msgstr ""
-
-msgid "Reject response"
-msgstr ""
-
-msgid "Unmatched domains"
-msgstr ""
-
-msgid "Used only after every enabled routing rule has been checked."
-msgstr ""
-
-msgid "Fake IP"
-msgstr ""
-
-msgid "Rules match from top to bottom; first match wins. Drag rows to change priority. Foreign DNS follows the selected Fake IP or Real IP setting. Domestic DNS always returns real IPs."
-msgstr ""
-
-msgid "Combine conditions in one rule: (domain OR rule set) AND query type AND source IP. Empty conditions are ignored. Values within each condition use OR. At least one condition is required."
-msgstr ""
-
-msgid "At least one matching condition is required."
-msgstr ""
-
-msgid "Basic settings"
-msgstr ""
-
-msgid "DNS upstreams"
-msgstr ""
-
-msgid "Hosts settings"
-msgstr ""
-
-msgid "Cache settings"
-msgstr ""
-
-msgid "Routing settings"
-msgstr ""
-
-msgid "Domestic DNS client subnet"
-msgstr ""
-
-msgid "Foreign DNS client subnet"
-msgstr ""
-
-msgid "Optional EDNS Client Subnet (IP or CIDR), for example 203.0.113.0/24. Leave empty to omit."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:358
-msgid " for DNS2 rules, provider templates and other advanced YAML. In eBPF mode any TUN listeners will be filtered from the effective profile."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:85
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:73
 msgid "A collection record is not a mapping"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:348
-msgid "A field has an invalid value: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:224
+msgid "A field has an invalid value:"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:420
-msgid "Previously saved YAML overrides are preserved. Review Advanced Config if an older override still takes precedence."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:686
+msgid "API Listen"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:143
-msgid "Add"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:690
+msgid "API Secret"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:138
-msgid "Add a structured rule"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1216
+msgid "ASN Database Download URL (asn-mmdb-download-url)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:300
-msgid "Add entry"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1210
+msgid "ASN Database File Path (asn-mmdb)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:40
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:72
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:125
+msgid "Access Control"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:297
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:96
+msgid "Additional Settings"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:298
+msgid ""
+"Additional clash-rs options. Existing settings remain in Mixin Config, Proxy "
+"Config and eBPF Config."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:187
+msgid "Additional fields (JSON)"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:166
+msgid "Address Space Size Hard Limit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:162
+msgid "Address Space Size Soft Limit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:44
 msgid "Advanced Clash Config"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:230
-msgid "Advanced collection entry"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:357
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:173
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:429
-#: applications/luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:82
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:294
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:10
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:305
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:82
 msgid "Advanced Config"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:225
-msgid "Advanced JSON"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:170
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:210
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:215
+msgid "All Port"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:55
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:75
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:95
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:115
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:289
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:321
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:60
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:86
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:106
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:126
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:300
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:332
 msgid "All changes saved"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:231
-msgid "Any extra clash-rs fields can be edited here. Unknown fields are retained by normal form edits."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:696
+msgid "Allow Lan"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:155
-msgid "Append lines"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:658
+msgid "Allow QUIC"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:285
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:658
+msgid ""
+"Allow QUIC traffic (UDP port 443). When disabled, QUIC packets are dropped "
+"to force fallback to TCP."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:97
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:18
+msgid "App Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:54
+msgid "App Log"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:44
+msgid "App Version"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:517
+msgid "Append Proxy Node"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1314
+msgid "Append Rule"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1224
+msgid "Append Rule Provider"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:296
 msgid "Applied, but could not refresh the editor revision."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:343
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:408
-msgid "Apply failed: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:278
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:287
+msgid "Apply failed:"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:38
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:960
+msgid "At least one matching condition is required."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:80
+msgid "Auto Direct Offload"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:38
 msgid "Automatic Core Update"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:17
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:553
+msgid "Automatically generated from link or edit manually"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:80
+msgid "Automatically offload DIRECT traffic to eBPF dynamic bypass map."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:18
 msgid "Balance strategy"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:153
-msgid "Bulk append rules"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:813
+msgid "Basic settings"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:159
-msgid "Bulk input has invalid rules"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1307
+msgid "Behavior"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:28
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:40
+msgid "Black Filter File"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1013
+msgid "Blacklist"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:817
+msgid "Bootstrap DNS"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:174
+msgid "Bypass"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:176
+msgid "Bypass China Mainland IP"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:192
+msgid "Bypass China Mainland IP6"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:122
+msgid "Bypass Client IPs / CIDRs"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:84
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:218
+msgid "Bypass DSCP"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:158
+msgid "Bypass Destination IPs / CIDRs"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:174
+msgid "Bypass Destination Ports"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:88
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:221
+msgid "Bypass FWMark"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:151
+msgid "Bypass Processes"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:138
+msgid "Bypass Source Ports"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:96
+msgid "CGroup"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:18
 msgid "Cache"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:44
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:55
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:907
+msgid "Cache capacity"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:904
+msgid "Cache settings"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:43
 msgid "Cache/file path"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:234
-msgid "Cancel"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:386
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:264
 msgid "Cannot merge draft"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:275
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:143
 msgid "Cannot read collection"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:89
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:100
 msgid "Cannot read module"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:112
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:123
 msgid "Cannot refresh saved module"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:355
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:231
 msgid "Cannot refresh settings"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:316
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:327
 msgid "Cannot reload restored module"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:240
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:163
 msgid "Change behavior for"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:228
-msgid "Changed top-level sections: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:239
+msgid "Changed top-level sections:"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:196
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:179
+msgid "China Mainland IP Download URL"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:188
+msgid "China Mainland IP file downloaded successfully."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:195
+msgid "China Mainland IP6 Download URL"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:204
+msgid "China Mainland IP6 file downloaded successfully."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:27
+msgid "Choose File"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:102
+msgid "Choose Profile"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:132
+msgid ""
+"Choose a preset or enter a custom Cron expression. Uses the router’s local "
+"time: minute hour day month weekday."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:131
 msgid "Choose “Unmodified” to keep the existing profile or Mixin Config value."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:166
-msgid "Clash Collections Builder"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:175
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:186
 msgid "Clash configuration diagnostics"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:418
-msgid "Clash-RS Configuration Center"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:29
+msgid "Clear At Stop"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:331
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:107
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:152
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:187
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:258
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:394
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:58
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:91
+msgid "Clear Log"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:266
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:107
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:163
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:198
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:269
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:272
 msgid "Close"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:345
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:289
+msgid "Collection"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:280
 msgid "Collection applied and service health check passed."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:317
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:252
 msgid "Collection saved; use Preview or Apply to update the running core."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:106
-msgid "Collections Builder"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:918
+msgid ""
+"Combine conditions in one rule: (domain OR rule set) AND query type AND "
+"source IP. Empty conditions are ignored. Values within each condition use "
+"OR. At least one condition is required."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:226
-msgid "Compared the saved effective profile with the proposed unsaved module change. Values, node credentials and rule text are not included."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:171
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:211
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:216
+msgid "Commonly Used Port"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:290
-msgid "Configuration applied and the restarted Nikki RS service passed its health check."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:237
+msgid ""
+"Compared the saved effective profile with the proposed unsaved module "
+"change. Values, node credentials and rule text are not included."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:98
-msgid "Configuration Center"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:225
-msgid "Configuration change review"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:62
-msgid "Configuration could not be saved"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:25
-msgid "Configuration edits are validated and backed up before saving. The generated startup profile is recreated on service restart; edit its source profile or mixin for persistent changes."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:103
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:103
 msgid "Configuration History"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:194
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:301
+msgid ""
+"Configuration applied and the restarted Nikki RS service passed its health "
+"check."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:236
+msgid "Configuration change review"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:62
+msgid "Configuration could not be saved"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:25
+msgid ""
+"Configuration edits are validated and backed up before saving. The generated "
+"startup profile is recreated on service restart; edit its source profile or "
+"mixin for persistent changes."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:205
 msgid "Configuration impact analysis failed"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:337
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:348
 msgid "Configuration module"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:159
-msgid "Configuration sections"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:73
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:73
 msgid "Configuration syntax is valid."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:419
-msgid "Configure clash-rs options that are not already exposed by the original Nikki RS pages. The controls below use the installed schema and range validation. Existing Mixin, Proxy and eBPF settings are linked rather than duplicated; use Advanced Config for other Clash modules."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:87
+msgid "Core Log"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:62
-msgid "Controller UI & Geo Data"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:217
-msgid "Copy"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:18
-#: applications/luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:74
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:18
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:74
 msgid "Core Management"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:160
-msgid "Core preflight failed"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:144
+msgid "Core Only"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:20
-msgid "Core Settings"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:58
+msgid "Core Status"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:17
-msgid "Core status unavailable"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:20
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:20
 msgid "Core Update"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:58
-msgid "Core update completed."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:55
-msgid "Core update failed. The previous core was preserved; see /etc/nikki-rs/core/update.log."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:26
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:26
 msgid "Core Variant"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:384
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:405
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:51
+msgid "Core Version"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:171
+msgid "Core preflight failed"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:17
+msgid "Core status unavailable"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:58
+msgid "Core update completed."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:55
+msgid ""
+"Core update failed. The previous core was preserved; see /etc/nikki-rs/core/"
+"update.log."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:262
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:284
 msgid "Could not generate draft"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:117
-msgid "Could not load rule file"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:312
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:326
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:209
 msgid "Could not load settings"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:136
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:147
 msgid "Could not produce preview"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:108
-msgid "Could not read current rule list"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:314
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:325
 msgid "Could not restore revision"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:61
-msgid "Create and reorder routing rules in the dedicated Ordered Rules page."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:21
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:21
 msgid "Current Core"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:21
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:20
 msgid "Custom YAML"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:64
-msgid "Dashboard and Geo database settings are already available in Mixin Config."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:8
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:102
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:168
+msgid "DNS"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:222
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:98
-msgid "Delete"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:974
+msgid "DNS Config"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:163
-msgid "Diagnose effective config"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:814
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:982
+msgid "DNS Listen"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:166
-msgid "Diagnostics unavailable"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:992
+msgid "DNS Mode"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:246
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:249
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:87
-msgid "Disabled"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:41
-msgid "Disabled by default. Scheduled updates use the latest official release."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:367
-msgid "Discard current draft?"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:307
-msgid "Discard edits"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:308
-msgid "Discard local changes?"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:81
-msgid "Discard unsaved changes in this module?"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:286
-msgid "Discard unsaved collection changes?"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:133
-msgid "Discard unsaved rule edits?"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:38
-msgid "DNS & Network"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:178
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:189
 msgid "DNS enhanced mode"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:10
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:42
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:816
+msgid "DNS upstreams"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:9
 msgid "DNS2"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:34
-msgid "Domain, CIDR, rule set or port"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:790
+msgid "DNS2 Config"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:43
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:54
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:910
+msgid "DNS2 routing rules"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:793
+msgid ""
+"DNS2 takes priority over legacy DNS. Configure upstreams and ordered routing "
+"rules below."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:126
+msgid "Daily at 03:00"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:120
+msgid "Debug Log"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1337
+msgid "Destination IP"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1341
+msgid "Destination IP Geo"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:156
+msgid ""
+"Destination IP whitelist: if set, ONLY traffic to matching IPs/CIDRs will be "
+"proxied."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:158
+msgid ""
+"Destination IPs, CIDRs or reserved ranges to bypass directly (e.g. "
+"127.0.0.0/8, 169.254.0.0/16, ::1/128)."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1338
+msgid "Destination Port"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:208
+msgid "Destination TCP Port to Proxy"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:213
+msgid "Destination UDP Port to Proxy"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:174
+msgid "Destination ports to bypass directly (e.g. 123, 500, 4500)."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:168
+msgid ""
+"Destination ports to proxy (if set, ONLY traffic to these ports will be "
+"proxied)."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:757
+msgid "Device Name"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:174
+msgid "Diagnose effective config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:177
+msgid "Diagnostics unavailable"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:632
+msgid "Direct Mode"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:655
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:661
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:699
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:748
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:754
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:774
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:979
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:989
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1033
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1039
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1119
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1125
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1131
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:38
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:45
+msgid "Disable"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:180
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:257
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:260
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:35
+msgid "Disabled"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:41
+msgid "Disabled by default. Scheduled updates use the latest official release."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:243
+msgid "Discard current draft?"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:242
+msgid "Discard edits"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:243
+msgid "Discard local changes?"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:92
+msgid "Discard unsaved changes in this module?"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:227
+msgid "Discard unsaved collection changes?"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:897
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:924
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1060
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1332
+msgid "Domain Name"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1340
+msgid "Domain Name Geo"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1335
+msgid "Domain Name Keyword"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1336
+msgid "Domain Name Regex"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1333
+msgid "Domain Name Suffix"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1334
+msgid "Domain Name Wildcard"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:820
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:947
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:971
+msgid "Domestic DNS"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:821
+msgid "Domestic DNS always connects directly and returns real IPs."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:822
+msgid "Domestic DNS client subnet"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:185
+msgid "Download China Mainland IP File"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:201
+msgid "Download China Mainland IP6 File"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:42
 msgid "Download URL"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:96
-msgid "Duplicate"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:77
+msgid "Duplicate name:"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:75
-msgid "Duplicate lines: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:231
+msgid "Duplicate proxy group names detected:"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:89
-msgid "Duplicate name: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:229
+msgid "Duplicate proxy names detected:"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:220
-msgid "Duplicate proxy group names detected: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:195
+msgid ""
+"Duplicate routing rules were detected; consider removing redundant entries."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:218
-msgid "Duplicate proxy names detected: "
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:184
-msgid "Duplicate routing rules were detected; consider removing redundant entries."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:182
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:193
 msgid "Duplicate rules"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:216
-msgid "Duplicate rules detected: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:227
+msgid "Duplicate rules detected:"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:15
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:14
 msgid "Dynamic inbound listener providers (clash-rs extension)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:224
-msgid "eBPF and TUN conflict in the effective profile."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:725
+msgid "Edit Authentications"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:745
-msgid "eBPF takes precedence: when enabled, generated Clash profiles force TUN off without changing this saved preference."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:245
-msgid "eBPF: "
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1026
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1026
 msgid "Edit Black Filters"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:387
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:784
+msgid "Edit DNS Hijacks"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1019
+msgid "Edit Fake-IP Filters"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:886
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1049
+msgid "Edit Hosts"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1091
+msgid "Edit Nameserver Policies"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1068
+msgid "Edit Nameservers"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:520
+msgid "Edit Proxy Nodes"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1110
+msgid "Edit Proxy Server Nameservers"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1236
+msgid "Edit Rule Providers"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1317
+msgid "Edit Rules"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1151
+msgid "Edit Sniff Protocols"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:32
+msgid "Edit Subscription"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:24
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:58
+msgid "Editor"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:265
 msgid "Effective configuration preview"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:20
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:21
 msgid "Empty-group fallback"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:246
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:249
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:86
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:99
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:52
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:528
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:656
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:662
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:700
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:733
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:745
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:749
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:755
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:775
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:893
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:919
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:976
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:980
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:990
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1034
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1040
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1057
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1076
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1099
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1116
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1120
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1126
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1132
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1159
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1244
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1325
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1362
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:33
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:69
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:80
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:110
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:133
+msgid "Enable"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:792
+msgid "Enable DNS2"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:751
+msgid "Enable TCP"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:179
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:257
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:260
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:34
 msgid "Enabled"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:88
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-cron.js:40
+msgid ""
+"Enter five Cron fields: minute (0–59), hour (0–23), day (1–31), month (1–"
+"12), weekday (0–6, Sunday = 0). Lists, ranges and /steps are supported."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:127
+msgid "Every Sunday at 03:00"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:76
 msgid "Every entry needs a valid name"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:126
-msgid "Expected a non-negative integer: "
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:70
-msgid "Expected a provider mapping"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:77
-msgid "Expected an ordered list"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:240
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:203
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:208
 msgid "Expected JSON object"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:571
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:74
+msgid "Expected a non-negative integer:"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:58
+msgid "Expected a provider mapping"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:65
+msgid "Expected an ordered list"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:95
+msgid "Expecting a valid decimal (0-4294967295) or hex (0x0-0xffffffff) fwmark"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:47
+msgid "Expire At"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:664
+msgid "External Control Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:535
+msgid "Extracted from link if empty"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:571
 msgid "Failed to parse node link."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:42
-msgid "File format"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:826
+msgid "Fake IP"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:172
-msgid "For arbitrary YAML fields and merged previews, use "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:41
+msgid "Fake IP Filter File"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:430
-msgid "For ordered routing rules, use "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1010
+msgid "Fake-IP Filter Mode"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:50
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:8
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:22
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:61
+msgid "Fake-IP Ping Hijack"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:840
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:998
+msgid "Fake-IP Range"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:846
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1006
+msgid "Fake-IP TTL"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:843
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1002
+msgid "Fake-IP6 Range"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:42
+msgid "Fallback Filter File"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:151
+msgid "Fast Reload"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1301
+msgid "File Format"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1295
+msgid "File Path"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1289
+msgid "File Size Limit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:38
+msgid "File for Mixin"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:106
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:31
+msgid "File:"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:129
+msgid "First day of each month at 03:00"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:354
+msgid "For routing rules and rule providers, use"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1137
+msgid "Force Sniff Domain Name"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:828
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:948
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:972
+msgid "Foreign DNS"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:835
+msgid "Foreign DNS client subnet"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:825
+msgid "Foreign DNS mode"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:831
+msgid "Foreign DNS outbound"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1175
+msgid "GEO Data Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:771
+msgid "GSO"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:777
+msgid "GSO Max Size"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:50
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:7
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:17
 msgid "General"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:12
-msgid "Generic local or remote proxy provider mappings; no vendor-specific integrations"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:149
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:616
+msgid "General Config"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:50
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:124
+msgid "Generate & Download"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:38
 msgid "Generic Proxy Providers"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:17
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:11
+msgid ""
+"Generic local or remote proxy provider mappings; no vendor-specific "
+"integrations"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:16
 msgid "Geo / Databases"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:17
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:16
 msgid "GeoIP, Geosite and geodata path settings"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:10
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1195
+msgid "GeoSite Database File Path (geosite)"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1201
+msgid "GeoSite Download URL (geosite-download-url)"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:630
+msgid "Global Mode"
+msgstr ""
+
+#: luci-app-nikki-rs/root/usr/share/rpcd/acl.d/luci-app-nikki-rs.json:3
+msgid "Grant access to nikki-rs procedures"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:90
+msgid "Group"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:11
 msgid "Group name"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:14
-msgid "Health-check URL"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:702
+msgid "HTTP Port"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:78
-msgid "History / Restore"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:16
-msgid "Hosts"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:14
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:13
 msgid "HTTP, SOCKS, mixed, redirect, TProxy and other inbound listeners"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:20
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:19
 msgid "HTTP, TLS and QUIC sniffing settings"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:21
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:15
+msgid "Health-check URL"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:174
+msgid "Heap Size Hard Limit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:170
+msgid "Heap Size Soft Limit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:78
+msgid "History / Restore"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:15
+msgid "Hosts"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:881
+msgid "Hosts files"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:876
+msgid "Hosts settings"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:39
+msgid "How To Use"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:49
+msgid "IPv4 DNS Hijack"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:55
+msgid "IPv4 Proxy"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:52
+msgid "IPv6 DNS Hijack"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:58
+msgid "IPv6 Proxy"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:22
 msgid "Icon URL"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:25
-msgid "Inbound"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1144
+msgid "Ignore Sniff Domain Name"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:26
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:878
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1045
+msgid "Import dnsmasq Hosts"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:694
+msgid "Inbound Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:113
+msgid "Inbound Interface"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:27
 msgid "Inbound Listeners"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:15
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:14
 msgid "Inbound Providers"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:19
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:20
 msgid "Include all proxies"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:130
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:178
 msgid "Inherit"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:48
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:48
 msgid "Install / Update Core"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:324
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:341
-msgid "Invalid draft"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:113
-msgid "Invalid integer"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:150
-msgid "Invalid rule fields"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:130
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:141
 msgid "Invalid YAML"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:27
-msgid "LAN access and proxy listener ports are already configured in Mixin Config."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:259
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:276
+msgid "Invalid draft"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:9
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:942
+msgid "Invert match"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:55
+msgid "LAN Interface"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:99
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:108
+msgid "LAN Proxy"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:55
+msgid "LAN interfaces to attach eBPF ingress filter."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:8
 msgid "Legacy DNS, Fake IP, policy and upstreams"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:138
-msgid "List is too large: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:86
+msgid "List is too large:"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:106
-msgid "List too long"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:30
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:31
 msgid "Listen interface / IP"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:28
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:29
 msgid "Listener name"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:14
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:13
 msgid "Listeners"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:31
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:32
 msgid "Listening port"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:175
-msgid "Local entries: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:89
+msgid "Local"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:8
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:101
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:104
+msgid "Local Collections"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:287
+msgid ""
+"Local groups, listeners and proxy providers are prepended or merged without "
+"modifying subscriptions. Manage routing rules and rule providers in Mixin "
+"Config."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:25
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:66
+msgid "Log"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:27
+msgid "Log Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:618
+msgid "Log Level"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:7
 msgid "Log level, mode, ports, IPv6 and general Clash options"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:42
-msgid "Manage advanced configuration as separate YAML modules. Original profiles and subscriptions are not modified. Each module overrides the selected profile and LuCI mixin; nikki-rules, nikki-proxies and nikki-proxy-groups prepend entries."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1180
+msgid "MMDB Database File Path (mmdb)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:353
-msgid "Manage locally owned groups, listeners and generic providers. Imported subscription arrays are preserved. To edit every clash-rs-specific option, use Advanced JSON for an entry or Advanced Config for the whole module."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1186
+msgid "MMDB Download URL (mmdb-download-url)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:77
-msgid "MATCH is not last. Later entries in this module may never match."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:767
+msgid "MTU"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:328
-msgid "May include provider URLs, secrets and node credentials. Preview does not save or restart."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:46
+msgid ""
+"Manage advanced configuration as separate YAML modules. Original profiles "
+"and subscriptions are not modified. Each module overrides the selected "
+"profile and LuCI mixin; nikki-rules, nikki-proxies and nikki-proxy-groups "
+"prepend entries."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:326
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:634
+msgid "Match Process"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1102
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1343
+msgid "Matcher"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:263
+msgid ""
+"May include provider URLs, secrets and node credentials. Preview does not "
+"save or restart."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:261
 msgid "Merge failed"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:327
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:146
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:262
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:157
 msgid "Merged configuration preview"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:238
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:249
 msgid "Metric"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:27
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:27
 msgid "Minimal (low memory)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:24
-msgid "Mode, log level, IPv6 and QUIC are already configured in Mixin Config."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:223
+msgid "Misc"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:116
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:710
+msgid "Mixed Port"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:355
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:34
+msgid "Mixin Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1360
+msgid "Mixin File Content"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:513
+msgid "Mixin Option"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:627
+msgid "Mode"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:350
+msgid "Module"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:127
 msgid "Module saved. Restart Nikki RS after checking the preview to apply it."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:222
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:534
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1250
+msgid "Name"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1086
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1105
+msgid "Nameserver"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:233
 msgid "Neither DNS nor DNS2 is enabled in the effective profile."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:277
-msgid "Nikki RS is not running. Start the service first, or use Save module without applying."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:39
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:3
+msgid "Nikki RS"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:105
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:288
+msgid ""
+"Nikki RS is not running. Start the service first, or use Save module without "
+"applying."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1354
+msgid "No Resolve"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:105
 msgid "No backups available."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:253
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:264
 msgid "No basic structural warnings found."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:184
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:195
 msgid "No exact duplicate rules found."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:372
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:382
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:401
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:249
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:260
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:280
 msgid "No modified fields."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:176
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:125
 msgid "No pending changes"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:301
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:312
 msgid "No saved revisions available."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:273
-msgid "No unique settings are available in this category."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1347
+msgid "Node"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:142
-msgid "no-resolve"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:537
+msgid "Node Link"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:234
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:245
 msgid "None"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:177
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:178
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:16
+msgid "Not Running"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:188
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:189
 msgid "Not specified"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:337
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:272
 msgid "Nothing to apply"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:313
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:121
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:248
 msgid "Nothing to save"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:140
-msgid "One name per line"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:189
+msgid "Number of Open Files Hard Limit"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:101
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:186
+msgid "Number of Open Files Soft Limit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:159
+msgid "Number of Processes Hard Limit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:156
+msgid "Number of Processes Soft Limit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:49
 msgid "One value per line"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:104
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:64
+msgid "Only Proxy Fake-IP and Whitelist"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:104
 msgid "Only the most recent 10 saved revisions are retained."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:57
-msgid "Open Advanced Config"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:92
+msgid "Open Dashboard"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:23
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:26
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:40
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:42
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:44
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:46
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:63
-msgid "Open Mixin Config"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:905
+msgid "Optimistic cache TTL"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:60
-msgid "Open Ordered Rules"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:823
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:836
+msgid ""
+"Optional EDNS Client Subnet (IP or CIDR), for example 203.0.113.0/24. Leave "
+"empty to omit."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:54
-msgid "Open Proxy Config"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:164
-msgid "Ordered Clash Rules"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:18
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:17
 msgid "Ordered priority rules (nikki-rules prepends to subscription rules)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:59
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:431
-#: applications/luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:90
-msgid "Ordered Rules"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:128
-msgid "Ordered rules saved with a revision backup. Restart Nikki RS to apply them."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:21
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:20
 msgid "Other advanced clash-rs options"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1023
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:641
+msgid "Outbound Interface"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1207
+msgid "Overwrite ASN Database Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:722
+msgid "Overwrite Authentication"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1023
 msgid "Overwrite Black Filter"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:39
-msgid "Paste one Clash rule per line to append them"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:781
+msgid "Overwrite DNS Hijack"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:33
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1172
+msgid "Overwrite Destination"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1016
+msgid "Overwrite Fake-IP Filter"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1134
+msgid "Overwrite Force Sniff Domain Name"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1192
+msgid "Overwrite GeoSite Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1042
+msgid "Overwrite Hosts"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1141
+msgid "Overwrite Ignore Sniff Domain Name"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1177
+msgid "Overwrite MMDB Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1065
+msgid "Overwrite Nameserver"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1088
+msgid "Overwrite Nameserver Policy"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1107
+msgid "Overwrite Proxy Server Nameserver"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1148
+msgid "Overwrite Sniff By Protocol"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:739
+msgid "Password"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:21
 msgid "Performance"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:565
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1362
+msgid "Please go to the editor tab to edit the file for mixin"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:565
 msgid "Please save the node link first, then click Regenerate."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:52
-msgid "Policies & Resources"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1169
+msgid "Port"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:36
-msgid "Policy target, e.g. DIRECT"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:84
+msgid "Prefer"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:11
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:10
 msgid "Prepend custom selector or test groups without editing a subscription"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:321
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:256
 msgid "Preview effective YAML"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:133
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:144
 msgid "Preview merged configuration"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:409
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:288
 msgid "Previous settings restored."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:240
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:299
+msgid ""
+"Previously saved YAML overrides are preserved. Review Advanced Config if an "
+"older override still takes precedence."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1339
+msgid "Process Name"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:151
+msgid ""
+"Process blacklist: Traffic originating from these process names will always "
+"bypass proxy."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:149
+msgid ""
+"Process whitelist: ONLY traffic originating from these process names will be "
+"proxied on the router."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:18
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:26
+msgid "Profile"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:39
+msgid "Profile for Startup"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:251
 msgid "Proposed"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:73
-msgid "Provider entry is not a mapping: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:30
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1163
+msgid "Protocol"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:39
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:52
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:40
 msgid "Provider ID"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:18
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:61
+msgid "Provider entry is not a mapping:"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:19
 msgid "Provider name regex"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:180
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:191
 msgid "Proxies"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:181
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:204
-msgid "Proxy groups"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:105
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:171
+msgid "Proxy"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:8
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:11
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:101
+msgid "Proxy Client IPs / CIDRs"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:114
+msgid "Proxy Client MACs"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:29
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:31
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:42
+msgid "Proxy Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:156
+msgid "Proxy Destination IPs / CIDRs"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:168
+msgid "Proxy Destination Ports"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:9
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:10
 msgid "Proxy Groups"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:56
-msgid "Proxy Groups & Providers"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:515
+msgid "Proxy Node Config"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:203
-msgid "Proxy nodes"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:149
+msgid "Proxy Processes"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:12
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:11
 msgid "Proxy Providers"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:13
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:145
+msgid "Proxy Router Traffic"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:818
+msgid "Proxy Server Nameserver"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:135
+msgid "Proxy Source Ports"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:43
+msgid "Proxy Whitelist File (IPv4)"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:44
+msgid "Proxy Whitelist File (IPv6)"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:192
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:215
+msgid "Proxy groups"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:214
+msgid "Proxy nodes"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:14
 msgid "Proxy providers (one per line)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:55
-msgid "Proxy routing and access control are already available on the Proxy Config page."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:145
+msgid "Proxy traffic originating from the local router/gateway."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:12
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:13
 msgid "Proxy/group members (one per line)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:147
-msgid "Read-only preview based on the last generated profile. The router may enforce additional TUN safety options during startup. This output can contain proxy credentials."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:931
+msgid "Query type"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:304
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:154
+msgid "RLIMIT Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:158
+msgid ""
+"Read-only preview based on the last generated profile. The router may "
+"enforce additional TUN safety options during startup. This output can "
+"contain proxy credentials."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:827
+msgid "Real IP"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:315
 msgid "Recent versions"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:275
-msgid "Recovery was not confirmed. Check Nikki RS status and the router console immediately before making further changes."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:286
+msgid ""
+"Recovery was not confirmed. Check Nikki RS status and the router console "
+"immediately before making further changes."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:45
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:56
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:39
+msgid "Redirect Mode"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:714
+msgid "Redirect Port"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:44
 msgid "Refresh interval (seconds)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:32
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:559
+msgid "Regenerate"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:949
+msgid "Reject"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:962
+msgid "Reject response"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:32
 msgid "Release Tag"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:366
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:242
 msgid "Reload"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:132
-msgid "Reload from disk"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:70
+msgid "Reload Service"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:120
-msgid "Reload the rule file first"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:264
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:275
 msgid "Reload this module before applying"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:108
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:119
 msgid "Reload this module before saving"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:100
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:328
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:88
+msgid "Remote"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:225
+msgid "Reserved IP"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:228
+msgid "Reserved IP6"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:945
+msgid "Resolve DNS"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1030
+msgid "Respect Rules"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:125
+msgid "Restart Schedule"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:77
+msgid "Restart Service"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:122
+msgid ""
+"Restart the Nikki RS service periodically, not the router. Existing "
+"connections may be interrupted."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:100
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:339
 msgid "Restore"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:93
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:93
 msgid "Restore failed"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:65
-msgid "Restore the previous downloaded core, or remove the override to use the packaged binary."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:65
+msgid ""
+"Restore the previous downloaded core, or remove the override to use the "
+"packaged binary."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:90
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:90
 msgid "Restore this configuration revision?"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:311
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:322
 msgid "Restore this revision? The current version will be backed up."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:191
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:202
 msgid "Review configuration changes"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:380
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:258
 msgid "Review merged configuration"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:295
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:306
 msgid "Revision history"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:323
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:334
 msgid "Revision restored. Restart to apply."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:73
-msgid "Rollback completed."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:63
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:63
 msgid "Rollback Core"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:70
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:73
+msgid "Rollback completed."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:70
 msgid "Rollback failed. Check the service logs."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:67
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:67
 msgid "Rollback to the previous core?"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:177
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:143
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:67
+msgid "Router Proxy"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:188
 msgid "Routing mode"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:41
-msgid "Rule format behavior"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:909
+msgid "Routing settings"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:205
-msgid "Rule providers"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1222
+msgid "Rule Config"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:37
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:13
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:631
+msgid "Rule Mode"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:12
 msgid "Rule Providers"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:126
-msgid "Rule save failed"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:926
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1331
+msgid "Rule Set"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:13
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:216
+msgid "Rule providers"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:12
 msgid "Rule-set endpoints, behavior, format and refresh settings"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:18
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:179
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:202
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:17
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:190
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:213
 msgid "Rules"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:139
-msgid "Rules are evaluated from top to bottom. Append custom rules above the subscription rules."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:911
+msgid ""
+"Rules match from top to bottom; first match wins. Drag rows to change "
+"priority. Foreign DNS follows the selected Fake IP or Real IP setting. "
+"Domestic DNS always returns real IPs."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:64
-msgid "Rules in this module: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:16
+msgid "Running"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:282
-msgid "Safe apply did not complete: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:706
+msgid "SOCKS Port"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:311
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:293
+msgid "Safe apply did not complete:"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:246
 msgid "Save collection"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:315
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:110
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:374
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:250
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:121
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:251
 msgid "Save failed"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:262
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:273
 msgid "Save module"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:119
-msgid "Save ordered rules"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:370
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:247
 msgid "Save settings"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:263
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:274
 msgid "Save, test and apply safely"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:239
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:65
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:250
 msgid "Saved"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:57
-msgid "Saving does not restart the proxy. Preview uses the last generated base profile; restart Nikki RS after saving to apply changes."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:62
+msgid ""
+"Saving does not restart the proxy. Preview uses the last generated base "
+"profile; restart Nikki RS after saving to apply changes."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:243
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:32
+msgid "Scheduled Clear"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:35
+msgid "Scheduled Clear Cron"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:40
+msgid "Scheduled Clear Size Limit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:46
+msgid "Scheduled Clear Size Limit Unit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:121
+msgid "Scheduled Restart"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1231
+msgid "Scheduled Update Cron"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1227
+msgid "Scheduled Update Rule Providers"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:81
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/log.js:114
+msgid "Scroll To Bottom"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:166
 msgid "Set value"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:411
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:290
 msgid "Settings applied; the restarted core passed its service health check."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:164
-msgid "Settings categories"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:253
+msgid ""
+"Settings saved with a revision backup. Use Test and apply safely to restart "
+"Nikki RS."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:376
-msgid "Settings saved with a revision backup. Use Test and apply safely to restart Nikki RS."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1128
+msgid "Sniff Pure IP"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:20
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:46
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1122
+msgid "Sniff Redir-Host"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:19
 msgid "Sniffer"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:123
-msgid "Some rules are invalid; use TYPE,MATCHER,TARGET[,no-resolve] or MATCH,TARGET"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1114
+msgid "Sniffer Config"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:40
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:53
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:928
+msgid "Source IP"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:138
+msgid "Source ports to bypass (e.g. 22, 67, 68, 5353)."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:135
+msgid ""
+"Source ports to proxy (if set, ONLY traffic from these source ports will be "
+"proxied)."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:41
 msgid "Source type"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:28
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:122
+msgid ""
+"Specific LAN client IPs or CIDRs to bypass directly (direct connection, no "
+"proxy)."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:101
+msgid ""
+"Specific LAN client IPs or CIDRs to proxy (if empty, all clients except "
+"bypassed ones will be proxied)."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:114
+msgid ""
+"Specific LAN client MAC addresses to proxy (if set, ONLY traffic from these "
+"MACs will be proxied)."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:760
+msgid "Stack"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:182
+msgid "Stack Size Hard Limit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:178
+msgid "Stack Size Soft Limit"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:906
+msgid "Stale cache retention"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:28
 msgid "Standard (more protocols)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:16
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:116
+msgid "Start Delay"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:118
+msgid "Start Immidiately"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:113
+msgid "Start on Boot"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:15
 msgid "Static hosts mapping and DNS host overrides"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:11
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:41
+msgid "Status"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:12
 msgid "Strategy"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:176
-msgid "Summary of the merged configuration. No proxy credentials or rule contents are shown."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:28
+msgid "Subscription"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:16
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:68
+msgid "Subscription Info Url"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:34
+msgid "Subscription Name"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:71
+msgid "Subscription Url"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:110
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:35
+msgid "Subscription:"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:187
+msgid ""
+"Summary of the merged configuration. No proxy credentials or rule contents "
+"are shown."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:520
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:537
+msgid "Supported protocols: %s"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:17
 msgid "Switch tolerance (ms)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:10
-msgid "Tagged upstream pools and DNS2 request/response routing"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:36
+msgid "TCP Mode"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:336
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:399
-msgid "Test and apply safely"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:40
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:46
+msgid "TPROXY Mode"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:15
-msgid "Test interval (seconds)"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:75
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:718
+msgid "TPROXY Port"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:402
-msgid "Test the merged configuration, save these options and restart Nikki RS? Failed startup triggers best-effort rollback."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:338
-msgid "Test the merged profile, save the collection and restart Nikki RS? A failed restart will trigger rollback."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:156
-msgid "Test with installed core"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:388
-msgid "The effective YAML may contain proxy addresses, tokens and other secrets. This preview does not modify the running service. eBPF mode overrides TUN."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:159
-msgid "The installed clash-rs core accepted this candidate configuration."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:279
-msgid "The installed clash-rs core rejected the candidate configuration, or a remote provider failed to initialize. Nothing was saved."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:281
-msgid "The module changed on disk. Reload it before trying again."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:273
-msgid "The new configuration did not start correctly. The previous module was restored and the service was restarted. Your unsaved draft is still in the editor."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:16
-msgid "These options are already provided by Mixin Config. Use the existing page instead of editing duplicate controls here."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:165
-msgid "This editor manages only nikki-rules in rules.yaml and preserves other advanced YAML settings. Concurrent edits in another browser tab are rejected."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:255
-msgid "This is a static review, not a successful clash-rs core test. Use Test with installed core for runtime validation."
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:265
-msgid "This will test the merged Clash configuration, save your changes and restart Nikki RS. Connectivity may be briefly interrupted. If the restart or health check fails, the previous module will be restored. Continue?"
-msgstr ""
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:19
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:44
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:18
 msgid "TUN"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:32
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:743
+msgid "TUN Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:235
+msgid "TUN Interval"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:41
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:47
+msgid "TUN Mode"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:231
+msgid "TUN Timeout"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:33
 msgid "TUN device"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:19
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:18
 msgid "TUN properties; router-managed routing flags are enforced on startup"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:248
-msgid "TUN: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:259
+msgid "TUN:"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:428
-msgid "Unmodified values continue to inherit from the selected profile or Mixin Config. For proxy groups, providers and custom YAML, use "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:9
+msgid "Tagged upstream pools and DNS2 request/response routing"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:208
-msgid "Unnamed"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:141
+msgid "Test Profile"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:65
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:85
-msgid "Unsaved changes"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:271
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:278
+msgid "Test and apply safely"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:76
-msgid "Unsaved changes — save or discard before switching modules"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:16
+msgid "Test interval (seconds)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:195
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:281
+msgid ""
+"Test the merged configuration, save these options and restart Nikki RS? "
+"Failed startup triggers best-effort rollback."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:273
+msgid ""
+"Test the merged profile, save the collection and restart Nikki RS? A failed "
+"restart will trigger rollback."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:167
+msgid "Test with installed core"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:266
+msgid ""
+"The effective YAML may contain proxy addresses, tokens and other secrets. "
+"This preview does not modify the running service. eBPF mode overrides TUN."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:170
+msgid "The installed clash-rs core accepted this candidate configuration."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:290
+msgid ""
+"The installed clash-rs core rejected the candidate configuration, or a "
+"remote provider failed to initialize. Nothing was saved."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:292
+msgid "The module changed on disk. Reload it before trying again."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:284
+msgid ""
+"The new configuration did not start correctly. The previous module was "
+"restored and the service was restarted. Your unsaved draft is still in the "
+"editor."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:266
+msgid ""
+"This is a static review, not a successful clash-rs core test. Use Test with "
+"installed core for runtime validation."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:276
+msgid ""
+"This will test the merged Clash configuration, save your changes and restart "
+"Nikki RS. Connectivity may be briefly interrupted. If the restart or health "
+"check fails, the previous module will be restored. Continue?"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:42
+msgid "Total"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:84
+msgid "Traffic with matching DSCP (0-63) values will bypass proxy directly."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:88
+msgid ""
+"Traffic with matching firewall mark (e.g. 0x200 or 512) will bypass proxy "
+"directly."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:39
+msgid "Transparent Proxy with clash-rs on OpenWrt."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:75
+msgid "Transparent proxy port inside daens."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1079
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1253
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1329
+msgid "Type"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:43
+msgid "UDP Mode"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:673
+msgid "UI Name"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:669
+msgid "UI Path"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:677
+msgid "UI Url"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:164
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:168
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:172
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:176
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:180
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:184
+msgid "Unlimited"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:969
+msgid "Unmatched domains"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:175
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:620
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:629
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:636
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:643
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:654
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:660
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:670
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:674
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:678
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:688
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:692
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:698
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:704
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:708
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:712
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:716
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:720
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:747
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:753
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:758
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:762
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:769
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:773
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:779
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:978
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:984
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:988
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:994
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1000
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1004
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1008
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1012
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1032
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1038
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1118
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1124
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1130
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:33
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:40
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:165
+msgid "Unmodified"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:304
+msgid ""
+"Unmodified values continue to inherit from the selected profile or Mixin "
+"Config. For proxy groups, providers and custom YAML, use"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:130
 msgid "Unsaved changes are waiting to be reviewed or saved."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:176
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:87
+msgid "Unsaved changes — save or discard before switching modules"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:125
 msgid "Unsaved modifications"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:19
-msgid "Update clash-rs independently of the firmware package. The packaged core is kept as a fallback. An upgrade tests the new core before activation and restores the old version if the running service fails to restart."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1267
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:60
+msgid "Update"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:43
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1259
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:52
+msgid "Update At"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:85
+msgid "Update Dashboard"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:43
 msgid "Update Schedule (cron)"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:356
-msgid "Use "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:19
+msgid ""
+"Update clash-rs independently of the firmware package. The packaged core is "
+"kept as a fallback. An upgrade tests the new core before activation and "
+"restores the old version if the running service fails to restart."
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:58
-msgid "Use Advanced Config to edit clash-rs proxy groups, providers, hosts and custom YAML."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:20
+msgid "Upload Profile"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:243
-msgid "Use JSON"
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1275
+msgid "Url"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:36
-msgid "Use latest to follow official stable releases or enter an exact upstream tag such as v0.20.23-alpha."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:293
+msgid "Use"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:66
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:877
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1036
+msgid "Use Hosts"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:666
+msgid "Use Internal UI"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:36
+msgid ""
+"Use latest to follow official stable releases or enter an exact upstream tag "
+"such as v0.20.23-alpha."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:206
+msgid "Use the form controls for known fields."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:37
+msgid "Used"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:970
+msgid "Used only after every enabled routing rule has been checked."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:84
+msgid "User"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1280
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js:75
+msgid "User Agent"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:736
+msgid "Username"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:66
 msgid "Validate Before Saving"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:127
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:138
 msgid "Validate YAML"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:73
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:73
 msgid "Validation failed"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:131
-msgid "Value is out of range: "
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:79
+msgid "Value is out of range:"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:52
-msgid "When enabled, the proxy routing options are bypassed. The generated Clash configuration automatically disables TUN and removes TUN listeners. Saved TUN settings are preserved for when eBPF is disabled."
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:66
+msgid "WAN Interface"
 msgstr ""
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:129
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:154
+msgid "WAN Proxy"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:66
+msgid "WAN interface to attach eBPF egress filter."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:128
+msgid "Weekdays at 03:00"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:52
+msgid ""
+"When enabled, the proxy routing options are bypassed. The generated Clash "
+"configuration automatically disables TUN and removes TUN listeners. Saved "
+"TUN settings are preserved for when eBPF is disabled."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1014
+msgid "Whitelist"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:551
+msgid "YAML Configuration"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:140
 msgid "YAML mapping is valid."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:47
+#: luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:50
+msgid "eBPF Config"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:235
+msgid "eBPF and TUN conflict in the effective profile."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:745
+msgid ""
+"eBPF takes precedence: when enabled, generated Clash profiles force TUN off "
+"without changing this saved preference."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:256
+msgid "eBPF:"
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:295
+msgid ""
+"for DNS2 rules, provider templates and other advanced YAML. In eBPF mode any "
+"TUN listeners will be filtered from the effective profile."
+msgstr ""
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:147
+msgid "procd Config"
 msgstr ""

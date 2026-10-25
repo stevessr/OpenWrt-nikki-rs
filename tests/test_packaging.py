@@ -40,6 +40,10 @@ class PackagingTests(unittest.TestCase):
         self.output = self.root / "output"
         self.output.mkdir()
 
+    def test_package_release_is_not_hardcoded(self):
+        self.assertEqual(pack.package_version("PKG_VERSION:=1.0.7\nPKG_RELEASE:=10\n"), "1.0.7-r10")
+        self.assertEqual(pack.package_version("PKG_VERSION:=1.0.7\n"), "1.0.7-r1")
+
     def test_existing_matrix_is_preserved(self):
         count = sum(len(pack.TARGETS["architectures"]) - len(branch["exclude"])
                     for branch in pack.TARGETS["branches"].values())

@@ -89,40 +89,28 @@ dns:
 
 
 
-## 集合式可视化管理（策略组、监听器、Providers）
+## LuCI 原生配置界面
 
-LuCI **服务 → Nikki RS → Collections Builder** 新增四类结构化编辑器：
+新增界面沿用 LuCI 的标签页、表单、GridSection 表格与编辑弹窗，不再复制 Mixin Config 已有的设置：
 
-- **Proxy Groups**：创建、复制、删除、上移/下移自定义策略组；表单支持 `select`、`url-test`、`fallback`、`load-balance`、`smart` 等类型、节点列表、`use` 提供者、测速 URL/周期、容差、正则过滤、空组回退等。
-- **Inbound Listeners**：独立管理 HTTP、SOCKS、Mixed、Redirect、TProxy、TUN 监听器，常用 IP/端口/设备可表单编辑。
-- **Rule Providers**：本地文件或 HTTP 规则提供者，填写名称、`behavior`、`format`、文件路径、URL 和更新周期。
-- **Proxy Providers**：本地文件和通用 HTTP 提供者，不包含特定机场 API 集成；高级 JSON 可定义健康检查等字段。
+- **Mixin Config**：继续管理端口、DNS/DNS2、TUN、嗅探、Geo、规则与规则提供者；Proxy Config 与 eBPF Config 保持原有职责。
+- **Additional Settings**：只提供绑定地址、路由标记、三项 profile 状态缓存与 TCP 缓冲区六项补充设置。选择“Unmodified”删除相应 YAML 覆写并恢复继承；只提交实际修改字段。旧版本保存的其他覆写不会被自动删除，仍可在 Advanced Config 中检查。
+- **Local Collections**：用原生可排序表格管理自定义策略组、独立入站监听器与通用代理提供者。支持新增、复制、删除及弹窗编辑。规则提供者使用 Mixin Config，不再重复提供第二套表单。
+- **Advanced Config**：保留各模块 YAML 编辑、预览、内核测试、影响分析、版本备份和安全应用。复杂扩展字段也可在集合条目的 **Additional fields (JSON)** 中编辑；普通表单修改会保留未显示字段。
 
-每个集合条目都支持 **Advanced JSON**，用于保留并继续编辑表单未显示的 clash-rs 扩展字段。支持整页草稿预览、按修订版本保存、原子历史备份，以及 **Test and apply safely** 内核预检与失败回退。不同版本 clash-rs 对高级字段的接受程度，以已安装内核测试为准。
+自定义组存入 `nikki-proxy-groups`，自定义监听器存入 `nikki-listeners`，合并时排在订阅原有条目之前，不修改原始订阅。Provider 映射按键补充或覆写；移除本地 Provider 不会删除订阅自身的同名定义。eBPF 模式仍然过滤最终配置中的 TUN 监听器。
 
-**避免覆盖订阅**：自定义组存入 `nikki-proxy-groups`，自定义监听器存入 `nikki-listeners`；在生成有效配置时按顺序置于订阅原有 `proxy-groups` / `listeners` 之前。原始订阅文件不变。Provider 映射在合并时按键覆盖或补充；从覆写模块移除某个 Provider 并不删除订阅自身定义的同名 Provider。eBPF 模式依然会删除最终配置中的 TUN 监听器。
+旧 Configuration Center 和 Collections Builder 地址保持有效。旧 Ordered Rules 地址转到 **Advanced Config → Rules**，继续编辑原来的 `overrides/rules.yaml`，不会隐式迁移或删除历史规则。日常规则编辑统一使用 Mixin Config；历史 YAML 覆写仍有原有优先级，请检查避免同时维护冲突的两份配置。
 
-**DNS2 编辑统一**：Configuration Center 的 DNS2 控件现在直接对应 `overrides/dns2.yaml`，与 Advanced Config 使用相同文件。旧版写入 `overrides/dns.yaml` 内的 `dns2` 字段不自动删除，需要手动检查迁移；较后的 `dns2.yaml` 继续拥有覆写优先级。
+**DNS2 历史数据**：旧版结构化编辑器保存到 `overrides/dns2.yaml` 的内容继续保留；更早写入 `dns.yaml` 的 `dns2` 字段同样不会自动清除。现在使用 Mixin Config 编辑 DNS2，必要时在 Advanced Config 手动检查旧覆写的优先级。
 
-**安全提示**：从仅在本机监听改为监听 `0.0.0.0` 或 `::` 时，应自行检查身份验证与防火墙；对公网上可访问的代理监听器不要使用默认开放配置。
+**安全提示**：监听 `0.0.0.0` 或 `::` 时应检查身份验证与防火墙，不要对公网开放未认证代理。不同 clash-rs 版本对高级字段的支持以本机内核测试为准；不提供特定机场 API 或 Mihomo 专有功能。
 
-## OpenClash 风格配置中心（clash-rs）
+## 定期重启计划
 
-在 LuCI **服务 → Nikki RS → Configuration Center** 中，以表单方式管理高频 clash-rs 设置；机场专属功能不在本次范围内。
+**App Config → Scheduled Restart** 仅重启 Nikki RS 服务，不重启路由器。**Restart Schedule** 沿用 LuCI 原生可编辑下拉框，可选每天、每周日、工作日或每月首日 03:00，也可输入自定义五段 Cron。按路由器本地时间执行，重启可能中断现有连接。
 
-当前实现 **61 个带类型校验的设置项**，分类覆盖：
-
-- **通用/入站**：HTTP、SOCKS、Mixed、Redirect、TProxy 端口，工作模式，日志级别，绑定网卡，LAN、IPv6、QUIC，Controller，路由标记，状态缓存、TCP 缓冲区。
-- **DNS / DNS2**：传统 DNS、Fake-IP、上游/Bootstrap/备用服务器、DNS2 开关、IPv6、缓存容量、TTL 与 Serve-Stale 等。
-- **TUN**：TUN 开关、协议栈、设备、MTU、GSO、DNS 劫持、路由相关字段。eBPF 模式的 **TUN 自动禁用** 仍然优先于手工设置；Nikki RS 启动时托管的路由标志也仍然优先。
-- **嗅探**：DNS 映射、纯 IP 连接、覆盖目标、强制和跳过嗅探域名。
-- **UI / Geo**：面板路径、外部 UI 和 MMDB/GeoSite 文件路径。
-
-表单字段有 **Override/继承** 切换：关闭覆写会从对应模块中删除该字段，恢复订阅或 UCI 的原始值；不会删除其他 YAML 字段。表单只发送实际编辑的字段，不会整体覆盖 YAML 文件。支持未保存草稿预览、历史备份、SHA256 并发编辑检测，以及显式点击后才执行的安全内核预检与回退流程。
-
-复杂数据继续使用 **Advanced Config**：除既有模块外，新增 `dns2`、`proxy-providers`、`rule-providers`、`listeners`、`inbound-providers`、`hosts`、`geodata` 独立 YAML 模块；它们预置的 `{}` 模板默认无副作用，升级时标为用户配置文件保留。这些模块用于通用配置，并没有集成任何机场品牌专用订阅 API。
-
-功能定位是**接近 OpenClash 的日常配置可操作范围**，并不是完整复制 OpenClash：Mihomo 专有的 Smart 内核、脚本覆写引擎和特定机场 API 不会映射到 clash-rs；完整 DNS2 上游路由、监听器及策略组的复杂结构仍以高级 YAML 编辑为主。不同版本 clash-rs 对个别字段的支持以本机内核预检结果为准。
+字段顺序为 `分钟 小时 日 月 星期`；星期日为 0。支持列表、范围与步长（例如 `0 */6 * * *`），保存前检查范围与语法。现有自定义计划会原样显示，不会因为打开页面而被预设覆盖；关闭定期重启保留计划内容。
 
 ## 候选配置内核预检与安全应用
 
@@ -159,26 +147,21 @@ LuCI **服务 → Nikki RS → Advanced Config → Review configuration changes*
 - **不更改订阅文件、`mixin.tun_enabled` 或 `overrides/tun.yaml` 的保存值**。关闭 eBPF 并重新生成配置后，原有 TUN 设置继续生效。
 - 只影响生成的配置文件。切换开关后需要重新应用或重启 Nikki RS，才能影响正在运行的 clash-rs 进程。
 
-## 有序规则编辑与并发保护
+## 历史规则覆写与并发保护
 
-LuCI **服务 → Nikki RS → Ordered Rules** 支持更直观的 Clash 规则管理：
-
-- 上移、下移、复制、删除规则；支持通过规则类型、匹配条件、策略目标快速添加，并支持逐行批量追加。
-- 检测完全重复的规则，以及出现在中间位置、可能遮蔽后续规则的 `MATCH` 规则。
-- 只修改 `overrides/rules.yaml` 中的 `nikki-rules` 列表，**保留这个 YAML 文件中的其它字段**，不会更改原始订阅。
-- 每次保存都会创建备份，保存前验证规则格式；与其他 LuCI 页面共同使用 SHA256 版本标记，发现文件已在其他窗口修改时拒绝覆盖，必须重新加载。
-- 高级配置模块切换前会检查尚未保存的修改，避免切换时丢失；保存、切换、恢复后自动更新版本标记。
-
-例如：
+现有 `overrides/rules.yaml` 可通过 **Advanced Config → Rules** 编辑，例如：
 
 ```yaml
 nikki-rules:
   - DOMAIN-SUFFIX,example.net,DIRECT
   - IP-CIDR,192.0.2.0/24,REJECT,no-resolve
-  - RULE-SET,example-list,PROXY
 ```
 
-规则保存不会自动重启服务。请先用 **Advanced Config** 的配置预览、诊断及内核测试确认结果，再重启 Nikki RS 应用变更。
+普通保存建立修订备份且不会重启服务；SHA256 修订检查拒绝覆盖其他窗口的新修改。请先预览和测试合并配置，再显式安全应用。新规则优先使用原有 **Mixin Config → Rule Config**，避免重复维护。
+
+## 本地 UI 回归验证
+
+`tests/browser/verify_luci.py --luci /path/to/luci` 使用真实 LuCI 客户端模块、Bootstrap 样式和模拟 RPC，检查桌面/390px 手机布局、标签重载、集合弹窗、类型校验、未知字段保留与历史规则入口。需要 Python Playwright 和 Chromium。截图及结果默认写入 `/tmp/nikki-luci-ui`；此验证不等于路由器部署或真实内核启动验证。
 
 ## 环境要求
 

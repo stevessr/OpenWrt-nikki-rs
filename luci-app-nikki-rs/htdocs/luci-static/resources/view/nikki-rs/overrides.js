@@ -1,6 +1,5 @@
 'use strict';
 'require view';
-'require fs';
 'require ui';
 'require tools.nikki-rs as nikki';
 
@@ -21,6 +20,11 @@ const modules = [
     { id: 'custom', label: _('Custom YAML'), hint: _('Other advanced clash-rs options') }
 ];
 
+function initialModule() {
+    const id = new URLSearchParams(window.location.search).get('module');
+    return modules.some(function (module) { return module.id === id; }) ? id : 'general';
+}
+
 function notify(message, success) {
     ui.addNotification(null, E('p', {}, message), success ? 'info' : 'danger');
 }
@@ -31,20 +35,21 @@ function pathFor(module) {
 
 return view.extend({
     load: function () {
-        return nikki.configSnapshot(pathFor('general'));
+        return nikki.configSnapshot(pathFor(initialModule()));
     },
     render: function (initial) {
-        let activeModule = 'general';
+        let activeModule = initialModule();
         let savedContent = initial && initial.success ? initial.content : '{}\n';
         let savedRevision = initial && initial.success ? initial.revision : '';
         const heading = E('h2', {}, _('Advanced Clash Config'));
         const introduction = E('p', {},
             _('Manage advanced configuration as separate YAML modules. Original profiles and subscriptions are not modified. Each module overrides the selected profile and LuCI mixin; nikki-rules, nikki-proxies and nikki-proxy-groups prepend entries.'));
-        const selector = E('select', { 'class': 'cbi-input-select', 'style': 'min-width: 240px' },
+        const selector = E('select', { 'class': 'cbi-input-select', 'id': 'override-module' },
             modules.map(function (module) {
                 return E('option', { 'value': module.id }, module.label);
             }));
-        const hint = E('p', { 'class': 'cbi-value-description' }, modules[0].hint);
+        selector.value = activeModule;
+        const hint = E('p', { 'class': 'cbi-value-description' }, modules.find(function (module) { return module.id === activeModule; }).hint);
         const editor = E('textarea', {
             'class': 'cbi-input-textarea',
             'rows': 26,
@@ -56,19 +61,25 @@ return view.extend({
         const status = E('p', { 'class': 'cbi-value-description' },
             _('Saving does not restart the proxy. Preview uses the last generated base profile; restart Nikki RS after saving to apply changes.'));
         const history = E('div', {});
-        const controls = E('div', { 'style': 'display:flex;gap:.6em;flex-wrap:wrap;margin:1em 0' });
+        const controls = E('div', { 'class': 'cbi-page-actions' });
         const busy = function (running) {
             Array.from(controls.querySelectorAll('button')).forEach(function (button) {
                 button.disabled = running;
             });
             selector.disabled = running;
+            editor.disabled = running;
+            history.inert = running;
         };
+        let inFlight = false;
         const run = function (action) {
+            if (inFlight) return;
+            inFlight = true;
             busy(true);
             return Promise.resolve().then(action).catch(function (error) {
                 notify(String(error), false);
             }).finally(function () {
                 busy(false);
+                inFlight = false;
             });
         };
         editor.addEventListener('input', function () {
@@ -335,8 +346,18 @@ return view.extend({
             heading, introduction,
             E('div', { 'class': 'cbi-section' }, [
                 E('h3', {}, _('Configuration module')),
-                selector, hint, dirtyStatus, editor, controls, status, history
-            ])
+                E('div', { 'class': 'cbi-value' }, [
+                    E('label', { 'class': 'cbi-value-title', 'for': 'override-module' }, _('Module')),
+                    E('div', { 'class': 'cbi-value-field' }, [selector, hint])
+                ]),
+                E('p', { 'class': 'cbi-value-description' }, [
+                    _('For routing rules and rule providers, use '),
+                    E('a', { 'href': L.url('admin/services/nikki-rs/mixin') }, _('Mixin Config')),
+                    _('. Previously saved YAML overrides remain editable here.')
+                ]),
+                dirtyStatus, editor, status, history
+            ]),
+            controls
         ]);
     },
     handleSave: null,

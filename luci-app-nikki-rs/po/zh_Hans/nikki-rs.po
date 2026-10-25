@@ -22,7 +22,7 @@ msgstr "API TLS 证书"
 
 #: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:125
 msgid "API TLS ECH Key"
-msgstr "APL TLS ECH 密钥"
+msgstr "API TLS ECH 密钥"
 
 #: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:122
 msgid "API TLS Key"
@@ -186,10 +186,6 @@ msgstr "Fake IP Filter 文件"
 #: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:40
 msgid "Fallback Filter File"
 msgstr "Fallback Filter 文件"
-
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:192
-msgid "Bypass China Mainland IP6"
-msgstr "绕过中国大陆 IP6"
 
 #: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/proxy.js:218
 msgid "Bypass DSCP"
@@ -356,7 +352,7 @@ msgstr "编辑 DNS 劫持"
 msgid "Edit Fake-IP Filters"
 msgstr "编辑 Fake-IP 过滤列表"
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:723
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1026
 msgid "Edit Black Filters"
 msgstr "编辑黑名单域名过滤列表"
 
@@ -676,7 +672,7 @@ msgstr "覆盖 DNS 劫持"
 msgid "Overwrite Fake-IP Filter"
 msgstr "覆盖 Fake-IP 过滤列表"
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:720
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:1023
 msgid "Overwrite Black Filter"
 msgstr "覆盖黑名单域名过滤列表"
 
@@ -1400,3 +1396,1224 @@ msgstr "国外 DNS 客户端子网"
 
 msgid "Optional EDNS Client Subnet (IP or CIDR), for example 203.0.113.0/24. Leave empty to omit."
 msgstr "可选的 EDNS 客户端子网（IP 或 CIDR），例如 203.0.113.0/24。留空则不生成。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:358
+msgid " for DNS2 rules, provider templates and other advanced YAML. In eBPF mode any TUN listeners will be filtered from the effective profile."
+msgstr " 编辑 DNS2 规则、提供者模板及其他高级 YAML。在 eBPF 模式下，任何 TUN 监听都会从生效的配置文件中过滤掉。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:85
+msgid "A collection record is not a mapping"
+msgstr "集合记录不是映射"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:348
+msgid "A field has an invalid value: "
+msgstr "某个字段的值无效："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:420
+msgid "Previously saved YAML overrides are preserved. Review Advanced Config if an older override still takes precedence."
+msgstr "此前保存的 YAML 覆盖配置会保留。如果旧覆盖仍然优先生效，请在高级配置中检查并清除。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:143
+msgid "Add"
+msgstr "添加"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:138
+msgid "Add a structured rule"
+msgstr "添加结构化规则"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:300
+msgid "Add entry"
+msgstr "添加条目"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:40
+msgid "Advanced Clash Config"
+msgstr "高级 Clash 配置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:230
+msgid "Advanced collection entry"
+msgstr "高级集合条目"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:357
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:173
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:429
+#: applications/luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:82
+msgid "Advanced Config"
+msgstr "高级配置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:225
+msgid "Advanced JSON"
+msgstr "高级 JSON"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:55
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:75
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:95
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:115
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:289
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:321
+msgid "All changes saved"
+msgstr "所有更改已保存"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:231
+msgid "Any extra clash-rs fields can be edited here. Unknown fields are retained by normal form edits."
+msgstr "可在此编辑任何额外的 clash-rs 字段。常规表单编辑会保留未知字段。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:155
+msgid "Append lines"
+msgstr "追加行"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:285
+msgid "Applied, but could not refresh the editor revision."
+msgstr "已应用，但无法刷新编辑器修订版本。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:343
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:408
+msgid "Apply failed: "
+msgstr "应用失败："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:38
+msgid "Automatic Core Update"
+msgstr "自动更新核心"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:17
+msgid "Balance strategy"
+msgstr "负载均衡策略"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:153
+msgid "Bulk append rules"
+msgstr "批量追加规则"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:159
+msgid "Bulk input has invalid rules"
+msgstr "批量输入中存在无效规则"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:28
+msgid "Cache"
+msgstr "缓存"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:44
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:55
+msgid "Cache/file path"
+msgstr "缓存/文件路径"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:234
+msgid "Cancel"
+msgstr "取消"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:386
+msgid "Cannot merge draft"
+msgstr "无法合并草稿"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:275
+msgid "Cannot read collection"
+msgstr "无法读取集合"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:89
+msgid "Cannot read module"
+msgstr "无法读取模块"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:112
+msgid "Cannot refresh saved module"
+msgstr "无法刷新已保存的模块"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:355
+msgid "Cannot refresh settings"
+msgstr "无法刷新设置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:316
+msgid "Cannot reload restored module"
+msgstr "无法重新加载已恢复的模块"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:240
+msgid "Change behavior for"
+msgstr "更改行为方式："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:228
+msgid "Changed top-level sections: "
+msgstr "更改的顶层部分："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:196
+msgid "Choose “Unmodified” to keep the existing profile or Mixin Config value."
+msgstr "选择“不修改”以保留现有配置文件或混入配置的值。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:166
+msgid "Clash Collections Builder"
+msgstr "Clash 集合构建器"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:175
+msgid "Clash configuration diagnostics"
+msgstr "Clash 配置诊断"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:418
+msgid "Clash-RS Configuration Center"
+msgstr "Clash-RS 配置中心"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:331
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:107
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:152
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:187
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:258
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:394
+msgid "Close"
+msgstr "关闭"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:345
+msgid "Collection applied and service health check passed."
+msgstr "集合已应用，服务健康检查通过。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:317
+msgid "Collection saved; use Preview or Apply to update the running core."
+msgstr "集合已保存；使用预览或应用来更新运行中的核心。"
+
+#: applications/luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:106
+msgid "Collections Builder"
+msgstr "集合构建器"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:226
+msgid "Compared the saved effective profile with the proposed unsaved module change. Values, node credentials and rule text are not included."
+msgstr "已将已保存的生效配置文件与提议的未保存模块更改进行对比。不包含具体值、节点凭据和规则文本。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:290
+msgid "Configuration applied and the restarted Nikki RS service passed its health check."
+msgstr "配置已应用，重启后的 Nikki RS 服务已通过健康检查。"
+
+#: applications/luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:98
+msgid "Configuration Center"
+msgstr "配置中心"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:225
+msgid "Configuration change review"
+msgstr "配置更改审查"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:62
+msgid "Configuration could not be saved"
+msgstr "配置无法保存"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:25
+msgid "Configuration edits are validated and backed up before saving. The generated startup profile is recreated on service restart; edit its source profile or mixin for persistent changes."
+msgstr "配置编辑在保存前会经过验证并备份。生成的启动配置文件会在服务重启时重新创建；如需持久更改，请编辑其源配置文件或混入文件。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:103
+msgid "Configuration History"
+msgstr "配置历史"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:194
+msgid "Configuration impact analysis failed"
+msgstr "配置影响分析失败"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:337
+msgid "Configuration module"
+msgstr "配置模块"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:159
+msgid "Configuration sections"
+msgstr "配置分区"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:73
+msgid "Configuration syntax is valid."
+msgstr "配置语法有效。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:419
+msgid "Configure clash-rs options that are not already exposed by the original Nikki RS pages. The controls below use the installed schema and range validation. Existing Mixin, Proxy and eBPF settings are linked rather than duplicated; use Advanced Config for other Clash modules."
+msgstr "配置原始 Nikki RS 页面尚未提供的 clash-rs 选项。以下控件使用已安装的模式和范围验证。现有的混入、代理和 eBPF 设置以链接方式提供而非重复；其他 Clash 模块请使用高级配置。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:62
+msgid "Controller UI & Geo Data"
+msgstr "控制器 UI 与 Geo 数据"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:217
+msgid "Copy"
+msgstr "复制"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:18
+#: applications/luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:74
+msgid "Core Management"
+msgstr "核心管理"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:160
+msgid "Core preflight failed"
+msgstr "核心预检失败"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:20
+msgid "Core Settings"
+msgstr "核心设置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:17
+msgid "Core status unavailable"
+msgstr "核心状态不可用"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:20
+msgid "Core Update"
+msgstr "核心更新"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:58
+msgid "Core update completed."
+msgstr "核心更新完成。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:55
+msgid "Core update failed. The previous core was preserved; see /etc/nikki-rs/core/update.log."
+msgstr "核心更新失败。旧核心已保留；请查看 /etc/nikki-rs/core/update.log。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:26
+msgid "Core Variant"
+msgstr "核心变体"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:384
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:405
+msgid "Could not generate draft"
+msgstr "无法生成草稿"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:117
+msgid "Could not load rule file"
+msgstr "无法加载规则文件"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:312
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:326
+msgid "Could not load settings"
+msgstr "无法加载设置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:136
+msgid "Could not produce preview"
+msgstr "无法生成预览"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:108
+msgid "Could not read current rule list"
+msgstr "无法读取当前规则列表"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:314
+msgid "Could not restore revision"
+msgstr "无法恢复修订版本"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:61
+msgid "Create and reorder routing rules in the dedicated Ordered Rules page."
+msgstr "在专用的有序规则页面创建和调整分流规则顺序。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:21
+msgid "Current Core"
+msgstr "当前核心"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:21
+msgid "Custom YAML"
+msgstr "自定义 YAML"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:64
+msgid "Dashboard and Geo database settings are already available in Mixin Config."
+msgstr "面板和 Geo 数据库设置已在混入配置中提供。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:222
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:98
+msgid "Delete"
+msgstr "删除"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:163
+msgid "Diagnose effective config"
+msgstr "诊断生效的配置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:166
+msgid "Diagnostics unavailable"
+msgstr "诊断不可用"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:246
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:249
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:87
+msgid "Disabled"
+msgstr "停用"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:41
+msgid "Disabled by default. Scheduled updates use the latest official release."
+msgstr "默认关闭。定时更新将使用官方最新版本。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:367
+msgid "Discard current draft?"
+msgstr "放弃当前草稿？"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:307
+msgid "Discard edits"
+msgstr "放弃编辑"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:308
+msgid "Discard local changes?"
+msgstr "放弃本地更改？"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:81
+msgid "Discard unsaved changes in this module?"
+msgstr "放弃此模块中未保存的更改？"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:286
+msgid "Discard unsaved collection changes?"
+msgstr "放弃未保存的集合更改？"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:133
+msgid "Discard unsaved rule edits?"
+msgstr "放弃未保存的规则编辑？"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:38
+msgid "DNS & Network"
+msgstr "DNS 与网络"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:178
+msgid "DNS enhanced mode"
+msgstr "DNS 增强模式"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:10
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:42
+msgid "DNS2"
+msgstr "DNS2"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:34
+msgid "Domain, CIDR, rule set or port"
+msgstr "域名、CIDR、规则集或端口"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:43
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:54
+msgid "Download URL"
+msgstr "下载地址"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:96
+msgid "Duplicate"
+msgstr "复制"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:75
+msgid "Duplicate lines: "
+msgstr "重复行数："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:89
+msgid "Duplicate name: "
+msgstr "重复名称："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:220
+msgid "Duplicate proxy group names detected: "
+msgstr "检测到重复的代理组名称："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:218
+msgid "Duplicate proxy names detected: "
+msgstr "检测到重复的代理名称："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:184
+msgid "Duplicate routing rules were detected; consider removing redundant entries."
+msgstr "检测到重复的分流规则；建议移除冗余条目。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:182
+msgid "Duplicate rules"
+msgstr "重复规则"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:216
+msgid "Duplicate rules detected: "
+msgstr "检测到重复规则："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:15
+msgid "Dynamic inbound listener providers (clash-rs extension)"
+msgstr "动态入站监听提供者（clash-rs 扩展）"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:224
+msgid "eBPF and TUN conflict in the effective profile."
+msgstr "生效的配置文件中 eBPF 与 TUN 存在冲突。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:745
+msgid "eBPF takes precedence: when enabled, generated Clash profiles force TUN off without changing this saved preference."
+msgstr "eBPF 优先：启用后，生成的 Clash 配置文件会强制关闭 TUN，且不会更改此已保存的偏好设置。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:245
+msgid "eBPF: "
+msgstr "eBPF："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:387
+msgid "Effective configuration preview"
+msgstr "生效配置预览"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:20
+msgid "Empty-group fallback"
+msgstr "空组回退"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:246
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:249
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:86
+msgid "Enabled"
+msgstr "启用"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:88
+msgid "Every entry needs a valid name"
+msgstr "每个条目都需要有效名称"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:126
+msgid "Expected a non-negative integer: "
+msgstr "应为非负整数："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:70
+msgid "Expected a provider mapping"
+msgstr "应为提供者映射"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:77
+msgid "Expected an ordered list"
+msgstr "应为有序列表"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:240
+msgid "Expected JSON object"
+msgstr "应为 JSON 对象"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:571
+msgid "Failed to parse node link."
+msgstr "解析节点链接失败。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:42
+msgid "File format"
+msgstr "文件格式"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:172
+msgid "For arbitrary YAML fields and merged previews, use "
+msgstr "如需任意 YAML 字段和合并预览，请使用 "
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:430
+msgid "For ordered routing rules, use "
+msgstr "如需有序分流规则，请使用 "
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:50
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:8
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:22
+msgid "General"
+msgstr "常规"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:12
+msgid "Generic local or remote proxy provider mappings; no vendor-specific integrations"
+msgstr "通用本地或远程代理提供者映射；不含厂商特定的集成"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:50
+msgid "Generic Proxy Providers"
+msgstr "通用代理提供者"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:17
+msgid "Geo / Databases"
+msgstr "Geo / 数据库"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:17
+msgid "GeoIP, Geosite and geodata path settings"
+msgstr "GeoIP、Geosite 及地理数据路径设置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:10
+msgid "Group name"
+msgstr "组名"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:14
+msgid "Health-check URL"
+msgstr "健康检查 URL"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:78
+msgid "History / Restore"
+msgstr "历史 / 恢复"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:16
+msgid "Hosts"
+msgstr "Hosts"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:14
+msgid "HTTP, SOCKS, mixed, redirect, TProxy and other inbound listeners"
+msgstr "HTTP、SOCKS、混合、Redirect、TProxy 及其他入站监听"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:20
+msgid "HTTP, TLS and QUIC sniffing settings"
+msgstr "HTTP、TLS 及 QUIC 嗅探设置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:21
+msgid "Icon URL"
+msgstr "图标 URL"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:25
+msgid "Inbound"
+msgstr "入站"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:26
+msgid "Inbound Listeners"
+msgstr "入站监听"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:15
+msgid "Inbound Providers"
+msgstr "入站提供者"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:19
+msgid "Include all proxies"
+msgstr "包含所有代理"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:130
+msgid "Inherit"
+msgstr "继承"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:48
+msgid "Install / Update Core"
+msgstr "安装 / 更新核心"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:324
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:341
+msgid "Invalid draft"
+msgstr "无效的草稿"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:113
+msgid "Invalid integer"
+msgstr "无效的整数"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:150
+msgid "Invalid rule fields"
+msgstr "规则字段无效"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:130
+msgid "Invalid YAML"
+msgstr "无效的 YAML"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:27
+msgid "LAN access and proxy listener ports are already configured in Mixin Config."
+msgstr "局域网访问和代理监听端口已在混入配置中设置。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:9
+msgid "Legacy DNS, Fake IP, policy and upstreams"
+msgstr "传统 DNS、Fake IP、查询策略及上游"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:138
+msgid "List is too large: "
+msgstr "列表过大："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:106
+msgid "List too long"
+msgstr "列表过长"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:30
+msgid "Listen interface / IP"
+msgstr "监听接口 / IP"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:28
+msgid "Listener name"
+msgstr "监听名称"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:14
+msgid "Listeners"
+msgstr "监听"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:31
+msgid "Listening port"
+msgstr "监听端口"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:175
+msgid "Local entries: "
+msgstr "本地条目："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:8
+msgid "Log level, mode, ports, IPv6 and general Clash options"
+msgstr "日志级别、模式、端口、IPv6 及其他常规 Clash 选项"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:42
+msgid "Manage advanced configuration as separate YAML modules. Original profiles and subscriptions are not modified. Each module overrides the selected profile and LuCI mixin; nikki-rules, nikki-proxies and nikki-proxy-groups prepend entries."
+msgstr "将高级配置作为独立的 YAML 模块管理。原始配置文件和订阅不会被修改。每个模块覆盖所选配置文件及 LuCI 混入；nikki-rules、nikki-proxies 和 nikki-proxy-groups 会前置条目。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:353
+msgid "Manage locally owned groups, listeners and generic providers. Imported subscription arrays are preserved. To edit every clash-rs-specific option, use Advanced JSON for an entry or Advanced Config for the whole module."
+msgstr "管理本地拥有的组、监听和通用提供者。导入的订阅数组会被保留。要编辑所有 clash-rs 专属选项，请对单个条目使用高级 JSON，或对整个模块使用高级配置。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:77
+msgid "MATCH is not last. Later entries in this module may never match."
+msgstr "MATCH 不在末尾。此模块中靠后的条目可能永远无法匹配。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:328
+msgid "May include provider URLs, secrets and node credentials. Preview does not save or restart."
+msgstr "可能包含提供者地址、密钥和节点凭据。预览不会保存或重启。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:326
+msgid "Merge failed"
+msgstr "合并失败"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:327
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:146
+msgid "Merged configuration preview"
+msgstr "合并后的配置预览"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:238
+msgid "Metric"
+msgstr "指标"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:27
+msgid "Minimal (low memory)"
+msgstr "精简版（低内存）"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:24
+msgid "Mode, log level, IPv6 and QUIC are already configured in Mixin Config."
+msgstr "模式、日志级别、IPv6 和 QUIC 已在混入配置中设置。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:116
+msgid "Module saved. Restart Nikki RS after checking the preview to apply it."
+msgstr "模块已保存。检查预览后重启 Nikki RS 以应用。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:222
+msgid "Neither DNS nor DNS2 is enabled in the effective profile."
+msgstr "生效的配置文件中 DNS 和 DNS2 均未启用。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:277
+msgid "Nikki RS is not running. Start the service first, or use Save module without applying."
+msgstr "Nikki RS 未在运行。请先启动服务，或仅使用“保存模块”而不应用。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:105
+msgid "No backups available."
+msgstr "没有可用的备份。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:253
+msgid "No basic structural warnings found."
+msgstr "未发现基本结构警告。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:184
+msgid "No exact duplicate rules found."
+msgstr "未发现完全重复的规则。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:372
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:382
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:401
+msgid "No modified fields."
+msgstr "没有修改的字段。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:176
+msgid "No pending changes"
+msgstr "无待处理的更改"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:301
+msgid "No saved revisions available."
+msgstr "没有已保存的修订版本。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:273
+msgid "No unique settings are available in this category."
+msgstr "此类别中没有可用的独立设置。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:142
+msgid "no-resolve"
+msgstr "no-resolve"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:234
+msgid "None"
+msgstr "无"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:177
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:178
+msgid "Not specified"
+msgstr "未指定"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:337
+msgid "Nothing to apply"
+msgstr "没有可应用的内容"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:313
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:121
+msgid "Nothing to save"
+msgstr "没有可保存的内容"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:140
+msgid "One name per line"
+msgstr "每行一个名称"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:101
+msgid "One value per line"
+msgstr "每行一个值"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:104
+msgid "Only the most recent 10 saved revisions are retained."
+msgstr "仅保留最近 10 次保存的修订版本。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:57
+msgid "Open Advanced Config"
+msgstr "打开高级配置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:23
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:26
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:40
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:42
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:44
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:46
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:63
+msgid "Open Mixin Config"
+msgstr "打开混入配置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:60
+msgid "Open Ordered Rules"
+msgstr "打开有序规则"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:54
+msgid "Open Proxy Config"
+msgstr "打开代理配置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:164
+msgid "Ordered Clash Rules"
+msgstr "有序 Clash 规则"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:18
+msgid "Ordered priority rules (nikki-rules prepends to subscription rules)"
+msgstr "有序优先规则（nikki-rules 会前置到订阅规则之前）"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:59
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:431
+#: applications/luci-app-nikki-rs/root/usr/share/luci/menu.d/luci-app-nikki-rs.json:90
+msgid "Ordered Rules"
+msgstr "有序规则"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:128
+msgid "Ordered rules saved with a revision backup. Restart Nikki RS to apply them."
+msgstr "有序规则已保存并附修订备份。重启 Nikki RS 以应用。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:21
+msgid "Other advanced clash-rs options"
+msgstr "其他高级 clash-rs 选项"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:39
+msgid "Paste one Clash rule per line to append them"
+msgstr "每行粘贴一条 Clash 规则以追加"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:33
+msgid "Performance"
+msgstr "性能"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:565
+msgid "Please save the node link first, then click Regenerate."
+msgstr "请先保存节点链接，然后再点击重新生成。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:52
+msgid "Policies & Resources"
+msgstr "策略与资源"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:36
+msgid "Policy target, e.g. DIRECT"
+msgstr "策略目标，例如 DIRECT"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:11
+msgid "Prepend custom selector or test groups without editing a subscription"
+msgstr "在不编辑订阅的情况下前置自定义选择器或测试组"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:321
+msgid "Preview effective YAML"
+msgstr "预览生效的 YAML"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:133
+msgid "Preview merged configuration"
+msgstr "预览合并后的配置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:409
+msgid "Previous settings restored."
+msgstr "已恢复先前的设置。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:240
+msgid "Proposed"
+msgstr "拟更改"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:73
+msgid "Provider entry is not a mapping: "
+msgstr "提供者条目不是映射："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:39
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:52
+msgid "Provider ID"
+msgstr "提供者 ID"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:18
+msgid "Provider name regex"
+msgstr "提供者名称正则"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:180
+msgid "Proxies"
+msgstr "代理"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:181
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:204
+msgid "Proxy groups"
+msgstr "代理组"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:8
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:11
+msgid "Proxy Groups"
+msgstr "代理组"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:56
+msgid "Proxy Groups & Providers"
+msgstr "代理组与提供者"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:203
+msgid "Proxy nodes"
+msgstr "代理节点"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:12
+msgid "Proxy Providers"
+msgstr "代理提供者"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:13
+msgid "Proxy providers (one per line)"
+msgstr "代理提供者（每行一个）"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:55
+msgid "Proxy routing and access control are already available on the Proxy Config page."
+msgstr "代理分流和访问控制已在代理配置页面提供。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:12
+msgid "Proxy/group members (one per line)"
+msgstr "代理/组成员（每行一个）"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:147
+msgid "Read-only preview based on the last generated profile. The router may enforce additional TUN safety options during startup. This output can contain proxy credentials."
+msgstr "基于最后生成的配置文件的只读预览。路由器可能会在启动时强制附加 TUN 安全选项。此输出可能包含代理凭据。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:304
+msgid "Recent versions"
+msgstr "最近的版本"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:275
+msgid "Recovery was not confirmed. Check Nikki RS status and the router console immediately before making further changes."
+msgstr "未能确认恢复成功。在进一步更改之前，请立即检查 Nikki RS 状态和路由器控制台。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:45
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:56
+msgid "Refresh interval (seconds)"
+msgstr "刷新间隔（秒）"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:32
+msgid "Release Tag"
+msgstr "发布标签"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:366
+msgid "Reload"
+msgstr "重新加载"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:132
+msgid "Reload from disk"
+msgstr "从磁盘重新加载"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:120
+msgid "Reload the rule file first"
+msgstr "请先重新加载规则文件"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:264
+msgid "Reload this module before applying"
+msgstr "应用前请先重新加载此模块"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:108
+msgid "Reload this module before saving"
+msgstr "保存前请先重新加载此模块"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:100
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:328
+msgid "Restore"
+msgstr "恢复"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:93
+msgid "Restore failed"
+msgstr "恢复失败"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:65
+msgid "Restore the previous downloaded core, or remove the override to use the packaged binary."
+msgstr "恢复先前下载的核心，或移除覆盖以使用固件内置的核心。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:90
+msgid "Restore this configuration revision?"
+msgstr "恢复此配置修订版本？"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:311
+msgid "Restore this revision? The current version will be backed up."
+msgstr "恢复此修订版本？当前版本将被备份。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:191
+msgid "Review configuration changes"
+msgstr "审查配置更改"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:380
+msgid "Review merged configuration"
+msgstr "审查合并后的配置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:295
+msgid "Revision history"
+msgstr "修订历史"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:323
+msgid "Revision restored. Restart to apply."
+msgstr "修订版本已恢复。重启后生效。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:73
+msgid "Rollback completed."
+msgstr "回滚完成。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:63
+msgid "Rollback Core"
+msgstr "回滚核心"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:70
+msgid "Rollback failed. Check the service logs."
+msgstr "回滚失败。请查看服务日志。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:67
+msgid "Rollback to the previous core?"
+msgstr "回滚到上一个核心？"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:177
+msgid "Routing mode"
+msgstr "分流模式"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:41
+msgid "Rule format behavior"
+msgstr "规则格式行为"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:205
+msgid "Rule providers"
+msgstr "规则提供者"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:37
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:13
+msgid "Rule Providers"
+msgstr "规则提供者"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:126
+msgid "Rule save failed"
+msgstr "规则保存失败"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:13
+msgid "Rule-set endpoints, behavior, format and refresh settings"
+msgstr "规则集端点、行为、格式及刷新设置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:18
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:179
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:202
+msgid "Rules"
+msgstr "规则"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:139
+msgid "Rules are evaluated from top to bottom. Append custom rules above the subscription rules."
+msgstr "规则从上到下依次匹配。自定义规则会追加在订阅规则之前。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:64
+msgid "Rules in this module: "
+msgstr "此模块中的规则数："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:282
+msgid "Safe apply did not complete: "
+msgstr "安全应用未完成："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:311
+msgid "Save collection"
+msgstr "保存集合"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:315
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:110
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:374
+msgid "Save failed"
+msgstr "保存失败"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:262
+msgid "Save module"
+msgstr "保存模块"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:119
+msgid "Save ordered rules"
+msgstr "保存有序规则"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:370
+msgid "Save settings"
+msgstr "保存设置"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:263
+msgid "Save, test and apply safely"
+msgstr "保存、测试并安全应用"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:239
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:65
+msgid "Saved"
+msgstr "已保存"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:57
+msgid "Saving does not restart the proxy. Preview uses the last generated base profile; restart Nikki RS after saving to apply changes."
+msgstr "保存不会重启代理。预览使用最后生成的基础配置文件；保存后请重启 Nikki RS 以应用更改。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:243
+msgid "Set value"
+msgstr "设置值"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:411
+msgid "Settings applied; the restarted core passed its service health check."
+msgstr "设置已应用；重启后的核心已通过服务健康检查。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:164
+msgid "Settings categories"
+msgstr "设置类别"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:376
+msgid "Settings saved with a revision backup. Use Test and apply safely to restart Nikki RS."
+msgstr "设置已保存并附修订备份。使用“测试并安全应用”重启 Nikki RS。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:20
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:46
+msgid "Sniffer"
+msgstr "嗅探器"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:123
+msgid "Some rules are invalid; use TYPE,MATCHER,TARGET[,no-resolve] or MATCH,TARGET"
+msgstr "部分规则无效；请使用 TYPE,MATCHER,TARGET[,no-resolve] 或 MATCH,TARGET"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:40
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:53
+msgid "Source type"
+msgstr "来源类型"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:28
+msgid "Standard (more protocols)"
+msgstr "标准版（更多协议）"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:16
+msgid "Static hosts mapping and DNS host overrides"
+msgstr "静态 Hosts 映射及 DNS 主机覆盖"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:11
+msgid "Strategy"
+msgstr "策略"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:176
+msgid "Summary of the merged configuration. No proxy credentials or rule contents are shown."
+msgstr "合并后配置的摘要。不显示代理凭据或规则内容。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:16
+msgid "Switch tolerance (ms)"
+msgstr "切换容差（毫秒）"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:10
+msgid "Tagged upstream pools and DNS2 request/response routing"
+msgstr "标记的上游池及 DNS2 请求/响应分流"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:336
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:399
+msgid "Test and apply safely"
+msgstr "测试并安全应用"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:15
+msgid "Test interval (seconds)"
+msgstr "测试间隔（秒）"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:402
+msgid "Test the merged configuration, save these options and restart Nikki RS? Failed startup triggers best-effort rollback."
+msgstr "测试合并后的配置、保存这些选项并重启 Nikki RS？启动失败将触发尽力回滚。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:338
+msgid "Test the merged profile, save the collection and restart Nikki RS? A failed restart will trigger rollback."
+msgstr "测试合并后的配置文件、保存集合并重启 Nikki RS？重启失败将触发回滚。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:156
+msgid "Test with installed core"
+msgstr "使用已安装的核心测试"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:388
+msgid "The effective YAML may contain proxy addresses, tokens and other secrets. This preview does not modify the running service. eBPF mode overrides TUN."
+msgstr "生效的 YAML 可能包含代理地址、令牌和其他机密信息。此预览不会修改正在运行的服务。eBPF 模式优先于 TUN。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:159
+msgid "The installed clash-rs core accepted this candidate configuration."
+msgstr "已安装的 clash-rs 核心接受了此候选配置。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:279
+msgid "The installed clash-rs core rejected the candidate configuration, or a remote provider failed to initialize. Nothing was saved."
+msgstr "已安装的 clash-rs 核心拒绝了候选配置，或远程提供者初始化失败。未保存任何内容。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:281
+msgid "The module changed on disk. Reload it before trying again."
+msgstr "模块在磁盘上已被更改。请先重新加载再重试。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:273
+msgid "The new configuration did not start correctly. The previous module was restored and the service was restarted. Your unsaved draft is still in the editor."
+msgstr "新配置未能正常启动。已恢复上一个模块并重启服务。未保存的草稿仍保留在编辑器中。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:16
+msgid "These options are already provided by Mixin Config. Use the existing page instead of editing duplicate controls here."
+msgstr "这些选项已由混入配置提供。请使用现有页面，而不是在此处编辑重复的控件。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:165
+msgid "This editor manages only nikki-rules in rules.yaml and preserves other advanced YAML settings. Concurrent edits in another browser tab are rejected."
+msgstr "此编辑器仅管理 rules.yaml 中的 nikki-rules，并保留其他高级 YAML 设置。会拒绝其他浏览器标签页中的并发编辑。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:255
+msgid "This is a static review, not a successful clash-rs core test. Use Test with installed core for runtime validation."
+msgstr "这是静态审查，并非成功的 clash-rs 核心测试。请使用“使用已安装的核心测试”进行运行时验证。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:265
+msgid "This will test the merged Clash configuration, save your changes and restart Nikki RS. Connectivity may be briefly interrupted. If the restart or health check fails, the previous module will be restored. Continue?"
+msgstr "这将测试合并后的 Clash 配置、保存更改并重启 Nikki RS。网络连接可能短暂中断。如果重启或健康检查失败，将恢复上一个模块。是否继续？"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:19
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:44
+msgid "TUN"
+msgstr "TUN"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:32
+msgid "TUN device"
+msgstr "TUN 设备"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:19
+msgid "TUN properties; router-managed routing flags are enforced on startup"
+msgstr "TUN 属性；路由器管理的分流标志会在启动时强制生效"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:248
+msgid "TUN: "
+msgstr "TUN："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:428
+msgid "Unmodified values continue to inherit from the selected profile or Mixin Config. For proxy groups, providers and custom YAML, use "
+msgstr "未修改的值将继续继承所选配置文件或混入配置。如需代理组、提供者和自定义 YAML，请使用 "
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:208
+msgid "Unnamed"
+msgstr "未命名"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:65
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/rules-builder.js:85
+msgid "Unsaved changes"
+msgstr "有未保存的更改"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:76
+msgid "Unsaved changes — save or discard before switching modules"
+msgstr "有未保存的更改——切换模块前请先保存或放弃"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:195
+msgid "Unsaved changes are waiting to be reviewed or saved."
+msgstr "有未保存的更改等待审查或保存。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:176
+msgid "Unsaved modifications"
+msgstr "有未保存的修改"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:19
+msgid "Update clash-rs independently of the firmware package. The packaged core is kept as a fallback. An upgrade tests the new core before activation and restores the old version if the running service fails to restart."
+msgstr "独立于固件包更新 clash-rs。内置核心将保留作为回退。升级会在激活前测试新核心，若运行中的服务重启失败则恢复旧版本。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:43
+msgid "Update Schedule (cron)"
+msgstr "更新计划（cron）"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:356
+msgid "Use "
+msgstr "使用 "
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:58
+msgid "Use Advanced Config to edit clash-rs proxy groups, providers, hosts and custom YAML."
+msgstr "使用高级配置编辑 clash-rs 代理组、提供者、Hosts 及自定义 YAML。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/collections.js:243
+msgid "Use JSON"
+msgstr "使用 JSON"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/core.js:36
+msgid "Use latest to follow official stable releases or enter an exact upstream tag such as v0.20.23-alpha."
+msgstr "填写 latest 以跟随官方稳定版本，或输入确切的上游标签（如 v0.20.23-alpha）。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:66
+msgid "Validate Before Saving"
+msgstr "保存前验证"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:127
+msgid "Validate YAML"
+msgstr "校验 YAML"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js:73
+msgid "Validation failed"
+msgstr "验证失败"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:131
+msgid "Value is out of range: "
+msgstr "值超出范围："
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:52
+msgid "When enabled, the proxy routing options are bypassed. The generated Clash configuration automatically disables TUN and removes TUN listeners. Saved TUN settings are preserved for when eBPF is disabled."
+msgstr "启用后，代理路由选项将被绕过。生成的 Clash 配置会自动禁用 TUN 并移除 TUN 监听。已保存的 TUN 设置会在 eBPF 停用时保留。"
+
+#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:129
+msgid "YAML mapping is valid."
+msgstr "YAML 映射有效。"

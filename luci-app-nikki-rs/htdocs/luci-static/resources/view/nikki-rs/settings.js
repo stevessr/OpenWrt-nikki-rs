@@ -3,14 +3,75 @@
 'require ui';
 'require tools.nikki-rs as nikki';
 
-const modules = [
-    ['general', _('General / Inbound / Cache')],
-    ['dns', _('DNS')],
-    ['dns2', _('DNS2')],
-    ['tun', _('TUN')],
-    ['sniffer', _('Sniffer')],
-    ['custom', _('Controller UI / Geo')]
+const INHERIT = '__inherit__';
+const visibleFieldIds = new Set([
+    'bind-address',
+    'routing-mark',
+    'profile.store-selected',
+    'profile.store-fake-ip',
+    'profile.store-smart-stats',
+    'experimental.tcp-buffer-size'
+]);
+
+const existingMixinNote = _('These options are already provided by Mixin Config. Use the existing page instead of editing duplicate controls here.');
+const sections = [
+    {
+        id: 'core',
+        label: _('Core Settings'),
+        tabs: [
+            { id: 'general', label: _('General'), fieldIds: ['routing-mark'],
+                page: 'mixin', actionLabel: _('Open Mixin Config'),
+                description: _('Mode, log level, IPv6 and QUIC are already configured in Mixin Config.') },
+            { id: 'inbound', label: _('Inbound'), fieldIds: ['bind-address'],
+                page: 'mixin', actionLabel: _('Open Mixin Config'),
+                description: _('LAN access and proxy listener ports are already configured in Mixin Config.') },
+            { id: 'cache', label: _('Cache'), fieldIds: [
+                'profile.store-selected',
+                'profile.store-fake-ip',
+                'profile.store-smart-stats'
+            ] },
+            { id: 'performance', label: _('Performance'), fieldIds: ['experimental.tcp-buffer-size'] }
+        ]
+    },
+    {
+        id: 'network',
+        label: _('DNS & Network'),
+        tabs: [
+            { id: 'dns', label: _('DNS'), page: 'mixin', actionLabel: _('Open Mixin Config'),
+                description: existingMixinNote },
+            { id: 'dns2', label: _('DNS2'), page: 'mixin', actionLabel: _('Open Mixin Config'),
+                description: existingMixinNote },
+            { id: 'tun', label: _('TUN'), page: 'mixin', actionLabel: _('Open Mixin Config'),
+                description: existingMixinNote },
+            { id: 'sniffer', label: _('Sniffer'), page: 'mixin', actionLabel: _('Open Mixin Config'),
+                description: existingMixinNote }
+        ]
+    },
+    {
+        id: 'resources',
+        label: _('Policies & Resources'),
+        tabs: [
+            { id: 'proxy', label: _('Proxy Config'), page: 'proxy', actionLabel: _('Open Proxy Config'),
+                description: _('Proxy routing and access control are already available on the Proxy Config page.') },
+            { id: 'groups', label: _('Proxy Groups & Providers'), page: 'overrides',
+                actionLabel: _('Open Advanced Config'),
+                description: _('Use Advanced Config to edit clash-rs proxy groups, providers, hosts and custom YAML.') },
+            { id: 'rules', label: _('Ordered Rules'), page: 'rules-builder',
+                actionLabel: _('Open Ordered Rules'),
+                description: _('Create and reorder routing rules in the dedicated Ordered Rules page.') },
+            { id: 'ui-geo', label: _('Controller UI & Geo Data'), page: 'mixin',
+                actionLabel: _('Open Mixin Config'),
+                description: _('Dashboard and Geo database settings are already available in Mixin Config.') }
+        ]
+    }
 ];
+
+const pagePaths = {
+    mixin: 'admin/services/nikki-rs/mixin',
+    proxy: 'admin/services/nikki-rs/proxy',
+    overrides: 'admin/services/nikki-rs/overrides',
+    'rules-builder': 'admin/services/nikki-rs/rules-builder'
+};
 
 function notify(message, success) {
     ui.addNotification(null, E('p', {}, message), success ? 'info' : 'danger');
@@ -21,16 +82,19 @@ function editorControl(field, current, onChange) {
     const value = current == null ? null : current;
     if (field.kind === 'bool') {
         control = E('select', { 'class': 'cbi-input-select' }, [
+            E('option', { 'value': INHERIT }, _('Unmodified')),
             E('option', { 'value': 'true' }, _('Enabled')),
             E('option', { 'value': 'false' }, _('Disabled'))
         ]);
-        control.value = value === false ? 'false' : 'true';
+        control.value = value == null ? INHERIT : String(value);
     } else if (field.kind === 'enum') {
-        control = E('select', { 'class': 'cbi-input-select' },
-            (field.choices || []).map(function (option) {
+        control = E('select', { 'class': 'cbi-input-select' }, [
+            E('option', { 'value': INHERIT }, _('Unmodified')),
+            ...(field.choices || []).map(function (option) {
                 return E('option', { 'value': option }, option);
-            }));
-        if (value != null) control.value = String(value);
+            })
+        ]);
+        control.value = value == null ? INHERIT : String(value);
     } else if (field.kind === 'list') {
         control = E('textarea', { 'class': 'cbi-input-textarea', 'rows': 3,
             'style': 'width:100%;min-width:230px;resize:vertical',
@@ -74,29 +138,49 @@ function parsedValue(field, control) {
             throw new Error(_('List is too large: ') + field.label);
         return lines;
     }
+    if (field.kind === 'enum') return control.value;
     return control.value.trim();
 }
 
 return view.extend({
     load: function () { return nikki.settingsRead('general'); },
     render: function (initial) {
-        let module = 'general';
         let revision = '';
         let pending = {};
+        let fieldsById = {};
+        let fieldValues = {};
+        let panels = {};
+        let loadError = '';
         let busy = false;
-        const selection = E('select', { 'class': 'cbi-input-select', 'style': 'min-width:240px' },
-            modules.map(function (item) {
-                return E('option', { 'value': item[0] }, item[1]);
-            }));
+        let activeSectionId = 'core';
+        const activeTabIds = { core: 'general', network: 'dns', resources: 'proxy' };
+        const sectionTabs = E('div', {
+            'role': 'tablist',
+            'aria-label': _('Configuration sections'),
+            'style': 'display:flex;gap:.35em;flex-wrap:wrap;border-bottom:1px solid var(--border-color-low,#aaa);margin:.8em 0'
+        });
+        const detailTabs = E('div', {
+            'role': 'tablist',
+            'aria-label': _('Settings categories'),
+            'style': 'display:flex;gap:.35em;flex-wrap:wrap;border-bottom:1px solid var(--border-color-low,#aaa);margin:.6em 0 1em'
+        });
         const area = E('div', { 'class': 'cbi-section' });
         const status = E('p', { 'class': 'cbi-value-description' });
         const actions = E('div', { 'style': 'display:flex;gap:.6em;flex-wrap:wrap;margin:1em 0' });
         const dirty = function () { return Object.keys(pending).length > 0; };
+        const currentSection = function () {
+            return sections.find(function (section) { return section.id === activeSectionId; }) || sections[0];
+        };
+        const currentTab = function () {
+            const section = currentSection();
+            return section.tabs.find(function (tab) { return tab.id === activeTabIds[section.id]; }) || section.tabs[0];
+        };
         const setBusy = function (value) {
             busy = value;
-            selection.disabled = value;
-            Array.from(actions.querySelectorAll('button')).forEach(function (button) {
-                button.disabled = value;
+            [sectionTabs, detailTabs, actions].forEach(function (container) {
+                Array.from(container.querySelectorAll('button')).forEach(function (button) {
+                    button.disabled = value;
+                });
             });
         };
         const execute = function (task) {
@@ -108,57 +192,154 @@ return view.extend({
         };
         function mark() {
             status.textContent = dirty() ?
-                _('Unsaved changes in this module. Review and save before switching.') :
-                _('No pending changes. Fields set to Inherit do not replace existing subscription or mixin values.');
+                _('Unsaved changes are waiting to be reviewed or saved.') :
+                _('Choose “Unmodified” to keep the existing profile or Mixin Config value.');
         }
-        function build(response) {
-            if (!response || !response.success ||
-                !Array.isArray(response.fields) || !response.revision) {
-                area.replaceChildren(E('p', {}, response?.error || _('Could not load this module')));
-                revision = '';
-                return;
-            }
-            revision = response.revision;
-            pending = {};
-            area.replaceChildren();
-            response.fields.forEach(function (field) {
-                const value = response.values?.[field.id];
-                const explicit = value !== null && value !== undefined;
-                const override = E('input', { 'type': 'checkbox', 'checked': explicit });
-                override.checked = explicit;
-                let input;
-                const handler = function () {
-                    if (!override.checked) {
-                        pending[field.id] = null;
-                    } else {
-                        try {
-                            pending[field.id] = parsedValue(field, input);
-                        } catch (error) {
-                            // Keep the draft visible so a later save can surface the error.
-                            pending[field.id] = undefined;
-                        }
+        function tabButton(label, selected, callback) {
+            return E('button', {
+                'type': 'button',
+                'role': 'tab',
+                'aria-selected': selected ? 'true' : 'false',
+                'class': 'btn cbi-button',
+                'style': 'border:0;border-bottom:3px solid ' +
+                    (selected ? 'var(--accent-color,#7653c7)' : 'transparent') +
+                    ';border-radius:0;background:transparent;padding:.65em 1em;cursor:pointer',
+                'click': callback
+            }, label);
+        }
+        function fieldRow(field) {
+            const value = fieldValues[field.id];
+            const explicit = value !== null && value !== undefined;
+            const choice = field.kind === 'bool' || field.kind === 'enum';
+            const inputId = 'nikki-setting-' + field.id.replace(/[^a-zA-Z0-9_-]/g, '-');
+            let mode;
+            let input;
+            const handler = function () {
+                if (choice && input.value === INHERIT) {
+                    pending[field.id] = null;
+                } else if (!choice && mode.value === 'inherit') {
+                    pending[field.id] = null;
+                } else {
+                    try {
+                        pending[field.id] = parsedValue(field, input);
+                    } catch (error) {
+                        // Preserve the invalid draft so save reports it without changing the source value.
+                        pending[field.id] = undefined;
                     }
-                    mark();
-                };
-                input = editorControl(field, value, handler);
+                }
+                mark();
+            };
+            input = editorControl(field, value, handler);
+            input.id = inputId;
+            input.setAttribute('aria-label', field.label);
+            const controls = [];
+            if (!choice) {
+                mode = E('select', {
+                    'class': 'cbi-input-select',
+                    'style': 'min-width:9em',
+                    'aria-label': _('Change behavior for') + ' ' + field.label
+                }, [
+                    E('option', { 'value': 'inherit' }, _('Unmodified')),
+                    E('option', { 'value': 'set' }, _('Set value'))
+                ]);
+                mode.value = explicit ? 'set' : 'inherit';
                 input.disabled = !explicit;
-                override.addEventListener('change', function () {
-                    input.disabled = !override.checked;
+                mode.addEventListener('change', function () {
+                    input.disabled = mode.value !== 'set';
                     handler();
                 });
-                const row = E('div', {
-                    'style': 'display:grid;grid-template-columns:minmax(150px,1fr) minmax(240px,2fr);gap:.7em;align-items:start;padding:.65em 0;border-bottom:1px solid var(--border-color-low,#ddd)'
-                }, [
-                    E('label', { 'style': 'font-weight:600' }, field.label),
-                    E('div', { 'style': 'display:flex;gap:.8em;align-items:center;flex-wrap:wrap' }, [
-                        E('label', { 'style': 'white-space:nowrap' }, [override, ' ', _('Override')]),
-                        E('div', { 'style': 'flex:1;min-width:230px' }, input),
-                        E('code', { 'style': 'font-size:.85em' }, field.path)
-                    ])
-                ]);
-                area.appendChild(row);
+                controls.push(mode);
+            }
+            controls.push(input);
+            controls.push(E('code', { 'style': 'font-size:.85em' }, field.path));
+            return E('div', {
+                'style': 'display:grid;grid-template-columns:minmax(150px,1fr) minmax(240px,2fr);gap:.7em;align-items:start;padding:.65em 0;border-bottom:1px solid var(--border-color-low,#ddd)'
+            }, [
+                E('label', { 'for': inputId, 'style': 'font-weight:600' }, field.label),
+                E('div', { 'style': 'display:flex;gap:.8em;align-items:center;flex-wrap:wrap' }, controls)
+            ]);
+        }
+        function makeFieldPanel(tab) {
+            const rows = [];
+            tab.fieldIds.forEach(function (id) {
+                if (fieldsById[id]) rows.push(fieldRow(fieldsById[id]));
             });
+            const content = [];
+            if (tab.description)
+                content.push(E('p', { 'class': 'cbi-value-description' }, tab.description));
+            if (rows.length)
+                content.push(E('div', { 'class': 'cbi-section' }, rows));
+            else
+                content.push(E('p', {}, loadError || _('No unique settings are available in this category.')));
+            if (tab.page)
+                content.push(E('a', {
+                    'class': 'btn cbi-button cbi-button-action',
+                    'href': L.url(pagePaths[tab.page])
+                }, tab.actionLabel));
+            return E('div', {}, content);
+        }
+        function makeLinkPanel(tab) {
+            return E('div', { 'class': 'cbi-section' }, [
+                E('h3', {}, tab.label),
+                E('p', { 'class': 'cbi-value-description' }, tab.description),
+                E('a', {
+                    'class': 'btn cbi-button cbi-button-action',
+                    'href': L.url(pagePaths[tab.page])
+                }, tab.actionLabel)
+            ]);
+        }
+        function renderNavigation() {
+            sectionTabs.replaceChildren(...sections.map(function (section) {
+                return tabButton(section.label, section.id === activeSectionId, function () {
+                    activeSectionId = section.id;
+                    renderNavigation();
+                    renderPanel();
+                });
+            }));
+            const section = currentSection();
+            detailTabs.replaceChildren(...section.tabs.map(function (tab) {
+                return tabButton(tab.label, tab.id === activeTabIds[section.id], function () {
+                    activeTabIds[section.id] = tab.id;
+                    renderNavigation();
+                    renderPanel();
+                });
+            }));
+        }
+        function renderPanel() {
+            const section = currentSection();
+            const tab = currentTab();
+            const key = section.id + ':' + tab.id;
+            const panel = panels[key] || E('p', {}, _('Could not load settings'));
+            area.replaceChildren(panel);
+            actions.hidden = !tab.fieldIds && !dirty();
             mark();
+        }
+        function build(response) {
+            revision = '';
+            pending = {};
+            fieldsById = {};
+            fieldValues = {};
+            panels = {};
+            loadError = '';
+            if (!response || !response.success ||
+                !Array.isArray(response.fields) || !response.revision) {
+                loadError = response?.error || _('Could not load settings');
+            } else {
+                revision = response.revision;
+                response.fields.forEach(function (field) {
+                    if (!visibleFieldIds.has(field.id)) return;
+                    fieldsById[field.id] = field;
+                    fieldValues[field.id] = response.values?.[field.id];
+                });
+            }
+            sections.forEach(function (section) {
+                section.tabs.forEach(function (tab) {
+                    panels[section.id + ':' + tab.id] = tab.fieldIds ?
+                        makeFieldPanel(tab) : makeLinkPanel(tab);
+                });
+            });
+            renderNavigation();
+            renderPanel();
         }
         function snapshot() {
             const updates = {};
@@ -170,52 +351,38 @@ return view.extend({
             return updates;
         }
         function reload() {
-            return nikki.settingsRead(module).then(function (result) {
+            return nikki.settingsRead('general').then(function (result) {
                 if (!result.success) throw new Error(result.error || _('Cannot refresh settings'));
                 build(result);
             });
         }
         const btn = function (label, className, callback) {
-            return E('button', { 'type': 'button', 'class': 'btn cbi-button cbi-button-' + className,
-                'click': function () { return execute(callback); } }, label);
+            return E('button', {
+                'type': 'button',
+                'class': 'btn cbi-button cbi-button-' + className,
+                'click': function () { return execute(callback); }
+            }, label);
         };
-        selection.addEventListener('change', function () {
-            const next = selection.value;
-            if (dirty() && !window.confirm(_('Discard unsaved edits in the current module?'))) {
-                selection.value = module;
-                return;
-            }
-            execute(function () {
-                return nikki.settingsRead(next).then(function (result) {
-                    if (!result.success) {
-                        selection.value = module;
-                        throw new Error(result.error || _('Could not load module'));
-                    }
-                    module = next;
-                    build(result);
-                });
-            });
-        });
         actions.appendChild(btn(_('Reload'), 'action', function () {
             if (dirty() && !window.confirm(_('Discard current draft?'))) return;
             return reload();
         }));
-        actions.appendChild(btn(_('Save overrides'), 'positive', function () {
+        actions.appendChild(btn(_('Save settings'), 'positive', function () {
             const delta = snapshot();
             if (!Object.keys(delta).length) return notify(_('No modified fields.'), true);
-            return nikki.settingsPatch(module, delta, revision).then(function (result) {
+            return nikki.settingsPatch('general', delta, revision).then(function (result) {
                 if (!result.success) throw new Error(result.error || _('Save failed'));
                 return reload().then(function () {
-                    notify(_('Settings saved with a revision backup. Apply through Advanced Config or use Test and apply.'), true);
+                    notify(_('Settings saved with a revision backup. Use Test and apply safely to restart Nikki RS.'), true);
                 });
             });
         }));
         actions.appendChild(btn(_('Review merged configuration'), 'action', function () {
             const delta = snapshot();
             if (!Object.keys(delta).length) return notify(_('No modified fields.'), true);
-            return nikki.settingsDraft(module, delta, revision).then(function (draft) {
+            return nikki.settingsDraft('general', delta, revision).then(function (draft) {
                 if (!draft.success) throw new Error(draft.error || _('Could not generate draft'));
-                return nikki.overridePreview(module, draft.content).then(function (result) {
+                return nikki.overridePreview('general', draft.content).then(function (result) {
                     if (!result.success) throw new Error(result.error || _('Cannot merge draft'));
                     ui.showModal(_('Effective configuration preview'), [
                         E('p', {}, _('The effective YAML may contain proxy addresses, tokens and other secrets. This preview does not modify the running service. eBPF mode overrides TUN.')),
@@ -234,9 +401,9 @@ return view.extend({
             if (!Object.keys(delta).length) return notify(_('No modified fields.'), true);
             if (!window.confirm(_('Test the merged configuration, save these options and restart Nikki RS? Failed startup triggers best-effort rollback.')))
                 return;
-            return nikki.settingsDraft(module, delta, revision).then(function (draft) {
+            return nikki.settingsDraft('general', delta, revision).then(function (draft) {
                 if (!draft.success) throw new Error(draft.error || _('Could not generate draft'));
-                return nikki.configApply(module, draft.content, revision).then(function (result) {
+                return nikki.configApply('general', draft.content, revision).then(function (result) {
                     if (!result.success)
                         throw new Error(_('Apply failed: ') + (result.status || 'FAILED') +
                             (result.status === 'ROLLED_BACK' ? ' — ' + _('Previous settings restored.') : ''));
@@ -248,16 +415,17 @@ return view.extend({
         }));
         build(initial);
         return E('div', { 'class': 'cbi-map' }, [
-            E('h2', {}, _('Clash Configuration Center')),
-            E('p', {}, _('Common clash-rs settings with types and range validation. These values are stored as advanced YAML overrides, leaving original profiles untouched. Special policies such as eBPF/TUN exclusivity are enforced when generating the effective configuration.')),
+            E('h2', {}, _('Clash-RS Configuration Center')),
+            E('p', {}, _('Configure clash-rs options that are not already exposed by the original Nikki RS pages. The controls below use the installed schema and range validation. Existing Mixin, Proxy and eBPF settings are linked rather than duplicated; use Advanced Config for other Clash modules.')),
+            E('p', { 'class': 'cbi-value-description' }, _('Previously saved YAML overrides are preserved. Review Advanced Config if an older override still takes precedence.')),
             E('div', { 'class': 'cbi-section' }, [
-                E('h3', {}, _('Configuration category')),
-                selection,
+                sectionTabs,
+                detailTabs,
                 status,
                 area,
                 actions,
                 E('p', { 'class': 'cbi-value-description' }, [
-                    _('For complex providers, DNS2 upstream routing, listeners and policy groups, use '),
+                    _('Unmodified values continue to inherit from the selected profile or Mixin Config. For proxy groups, providers and custom YAML, use '),
                     E('a', { 'href': L.url('admin/services/nikki-rs/overrides') }, _('Advanced Config')),
                     '. ', _('For ordered routing rules, use '),
                     E('a', { 'href': L.url('admin/services/nikki-rs/rules-builder') }, _('Ordered Rules')),

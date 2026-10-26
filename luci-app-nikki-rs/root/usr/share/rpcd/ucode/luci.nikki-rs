@@ -45,6 +45,19 @@ function editor_operation(action, path, content) {
     if (!editor_path_valid(path)) return { success: false, error: 'Invalid editor path' };
     const staged = staged_editor_content(content);
     if (!staged) return { success: false, error: 'Invalid or oversized content' };
+    if (action == 'validate') {
+        const process = popen('/etc/nikki-rs/scripts/config-manager.sh validate ' +
+            path + ' ' + staged + ' 2>&1');
+        if (!process) {
+            unlink(staged);
+            return { success: false, error: 'Configuration validation could not be started' };
+        }
+        const output = trim(process.read('all'));
+        process.close();
+        unlink(staged);
+        const success = output == 'OK';
+        return { success: success, error: success ? '' : (output || 'Configuration validation failed') };
+    }
     const success = system(['/etc/nikki-rs/scripts/config-manager.sh', action, path, staged]) == 0;
     unlink(staged);
     return { success: success, error: success ? '' : 'Configuration validation or file operation failed' };

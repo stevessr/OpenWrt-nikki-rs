@@ -64,6 +64,31 @@ wget -O - https://github.com/CHKayanami/OpenWrt-nikki-rs/raw/refs/heads/main/ins
 2. Navigate to **Services** -> **Nikki RS**.
 3. Import subscription link or configuration profile, and enable the transparent proxy service.
 
+The LuCI **Editor** validates YAML before saving. Syntax errors include parser line and column details; **History / Restore** retains the 10 most recent revisions.
+
+## GeoSite-based DNS defaults
+
+Fresh installations now enable the GeoSite/MMDB override fields and split DNS:
+
+- `geosite:private,cn` uses `223.5.5.5` over UDP.
+- `geosite:proxy` uses Cloudflare and Google DNS-over-HTTPS.
+- Proxy-node bootstrap uses the configured AliDNS DoH servers to avoid DNS recursion.
+
+The existing GeoSite/MMDB URLs are used; this change adds no scheduled data updater. Package upgrades preserve `/etc/config/nikki-rs`, so existing installs keep their current values.
+
+The package does not rewrite dnsmasq settings because Nikki RS is disabled by default. To route LAN DNS through Nikki, back up `/etc/config/dhcp`, ensure Nikki DNS is running on port `1053`, then set:
+
+```sh
+uci set dhcp.@dnsmasq[0].noresolv='1'
+uci -q delete dhcp.@dnsmasq[0].server
+uci add_list dhcp.@dnsmasq[0].server='127.0.0.1#1053'
+uci commit dhcp
+/etc/init.d/dnsmasq restart
+```
+
+This replaces all configured dnsmasq upstream servers and makes LAN DNS depend on Nikki RS. Restore the backup before disabling Nikki RS or changing its DNS listener.
+
+
 ---
 
 ## Uninstall & Reset

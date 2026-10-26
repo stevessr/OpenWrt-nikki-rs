@@ -29,7 +29,7 @@
 - **安全更新**：根据 `uname -m` 选择架构，校验 GitHub Release 中的 SHA256 digest、解包后的可执行文件和当前启动配置；服务无法重新启动时自动恢复原内核。
 - **不覆盖系统包**：下载的核心位于 `/etc/nikki-rs/core/clash-rs`，保留 `/usr/bin/clash-rs` 为基础版本。支持手动回退到上一个覆盖版本，或回退到系统包。
 - **自动更新**：可在 LuCI 中开启，并设置 cron（默认每周日 04:15），默认**关闭**。
-- **安全编辑器**：配置文件保存前校验 YAML 根节点格式，原子覆盖保存，并在 `/etc/nikki-rs/backups/` 保留最近 10 个版本。LuCI **Editor → Validate Before Saving / History / Restore** 可检测和回退。修改 `run/config.yaml` 是临时的，服务重启会重新生成，应优先编辑源配置或 `mixin.yaml`。
+- **安全编辑器**：配置文件保存前校验 YAML 根节点格式；语法错误会显示解析器提供的行、列位置。原子覆盖保存，并在 `/etc/nikki-rs/backups/` 保留最近 10 个版本。LuCI **Editor → Validate Before Saving / History / Restore** 可检测和回退。修改 `run/config.yaml` 是临时的，服务重启会重新生成，应优先编辑源配置或 `mixin.yaml`。
 
 命令行示例：
 
@@ -80,6 +80,29 @@ dns:
   nameserver:
     - https://1.1.1.1/dns-query
 ```
+
+### GeoSite 分流 DNS
+
+新安装默认启用 GeoSite/MMDB 覆盖配置项和分流策略：
+
+- `geosite:private,cn` → UDP `223.5.5.5`。
+- `geosite:proxy` → Cloudflare 与 Google DoH。
+- 代理节点引导解析使用配置中的阿里 DoH，避免代理 DNS 递归。
+
+继续使用现有 GeoSite/MMDB 下载 URL；本次不增加定时更新任务。升级会保留 `/etc/config/nikki-rs`，已有安装不会自动覆盖原 UCI 值。
+
+Nikki RS 默认关闭，因此软件包不会自动改写 dnsmasq。若要让 LAN 客户端使用 Nikki DNS，先备份 `/etc/config/dhcp`，确认 Nikki DNS 正在 `1053` 端口监听，再执行：
+
+```sh
+uci set dhcp.@dnsmasq[0].noresolv='1'
+uci -q delete dhcp.@dnsmasq[0].server
+uci add_list dhcp.@dnsmasq[0].server='127.0.0.1#1053'
+uci commit dhcp
+/etc/init.d/dnsmasq restart
+```
+
+这会替换 dnsmasq 的全部上游服务器，并使 LAN DNS 依赖 Nikki RS。停止 Nikki RS 或更改 DNS 监听端口前，先恢复备份或调整 dnsmasq 上游。
+
 
 **候选配置内核测试**：使用临时目录执行当前 `clash-rs -t`，不会改动运行中的配置。核心在初始化远程 rule-provider 等资源时可能因网络超时而失败，不能把此类结果直接理解为 YAML 语法错误。测试最长约 35 秒。
 

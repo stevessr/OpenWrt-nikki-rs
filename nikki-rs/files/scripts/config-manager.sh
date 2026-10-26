@@ -44,7 +44,14 @@ check() {
             if [ "${path#"$BASE"/overrides/}" != "$path" ]; then
                 [ "$bytes" -le 262144 ] || fail "Override module exceeds 256 KiB"
             fi
-            yq -M -e 'tag == "!!map"' "$file" >/dev/null 2>&1 || fail "Invalid YAML: top-level mapping required"
+            if ! diagnostic="$(yq -M -e 'tag == "!!map"' "$file" 2>&1 >/dev/null)"; then
+                case "$diagnostic" in
+                    *"no matches found"*|'')
+                        fail "Invalid YAML: top-level mapping required" ;;
+                    *)
+                        fail "Invalid YAML: $diagnostic" ;;
+                esac
+            fi
             ;;
     esac
 }

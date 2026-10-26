@@ -215,5 +215,28 @@ class OverrideManagerTests(unittest.TestCase):
                  candidate, success=False)
 
 
+    def test_config_validation_reports_yaml_syntax_location_and_root_shape(self):
+        profiles = self.home / 'profiles'
+        profiles.mkdir()
+        target = profiles / 'test.yaml'
+        target.write_text('mode: rule\n')
+        candidate = self.home / 'candidate.yaml'
+        candidate.write_text('mode: rule\n')
+        valid_result = self.cli(CONFIG_MANAGER, 'validate', target, candidate)
+        self.assertEqual(valid_result.stdout.strip(), 'OK')
+        candidate.write_text('mode: rule\n---\nport: 7890\n')
+        multi_doc_result = self.cli(CONFIG_MANAGER, 'validate', target, candidate)
+        self.assertEqual(multi_doc_result.stdout.strip(), 'OK')
+        candidate.write_text('mode: rule\nitems:\n  - [broken\n')
+
+        syntax_error = self.cli(CONFIG_MANAGER, 'validate', target, candidate, success=False)
+        self.assertIn('Invalid YAML:', syntax_error.stderr)
+        self.assertRegex(syntax_error.stderr, r'\bL3\.C\d+')
+        self.assertNotIn('top-level mapping required', syntax_error.stderr)
+
+        candidate.write_text('not-a-mapping\n')
+        shape_error = self.cli(CONFIG_MANAGER, 'validate', target, candidate, success=False)
+        self.assertIn('top-level mapping required', shape_error.stderr)
+
 if __name__ == '__main__':
     unittest.main()

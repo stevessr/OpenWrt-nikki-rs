@@ -81,15 +81,22 @@ dns:
     - https://1.1.1.1/dns-query
 ```
 
-### GeoSite 分流 DNS
+### 上游默认配置对齐
 
-新安装默认启用 GeoSite/MMDB 覆盖配置项和分流策略：
+新安装的 UCI 默认值与 [CHKayanami/OpenWrt-nikki-rs](https://github.com/CHKayanami/OpenWrt-nikki-rs) 对齐：不主动覆盖订阅中的 `nameserver-policy`、`proxy-server-nameserver`、`mmdb` 或 `geosite`。其默认开关均为 `0`，保留用户按需开启的能力。
 
-- `geosite:private,cn` → UDP `223.5.5.5`。
-- `geosite:proxy` → Cloudflare 与 Google DoH。
-- 代理节点引导解析使用配置中的阿里 DoH，避免代理 DNS 递归。
+之前本仓库的版本曾将上述四项默认打开，并使用自定义 `geosite:proxy` 策略。现在恢复上游的 DNS 策略示例，默认不将其强制注入最终订阅配置。**已有安装的 UCI 配置不会被包更新覆盖**；如需取消曾经自动启用的覆盖项，可手动执行：
 
-继续使用现有 GeoSite/MMDB 下载 URL；本次不增加定时更新任务。升级会保留 `/etc/config/nikki-rs`，已有安装不会自动覆盖原 UCI 值。
+```sh
+uci set nikki-rs.mixin.dns_nameserver_policy='0'
+uci set nikki-rs.mixin.dns_proxy_server_nameserver='0'
+uci set nikki-rs.mixin.overwrite_mmdb='0'
+uci set nikki-rs.mixin.overwrite_geosite='0'
+uci commit nikki-rs
+/etc/init.d/nikki-rs restart
+```
+
+此操作只关闭默认覆盖，不删除自定义 DNS 服务器及 GEO 文件路径，不影响 SubBoost 订阅、core_update、DNS2 和 eBPF 的现有管理入口。需要继续使用 UCI DNS/GEO 覆盖时，可以在 LuCI 中重新显式打开。
 
 Nikki RS 默认关闭，因此软件包不会自动改写 dnsmasq。若要让 LAN 客户端使用 Nikki DNS，先备份 `/etc/config/dhcp`，确认 Nikki DNS 正在 `1053` 端口监听，再执行：
 

@@ -292,3 +292,9 @@ LuCI 会自动为 SubBoost 标准订阅 API 添加 `?target=clash-rs`（保留�
 
 完整的订阅转换服务需使用支持该参数的 SubBoost 版本。Nikki-RS 仍负责 DNS、
 TUN、eBPF 和防火墙设置；导入订阅不会自动切换正在使用的配置。
+
+
+SubBoost 订阅链接也支持反向代理前缀（例如
+`/subboost/api/subscriptions/TOKEN/config.yaml`）。LuCI 在导入时将
+`target` 规范为 `clash-rs`，并识别参数排列顺序不同或旧版本
+`target=nikki-rs` 的同一订阅，避免生成重复 UCI 条目。

@@ -26,12 +26,27 @@ function validHttpUrl(value) {
 function clashRsTargetUrl(url) {
     const parsed = new URL(url);
     const parts = parsed.pathname.split('/');
-    // Only add the target parameter to SubBoost's own generated YAML API.
-    // Arbitrary third-party subscriptions remain untouched.
-    if (parts.length === 5 && parts[1] === 'api' && parts[2] === 'subscriptions' &&
-        parts[3] && parts[4] === 'config.yaml')
+    // Match the generated YAML API even when SubBoost is reverse-proxied
+    // behind a non-root application prefix; leave unrelated URLs untouched.
+    const end = parts.length - 1;
+    if (end >= 4 && parts[end - 3] === 'api' && parts[end - 2] === 'subscriptions' &&
+        parts[end - 1] && parts[end] === 'config.yaml')
         parsed.searchParams.set('target', 'clash-rs');
     return parsed.toString();
+}
+
+function sameSubBoostUrl(left, right) {
+    if (!validHttpUrl(left) || !validHttpUrl(right))
+        return false;
+
+    // Compare semantically equivalent SubBoost URLs, ignoring previous
+    // target aliases and query parameter order. Never modify the URL
+    // handed to the subscription download service for this comparison.
+    const a = new URL(clashRsTargetUrl(left));
+    const b = new URL(clashRsTargetUrl(right));
+    a.searchParams.sort();
+    b.searchParams.sort();
+    return a.toString() === b.toString();
 }
 
 function notification(message, level) {
@@ -48,7 +63,8 @@ function importSubscription(name, url, sourceId) {
     const targetUrl = clashRsTargetUrl(url);
     const existing = uci.sections('nikki-rs', 'subscription').find(function (entry) {
         return (sourceId && entry.subboost_source === sourceId) ||
-            entry.url === url || entry.url === targetUrl;
+            entry.url === url || entry.url === targetUrl ||
+            sameSubBoostUrl(entry.url, targetUrl);
     });
     const sectionId = existing ? existing['.name'] : uci.add('nikki-rs', 'subscription');
 

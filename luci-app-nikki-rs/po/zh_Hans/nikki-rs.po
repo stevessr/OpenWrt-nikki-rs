@@ -2786,3 +2786,67 @@ msgstr "procd 配置"
 
 #~ msgid "Value is out of range: "
 #~ msgstr "值超出范围："
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "SubBoost integration"
+msgstr "SubBoost 集成"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Import generated subscription URL"
+msgstr "导入生成的订阅链接"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Generated YAML URL"
+msgstr "生成的 YAML 链接"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Import and refresh"
+msgstr "导入并更新"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Open SubBoost editor"
+msgstr "打开 SubBoost 编辑器"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Subscriptions saved in LuCI SubBoost"
+msgstr "LuCI SubBoost 中保存的订阅"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Import from Services > SubBoost without copying URLs again."
+msgstr "直接从“服务 > SubBoost”导入，无需重复复制链接。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Sync selected subscription"
+msgstr "同步选中的订阅"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Previously imported subscriptions"
+msgstr "已导入的订阅"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "e.g. My SubBoost subscription"
+msgstr "例如：我的 SubBoost 订阅"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Enter a subscription name and a valid SubBoost YAML URL."
+msgstr "请填写订阅名称和有效的 SubBoost YAML 链接。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Subscription imported and refreshed. Select it under App Config to activate it."
+msgstr "订阅已导入并更新。请在“应用配置”中选择该订阅以启用。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Subscription saved, but refresh failed. Check Nikki RS logs and retry from Profile."
+msgstr "订阅已保存，但更新失败。请检查 Nikki RS 日志并在“配置文件”页面重试。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Unable to save or refresh the SubBoost subscription: "
+msgstr "无法保存或更新 SubBoost 订阅："
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Import a generated SubBoost Clash/Mihomo YAML subscription. Nikki RS uses its native download, YAML validation and update mechanism. This does not switch your active profile. "
+msgstr "导入由 SubBoost 生成的 Clash/Mihomo YAML 订阅。Nikki RS 将沿用现有的下载、YAML 校验与更新机制，不会切换当前配置文件。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
+msgid "Configuration links contain a secret token and are saved in UCI. HTTPS is recommended. Some Mihomo-only settings may be ignored by clash-rs."
+msgstr "配置链接包含私密令牌，并保存于 UCI。建议使用 HTTPS。部分 Mihomo 专有配置可能被 clash-rs 忽略。"

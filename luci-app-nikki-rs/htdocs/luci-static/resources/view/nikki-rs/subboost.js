@@ -23,6 +23,17 @@ function validHttpUrl(value) {
     }
 }
 
+function clashRsTargetUrl(url) {
+    const parsed = new URL(url);
+    const parts = parsed.pathname.split('/');
+    // Only add the target parameter to SubBoost's own generated YAML API.
+    // Arbitrary third-party subscriptions remain untouched.
+    if (parts.length === 5 && parts[1] === 'api' && parts[2] === 'subscriptions' &&
+        parts[3] && parts[4] === 'config.yaml')
+        parsed.searchParams.set('target', 'clash-rs');
+    return parsed.toString();
+}
+
 function notification(message, level) {
     ui.addNotification(null, E('p', {}, message), level || 'info');
 }
@@ -34,13 +45,15 @@ function importSubscription(name, url, sourceId) {
         return Promise.resolve(false);
     }
 
+    const targetUrl = clashRsTargetUrl(url);
     const existing = uci.sections('nikki-rs', 'subscription').find(function (entry) {
-        return (sourceId && entry.subboost_source === sourceId) || entry.url === url;
+        return (sourceId && entry.subboost_source === sourceId) ||
+            entry.url === url || entry.url === targetUrl;
     });
     const sectionId = existing ? existing['.name'] : uci.add('nikki-rs', 'subscription');
 
     uci.set('nikki-rs', sectionId, 'name', name);
-    uci.set('nikki-rs', sectionId, 'url', url);
+    uci.set('nikki-rs', sectionId, 'url', targetUrl);
     uci.set('nikki-rs', sectionId, 'user_agent', 'clash-rs');
     uci.set('nikki-rs', sectionId, 'prefer', 'remote');
     uci.set('nikki-rs', sectionId, 'subboost_managed', '1');
@@ -174,7 +187,7 @@ return view.extend({
         }
 
         children.push(E('p', { 'class': 'cbi-map-descr' },
-            _('Configuration links contain a secret token and are saved in UCI. HTTPS is recommended. Some Mihomo-only settings may be ignored by clash-rs.')));
+            _('SubBoost generated links automatically use the clash-rs target (including namespaced rule caches and Geo database paths). Links contain a secret token and are saved in UCI. HTTPS is recommended.')));
 
         return E('div', { 'class': 'cbi-map' }, children);
     }

@@ -280,3 +280,15 @@ make package/luci-app-nikki-rs/compile
 - **[clash-rs](https://github.com/Watfaq/clash-rs)**：感谢开发团队用 Rust 打造了高性能、轻量且强大的 Clash 代理内核。
 
 
+
+
+## SubBoost 的 clash-rs 专用订阅
+
+在 **服务 → Nikki RS → SubBoost** 导入 SubBoost 生成的 YAML 链接时，
+LuCI 会自动为 SubBoost 标准订阅 API 添加 `?target=clash-rs`（保留已有查询参数），
+该接口提供针对 Nikki-RS 的 clash-rs 配置：规则提供者添加 `subboost-` 命名空间、
+提供者缓存写入 `/etc/nikki-rs/providers/`，并针对 GEO 相关规则设置本地数据库
+路径及下载地址。普通第三方订阅链接不会被自动修改。
+
+完整的订阅转换服务需使用支持该参数的 SubBoost 版本。Nikki-RS 仍负责 DNS、
+TUN、eBPF 和防火墙设置；导入订阅不会自动切换正在使用的配置。

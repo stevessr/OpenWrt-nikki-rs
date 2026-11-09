@@ -25,6 +25,9 @@ class SubBoostBridgeTests(unittest.TestCase):
         self.assertIn("validHttpUrl", source)
         self.assertIn("L.resolveDefault(uci.load('subboost'), null)", source)
         self.assertIn("subboost_source", source)
+        self.assertIn("clashRsTargetUrl", source)
+        self.assertIn("searchParams.set('target', 'clash-rs')", source)
+        self.assertIn("entry.url === targetUrl", source)
 
 
 if __name__ == '__main__':

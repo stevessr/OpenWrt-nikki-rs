@@ -78,6 +78,12 @@ jobs:
           python3 rusted/scripts/benchmark.py \
             --binary rusted/target/aarch64-unknown-linux-musl/release/subboost-rs \
             --nodes 3000 --out a53-arm64-native-rss-3000.json
+          python3 rusted/scripts/benchmark.py \
+            --binary rusted/target/aarch64-unknown-linux-musl/release/subboost-rs \
+            --nodes 1000 --modules full --out a53-arm64-native-rss-1000-full.json
+          python3 rusted/scripts/benchmark.py \
+            --binary rusted/target/aarch64-unknown-linux-musl/release/subboost-rs \
+            --nodes 3000 --modules standard --out a53-arm64-native-rss-3000-standard.json
       - name: Enforce broad ARM64 runtime and binary footprint budgets
         run: |
           python3 - <<'PY'

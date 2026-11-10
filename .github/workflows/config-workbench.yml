@@ -46,8 +46,10 @@ jobs:
           workspaces: subboost-src/rusted
       - name: Compile and test Rust + SQLite server and HTTP API
         run: cargo test --manifest-path subboost-src/rusted/Cargo.toml --all-targets
-      - name: Check frontend syntax
-        run: node --check subboost-src/rusted/ui/app.js
+      - name: Check frontend syntax and canonical module catalog
+        run: |
+          node --check subboost-src/rusted/ui/app.js
+          (cd subboost-src && node rusted/scripts/sync-modules.cjs --check)
       - name: Validate procd and administration shell scripts
         run: |
           sh -n subboost-src/rusted/openwrt/subboost-rs.init
@@ -131,6 +133,19 @@ jobs:
           scheduled,_=request('/api/subscriptions/'+row['id']+'/schedule')
           assert scheduled['interval_seconds'] == 360
           assert scheduled['next_refresh_at']>0
+          catalog,_=request('/api/modules')
+          assert len(catalog)==36
+          assert sum(len(m['rules']) for m in catalog)==94
+          selected,_=request('/api/subscriptions/'+row['id']+'/modules',
+              method='PUT',body={'enabled':['select','auto','ai','final']})
+          assert len(selected)==4
+          req=urllib.request.Request(base+'/api/subscriptions/'+row['token']+
+              '/config.yaml?target=clash-rs')
+          with urllib.request.urlopen(req,timeout=5) as response:
+              content=response.read().decode()
+              assert '🤖 AI 服务' in content
+              assert 'subboost-openai' in content
+              assert '/etc/nikki-rs/providers/rule' in content
           filt,_=request('/api/subscriptions/'+row['id']+'/filter',method='PUT',body={
               'enabled':True,'includeRegexes':['Test'],'excludeRegexes':['expired']
           })

@@ -369,3 +369,10 @@ Nightly 在 OpenWrt 25.12 / SNAPSHOT 的 x86_64 和所有 aarch64 变种归档�
 
 
 **SubBoost RS 的 LuCI 入口**：如果此前安装过只支持远程编辑器的旧版 LuCI，旧的 `base_url` 会被保留。更新 Nightly 后在「服务 → SubBoost」点击「Open local SubBoost RS」可直接打开 `http://路由器地址:3000`，无需覆盖原来设置的远程服务地址。左侧菜单未更新时，在 SubBoost 页面使用「Refresh LuCI services menu」清理当前浏览器会话中的旧菜单；单独删除路由器端缓存无法清除这个浏览器缓存。
+
+
+### SubBoost RS 原版功能对齐与 a53 资源监测
+
+原生 Rust + SQLite SubBoost RS 已加入自定义模板、订阅源自动刷新与故障退避、逐来源保留成功节点缓存、名称正则筛选、订阅流量元数据和原版 36 个策略组模块（94 条关联规则）。新的策略组默认关闭，可在本地 WebUI 中选择精简、标准、完整预设以避免旧配置自动增加 MRS 下载占用。开发时可使用 SubBoost 仓库的 `rusted/PARITY.md` 检查剩余兼容差距。
+
+GitHub Actions 的 SubBoost Cortex-A53 footprint 工作流持续验证原生 aarch64 musl 二进制大小，并在 ARM64 Linux 测试机上模拟 1000、3000 节点及标准/完整策略组场景；这些结果不等同于 Cortex-A53 物理路由器上的 CPU/内存测量。原生二进制仅作为 25.12/SNAPSHOT 支持架构的 APK 发布，不影响 24.10 IPK 的原有部署。

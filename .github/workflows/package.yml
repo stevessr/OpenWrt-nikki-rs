@@ -35,9 +35,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      # SubBoost runs as a hosted service; only its architecture-independent
-      # LuCI frontend belongs on the router. Keep the upstream repo as source
-      # of truth rather than retaining an outdated vendored copy.
+      # SubBoost main is the source of truth for the independent LuCI package
+      # and the native Rust + SQLite server. The latter is packaged only for
+      # supported 64-bit musl APK targets, never for unsupported IPK targets.
       - name: Check out current SubBoost LuCI package
         if: inputs.include_subboost
         uses: actions/checkout@v6
@@ -102,6 +102,33 @@ jobs:
           key: openwrt-subboost-rs-musl
       - uses: goto-bus-stop/setup-zig@v2
         if: inputs.include_subboost_rs
+      - name: Validate SubBoost RS source and upstream feature catalog
+        if: inputs.include_subboost_rs
+        shell: bash
+        env:
+          WITH_SUBBOOST_LUCI: ${{ inputs.include_subboost }}
+        run: |
+          set -euo pipefail
+          if [[ "$WITH_SUBBOOST_LUCI" != "true" ]]; then
+            echo "Native SubBoost RS requires the matching LuCI package" >&2
+            exit 1
+          fi
+          node --check .package-subboost/rusted/ui/app.js
+          (cd .package-subboost && node rusted/scripts/sync-modules.cjs --check)
+          sh -n .package-subboost/rusted/openwrt/subboost-rs.init
+          sh -n .package-subboost/rusted/openwrt/subboost-rsctl
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('.package-subboost/rusted')
+          modules=json.loads((root/'data/proxy-group-modules.json').read_text())
+          assert len(modules)==36, 'Unexpected upstream module count'
+          assert sum(len(m['rules']) for m in modules)==94, 'Unexpected upstream rule count'
+          assert len({m['id'] for m in modules})==len(modules)
+          assert (root/'PARITY.md').is_file(), 'Missing documented parity ledger'
+          print(f'Validated {len(modules)} canonical groups and 94 upstream rules')
+          PY
+
       - name: Build and validate native Rust SubBoost binaries
         if: inputs.include_subboost_rs
         shell: bash

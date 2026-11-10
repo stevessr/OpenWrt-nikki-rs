@@ -176,7 +176,8 @@ def make_native_subboost_packages(source, binaries, work):
         executable = binaries / target / "subboost-rs"
         if not executable.is_file() or executable.is_symlink():
             raise ValueError(f"Missing native SubBoost binary: {target}")
-        header = executable.open("rb").read(64)
+        with executable.open("rb") as binary_stream:
+            header = binary_stream.read(64)
         if (len(header) != 64 or header[:4] != b"\x7fELF" or
                 int.from_bytes(header[18:20], "little") != machine):
             raise ValueError(f"Invalid/wrong-architecture SubBoost ELF: {target}")

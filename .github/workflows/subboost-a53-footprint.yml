@@ -78,6 +78,18 @@ jobs:
           python3 rusted/scripts/benchmark.py \
             --binary rusted/target/aarch64-unknown-linux-musl/release/subboost-rs \
             --nodes 3000 --out a53-arm64-native-rss-3000.json
+      - name: Enforce broad ARM64 runtime and binary footprint budgets
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for filename in sorted(Path('.').glob('a53-arm64-native-rss-*.json')):
+              d=json.loads(filename.read_text())
+              assert d['binary_bytes'] <= 6*1024*1024,(filename,d['binary_bytes'])
+              limit=40*1024 if d['node_count']==1000 else 64*1024
+              assert d['loaded']['VmRSS_kib'] <= limit,(filename,d['loaded'])
+              print(filename,'RSS',d['loaded']['VmRSS_kib'],'KiB; binary',d['binary_bytes'])
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: a53-arm64-native-rss

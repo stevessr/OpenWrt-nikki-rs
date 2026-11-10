@@ -130,5 +130,21 @@ jobs:
           scheduled,_=request('/api/subscriptions/'+row['id']+'/schedule')
           assert scheduled['interval_seconds'] == 360
           assert scheduled['next_refresh_at']>0
-          print('Native HTTP API + SQLite + templates + refresh schedule smoke succeeded')
+          filt,_=request('/api/subscriptions/'+row['id']+'/filter',method='PUT',body={
+              'enabled':True,'includeRegexes':['^Test
+          PY
+],'excludeRegexes':['expired']
+          })
+          assert filt['enabled'] is True
+          req=urllib.request.Request(base+'/api/subscriptions/'+quote(row['token'])+
+              '/config.yaml?target=clash-rs')
+          with urllib.request.urlopen(req,timeout=5) as response:
+              assert b'Test' in response.read()
+          try:
+              request('/api/subscriptions/'+row['id']+'/schedule',
+                  method='PUT',body={'interval_seconds':1})
+              raise AssertionError('Invalid auto-refresh interval accepted')
+          except urllib.error.HTTPError as err:
+              assert err.code==400
+          print('Native API + SQLite + templates + schedule + filters succeeded')
           PY

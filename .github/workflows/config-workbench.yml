@@ -131,9 +131,7 @@ jobs:
           assert scheduled['interval_seconds'] == 360
           assert scheduled['next_refresh_at']>0
           filt,_=request('/api/subscriptions/'+row['id']+'/filter',method='PUT',body={
-              'enabled':True,'includeRegexes':['^Test
-          PY
-],'excludeRegexes':['expired']
+              'enabled':True,'includeRegexes':['Test'],'excludeRegexes':['expired']
           })
           assert filt['enabled'] is True
           req=urllib.request.Request(base+'/api/subscriptions/'+quote(row['token'])+

@@ -36,6 +36,10 @@ jobs:
           path: subboost-src
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: |
+            x86_64-unknown-linux-musl
+            aarch64-unknown-linux-musl
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: subboost-src/rusted
@@ -43,3 +47,15 @@ jobs:
         run: cargo test --manifest-path subboost-src/rusted/Cargo.toml --all-targets
       - name: Check frontend syntax
         run: node --check subboost-src/rusted/ui/app.js
+      - uses: goto-bus-stop/setup-zig@v2
+      - name: Install Rust Zig cross-compiler
+        run: cargo install cargo-zigbuild --locked
+      - name: Build x86_64 and ARM64 musl binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          for target in x86_64-unknown-linux-musl aarch64-unknown-linux-musl; do
+            cargo zigbuild --manifest-path subboost-src/rusted/Cargo.toml --release --target "$target"
+            test -s "subboost-src/rusted/target/$target/release/subboost-rs"
+            file "subboost-src/rusted/target/$target/release/subboost-rs"
+          done

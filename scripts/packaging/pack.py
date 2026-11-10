@@ -128,9 +128,9 @@ def make_subboost_package(source, work):
     shutil.copytree(luci / "htdocs", payload / "www")
     shutil.copytree(luci / "root", payload, dirs_exist_ok=True)
     version = package_version((luci / "Makefile").read_text())
-    postinst = ('#!/bin/sh\\n[ -n "${IPKG_INSTROOT}" ] || {\\n'
-                '\\trm -f /tmp/luci-indexcache.*\\n\\trm -rf /tmp/luci-modulecache/\\n'
-                '\\t/etc/init.d/rpcd reload 2>/dev/null\\n\\texit 0\\n}\\n')
+    postinst = ('#!/bin/sh\n[ -n "${IPKG_INSTROOT}" ] || {\n'
+                '\trm -f /tmp/luci-indexcache.*\n\trm -rf /tmp/luci-modulecache/\n'
+                '\t/etc/init.d/rpcd reload 2>/dev/null\n\texit 0\n}\n')
     return Package(
         "luci-app-subboost", version, payload,
         "LuCI integration for SubBoost subscription management",

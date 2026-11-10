@@ -47,11 +47,11 @@ class PackagingTests(unittest.TestCase):
             root = Path(temp)
             src = root / "source/luci-app-subboost"
             required = {
-                "Makefile": "PKG_VERSION:=2.11.0\\nPKG_RELEASE:=2\\n",
-                "htdocs/luci-static/resources/view/subboost/settings.js": "'use strict';\\n",
-                "root/etc/config/subboost": "config settings 'main'\\n",
-                "root/usr/share/luci/menu.d/luci-app-subboost.json": "{}\\n",
-                "root/usr/share/rpcd/acl.d/luci-app-subboost.json": "{}\\n",
+                "Makefile": "PKG_VERSION:=2.11.0\nPKG_RELEASE:=2\n",
+                "htdocs/luci-static/resources/view/subboost/settings.js": "'use strict';\n",
+                "root/etc/config/subboost": "config settings 'main'\n",
+                "root/usr/share/luci/menu.d/luci-app-subboost.json": "{}\n",
+                "root/usr/share/rpcd/acl.d/luci-app-subboost.json": "{}\n",
             }
             for name, data in required.items():
                 target = src / name

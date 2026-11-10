@@ -31,7 +31,7 @@ class NightlyReleaseTests(unittest.TestCase):
             luci = Path(temporary) / "luci-app-subboost"
             luci.mkdir()
             make = luci / "Makefile"
-            make.write_text("PKG_VERSION:=2.11.0\\nPKG_RELEASE:=1\\n")
+            make.write_text("PKG_VERSION:=2.11.0\nPKG_RELEASE:=1\n")
             revision = stamp.nightly_revision(datetime(2026, 11, 10, tzinfo=timezone.utc), 9)
             make.write_text(stamp.stamp_makefile(make.read_text(), revision))
             self.assertIn(f"PKG_RELEASE:={revision}", make.read_text())

@@ -25,6 +25,7 @@ jobs:
 
 
   subboost-rs-integration:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
@@ -32,7 +33,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: stevessr/subboost
-          ref: feat/openwrt-local-subboost
+          ref: main
           path: subboost-src
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@stable

@@ -60,9 +60,19 @@ def verify(output, branch, require_subboost=False):
                         assert "./www/luci-static/resources/view/subboost/settings.js" in paths, path
                         assert "./usr/share/rpcd/acl.d/luci-app-subboost.json" in paths, path
                         assert "./etc/config/subboost" in paths, path
+                    with tarfile.open(fileobj=io.BytesIO(data), mode="r:gz") as archive:
+                        menu = json.loads(archive.extractfile(
+                            "./usr/share/luci/menu.d/luci-app-subboost.json").read())
+                        entry = menu["admin/services/subboost"]
+                        assert entry["depends"]["acl"] == ["luci-app-subboost"], path
+                        assert "uci" not in entry["depends"], ("Menu hidden by UCI", path)
                     with tarfile.open(fileobj=io.BytesIO(outer_control_data(path)), mode="r:gz") as archive:
                         conffiles = archive.extractfile("./conffiles").read().decode()
+                        postinst = archive.extractfile("./postinst").read().decode()
                         assert "/etc/config/subboost" in conffiles, path
+                        assert "luci-indexcache" in postinst, ("Missing LuCI refresh", path)
+                        assert "/etc/init.d/rpcd reload" in postinst, path
+                        assert "./postinst-pkg" not in archive.getnames(), path
                 if name == "nikki-rs":
                     with tarfile.open(fileobj=io.BytesIO(data), mode="r:gz") as archive:
                         assert archive.getmember("./etc/init.d/nikki-rs").mode == 0o755, path

@@ -124,6 +124,20 @@ def make_subboost_package(source, work):
     for file in required:
         if not file.is_file() or file.is_symlink():
             raise ValueError(f"SubBoost LuCI source is missing or unsafe: {file}")
+
+    # Verify menu discoverability against the actual source, not just the
+    # presence of a menu file. A UCI gate makes it disappear on routers with
+    # missing or cached config despite the LuCI package being installed.
+    menu = json.loads((luci / "root/usr/share/luci/menu.d/luci-app-subboost.json").read_text())
+    acl = json.loads((luci / "root/usr/share/rpcd/acl.d/luci-app-subboost.json").read_text())
+    entry = menu.get("admin/services/subboost", {})
+    depends = entry.get("depends", {})
+    if (entry.get("action", {}).get("path") != "subboost/settings"
+            or depends.get("acl") != ["luci-app-subboost"]
+            or "uci" in depends
+            or "luci-app-subboost" not in acl):
+        raise ValueError("SubBoost LuCI menu missing, gated on UCI, or lacking ACL")
+
     payload = work / "payloads/luci-app-subboost"
     shutil.copytree(luci / "htdocs", payload / "www")
     shutil.copytree(luci / "root", payload, dirs_exist_ok=True)
@@ -262,12 +276,19 @@ def payload_archive(root):
 def lifecycle(package, apk=False):
     guard = '[ -s "${IPKG_INSTROOT}/lib/functions.sh" ] || exit 0\n. "${IPKG_INSTROOT}/lib/functions.sh"\n'
     post = '[ "${IPKG_NO_SCRIPT}" = "1" ] && exit 0\n' + guard
-    if not apk:
-        return {"postinst": "#!/bin/sh\n" + post + 'default_postinst "$0" "$@"\n',
-                "prerm": "#!/bin/sh\n" + guard + 'default_prerm "$0" "$@"\n', **package.scripts}
-    exports = f'export root="${{IPKG_INSTROOT}}"\nexport pkgname="{package.name}"\n'
     custom = package.scripts.get("postinst-pkg", "")
     custom = "\n".join(line for line in custom.splitlines() if not line.startswith("#!"))
+    # OpenWrt LuCI defines Package/.../postinst directly. The custom hook
+    # must be part of the actual opkg postinst script, not an undocumented
+    # control.tar.gz postinst-pkg entry which opkg may never execute.
+    if not apk:
+        remaining = {key: script for key, script in package.scripts.items()
+                     if key != "postinst-pkg"}
+        return {"postinst": "#!/bin/sh\n" + post +
+                'default_postinst "$0" "$@"\n' + custom + "\n",
+                "prerm": "#!/bin/sh\n" + guard + 'default_prerm "$0" "$@"\n',
+                **remaining}
+    exports = f'export root="${{IPKG_INSTROOT}}"\nexport pkgname="{package.name}"\n'
     install = post + exports + "add_group_and_user\ndefault_postinst\n" + custom + "\n"
     result = {"post-install": "#!/bin/sh\n" + install,
               "post-upgrade": "#!/bin/sh\nexport PKG_UPGRADE=1\n" + install,

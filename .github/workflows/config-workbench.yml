@@ -117,5 +117,18 @@ jobs:
           with urllib.request.urlopen(req,timeout=5) as response:
               yaml = response.read().decode()
           assert 'Test' in yaml and 'MATCH,Proxy' in yaml, yaml
-          print('Native HTTP API + SQLite smoke succeeded')
+          templates,_=request('/api/templates')
+          assert len(templates)>=3
+          made,_=request('/api/templates',method='POST',body={
+              'name':'CI preset','description':'test','manual_yaml':'dns:\n  enable: true',
+              'rules_text':'MATCH,Proxy'
+          })
+          assert made['built_in'] is False
+          _,code=request('/api/subscriptions/'+row['id']+'/schedule',method='PUT',
+              body={'interval_seconds':360})
+          assert code == 200
+          scheduled,_=request('/api/subscriptions/'+row['id']+'/schedule')
+          assert scheduled['interval_seconds'] == 360
+          assert scheduled['next_refresh_at']>0
+          print('Native HTTP API + SQLite + templates + refresh schedule smoke succeeded')
           PY

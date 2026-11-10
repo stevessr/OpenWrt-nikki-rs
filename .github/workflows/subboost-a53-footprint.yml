@@ -70,13 +70,16 @@ jobs:
           cargo zigbuild --manifest-path rusted/Cargo.toml \
             --release --target aarch64-unknown-linux-musl
           file rusted/target/aarch64-unknown-linux-musl/release/subboost-rs
-      - name: Native ARM64 RSS and SQLite footprint with 1000 nodes
+      - name: Native ARM64 RSS and SQLite footprint with 1000 and 3000 nodes
         run: |
           python3 rusted/scripts/benchmark.py \
             --binary rusted/target/aarch64-unknown-linux-musl/release/subboost-rs \
-            --nodes 1000 --out a53-arm64-native-rss.json
+            --nodes 1000 --out a53-arm64-native-rss-1000.json
+          python3 rusted/scripts/benchmark.py \
+            --binary rusted/target/aarch64-unknown-linux-musl/release/subboost-rs \
+            --nodes 3000 --out a53-arm64-native-rss-3000.json
       - uses: actions/upload-artifact@v4
         with:
           name: a53-arm64-native-rss
-          path: a53-arm64-native-rss.json
+          path: a53-arm64-native-rss-*.json
           retention-days: 14

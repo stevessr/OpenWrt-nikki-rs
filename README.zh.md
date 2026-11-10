@@ -324,3 +324,4 @@ Nightly 的 `nikki-rs` 与 `luci-app-nikki-rs` 包带有 UTC 日期与构建序�
 Nightly **不更新正式软件源**，其 IPK/APK 默认不签名。
 安装 APK 时需显式使用 `apk add --allow-untrusted`；
 直接下载对应路由器架构及 OpenWrt 版本的安装归档即可。
+\n### SubBoost 与 Nikki RS Nightly 同包发布\n\nNightly 中所有 OpenWrt 24.10、25.12 和 SNAPSHOT 架构的安装归档\n**均包含 `luci-app-subboost`**。构建时从\n[stevessr/subboost](https://github.com/stevessr/subboost) 的 `main`\n获取原始 LuCI 文件（不是另起一份容易过期的复制品），\n并生成对应 `IPK` / `APK`；确切的 SubBoost 源代码提交哈希写入\nNightly Release 的 `SUBBOOST_SOURCE.txt`。打包与发布校验会确认每份归档都实际包含该安装包。\n\n可同时安装 `nikki-rs`、`luci-app-nikki-rs` 和 `luci-app-subboost`。\nSubBoost LuCI 包仅管理订阅链接和向 Nikki RS 同步，不会在路由器部署\nNext.js 或 PostgreSQL 服务；已有的 `/etc/config/subboost` 将作为配置文件保留。\n

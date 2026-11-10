@@ -12,6 +12,9 @@ on:
       nightly:
         type: boolean
         default: false
+      include_subboost:
+        type: boolean
+        default: false
       artifact_retention_days:
         type: number
         default: 1
@@ -28,6 +31,22 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
+      # SubBoost runs as a hosted service; only its architecture-independent
+      # LuCI frontend belongs on the router. Keep the upstream repo as source
+      # of truth rather than retaining an outdated vendored copy.
+      - name: Check out current SubBoost LuCI package
+        if: inputs.include_subboost
+        uses: actions/checkout@v6
+        with:
+          repository: stevessr/subboost
+          ref: main
+          path: .package-subboost
+          persist-credentials: false
+
+      - name: Record exact SubBoost source commit
+        if: inputs.include_subboost
+        run: git -C .package-subboost rev-parse HEAD > SUBBOOST_SOURCE.txt
 
       - name: Install native tool dependencies
         run: |
@@ -55,6 +74,7 @@ jobs:
         if: inputs.nightly
         env:
           NIGHTLY_BUILD_NUMBER: ${{ github.run_number }}
+          SUBBOOST_SOURCE_DIR: ${{ inputs.include_subboost && '.package-subboost' || '' }}
         run: python3 scripts/packaging/stamp-nightly.py
 
       - name: Cache prebuilt core archives
@@ -67,11 +87,22 @@ jobs:
         run: python3 -m unittest discover -s tests -p 'test_packaging.py' -v
 
       - name: Prepare common files and five prebuilt cores
+        env:
+          SUBBOOST_SOURCE_DIR: ${{ inputs.include_subboost && '.package-subboost' || '' }}
         run: |
           python3 scripts/packaging/pack.py prepare
           # Artifact uploads normalize file modes; transport the payload as tar
           # so scripts stay executable and UCI configuration stays mode 0600.
           tar -czf package-inputs.tar.gz .package-work .build-tools/bin
+
+      - name: Upload SubBoost source provenance
+        if: inputs.include_subboost
+        uses: actions/upload-artifact@v7
+        with:
+          name: subboost-source-revision
+          path: SUBBOOST_SOURCE.txt
+          retention-days: 7
+          if-no-files-found: error
 
       - name: Upload prepared files and native tools
         uses: actions/upload-artifact@v7
@@ -110,11 +141,14 @@ jobs:
           KEY_BUILD: ${{ secrets.KEY_BUILD }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           SIGN_PACKAGES: ${{ inputs.sign }}
+          REQUIRE_SUBBOOST: ${{ inputs.include_subboost }}
         run: |
           options=()
           if [[ "$SIGN_PACKAGES" == true ]]; then options+=(--sign); fi
           python3 scripts/packaging/pack.py build --branch '${{ matrix.branch }}' "${options[@]}"
-          python3 scripts/packaging/verify.py --branch '${{ matrix.branch }}'
+          verify_options=()
+          if [[ "$REQUIRE_SUBBOOST" == true ]]; then verify_options+=(--require-subboost); fi
+          python3 scripts/packaging/verify.py --branch '${{ matrix.branch }}' "${verify_options[@]}"
 
       - name: Archive feed tree for publishing
         if: inputs.upload_feed

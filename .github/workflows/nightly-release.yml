@@ -30,6 +30,7 @@ jobs:
     uses: ./.github/workflows/package.yml
     with:
       nightly: true
+      include_subboost: true
       sign: false
       upload_feed: false
       artifact_retention_days: 7
@@ -46,6 +47,10 @@ jobs:
           pattern: nikki-rs_*
           merge-multiple: true
           path: release
+      - uses: actions/download-artifact@v8
+        with:
+          name: subboost-source-revision
+          path: release
       - name: Verify all architecture archives before publishing
         shell: bash
         run: |
@@ -61,6 +66,72 @@ jobs:
           actual="$(find release -maxdepth 1 -type f -name 'nikki-rs_*.tar.gz' | wc -l)"
           echo "Architecture archives: $actual / $expected"
           test "$actual" -eq "$expected"
+          test -s release/SUBBOOST_SOURCE.txt
+          grep -Eq '^[a-f0-9]{40}
+      - name: Ensure this build still matches latest main
+        id: head
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          head="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          if [[ "$head" == "$GITHUB_SHA" ]]; then
+            echo 'publish=true' >> "$GITHUB_OUTPUT"
+          else
+            echo "Skip stale nightly build: $GITHUB_SHA (main is $head)"
+            echo 'publish=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Point nightly tag to the tested main commit
+        if: steps.head.outputs.publish == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/nightly" >/dev/null 2>&1; then
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/nightly" \
+              -f "sha=$GITHUB_SHA" -F force=true >/dev/null
+          else
+            gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
+              -f 'ref=refs/tags/nightly' -f "sha=$GITHUB_SHA" >/dev/null
+          fi
+      - name: Publish and replace nightly release assets
+        if: steps.head.outputs.publish == 'true'
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: nightly
+          name: Nikki RS Nightly
+          target_commitish: ${{ github.sha }}
+          prerelease: true
+          make_latest: false
+          overwrite_files: true
+          fail_on_unmatched_files: true
+          files: |
+            release/nikki-rs_*.tar.gz
+            release/SHA256SUMS
+            release/SUBBOOST_SOURCE.txt
+          body: |
+            Automatic test build from main.
+
+            Commit: ${{ github.sha }}
+            Build: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Contains Nikki RS, LuCI, clash-rs, and luci-app-subboost
+            (from stevessr/subboost main) for the existing
+            OpenWrt 24.10 (IPK), 25.12 (APK), and SNAPSHOT (APK) architecture matrix.
+            Every architecture archive is verified to include SubBoost
+            before the release is updated. See SUBBOOST_SOURCE.txt for the
+            exact source commit used to build the SubBoost LuCI package.
+
+            Nightly packages are unsigned and are not pushed to the stable feed.
+            For direct APK installation use --allow-untrusted.
+ release/SUBBOOST_SOURCE.txt
+          for archive in release/nikki-rs_*.tar.gz; do
+            # Every OpenWrt/architecture archive must contain SubBoost's
+            # actual LuCI package, not just an empty artifact or metadata.
+            tar -tzf "$archive" | grep -E '(^|/)(luci-app-subboost_|luci-app-subboost-)' > /dev/null
+          done
           (cd release && sha256sum nikki-rs_*.tar.gz > SHA256SUMS)
       - name: Ensure this build still matches latest main
         id: head

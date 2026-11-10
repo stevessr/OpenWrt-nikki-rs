@@ -12,6 +12,11 @@ import tarfile
 from pack import TARGETS
 
 
+def outer_control_data(path):
+    with tarfile.open(path, "r:gz") as archive:
+        return archive.extractfile("./control.tar.gz").read()
+
+
 def inspect_ipk(path):
     with tarfile.open(path, "r:gz") as outer:
         control = outer.extractfile("./control.tar.gz").read()
@@ -22,7 +27,7 @@ def inspect_ipk(path):
     return info, data
 
 
-def verify(output, branch):
+def verify(output, branch, require_subboost=False):
     config = TARGETS["branches"][branch]
     common = {}
     count = 0
@@ -32,6 +37,8 @@ def verify(output, branch):
         feed = output / "public" / branch / arch / "nikki_rs"
         versions = json.loads((feed / "index.json").read_text())["packages"]
         assert {"nikki-rs", "clash-rs", "luci-app-nikki-rs"}.issubset(versions), feed
+        if require_subboost:
+            assert "luci-app-subboost" in versions, ("Missing SubBoost LuCI", feed)
         suffix = config["format"]
         paths = sorted(feed.glob("*." + suffix))
         assert len(paths) == len(versions), (feed, "Package count mismatch")
@@ -47,6 +54,15 @@ def verify(output, branch):
                 index = (feed / "Packages").read_text()
                 checksum = hashlib.sha256(path.read_bytes()).hexdigest()
                 assert f"Filename: {filename}\n" in index and f"SHA256sum: {checksum}\n" in index, path
+                if name == "luci-app-subboost":
+                    with tarfile.open(fileobj=io.BytesIO(data), mode="r:gz") as archive:
+                        paths = {member.name for member in archive}
+                        assert "./www/luci-static/resources/view/subboost/settings.js" in paths, path
+                        assert "./usr/share/rpcd/acl.d/luci-app-subboost.json" in paths, path
+                        assert "./etc/config/subboost" in paths, path
+                    with tarfile.open(fileobj=io.BytesIO(outer_control_data(path)), mode="r:gz") as archive:
+                        conffiles = archive.extractfile("./conffiles").read().decode()
+                        assert "/etc/config/subboost" in conffiles, path
                 if name == "nikki-rs":
                     with tarfile.open(fileobj=io.BytesIO(data), mode="r:gz") as archive:
                         assert archive.getmember("./etc/init.d/nikki-rs").mode == 0o755, path
@@ -78,5 +94,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=Path(".package-output"))
     parser.add_argument("--branch", required=True, choices=list(TARGETS["branches"]))
+    parser.add_argument("--require-subboost", action="store_true")
     args = parser.parse_args()
-    verify(args.output, args.branch)
+    verify(args.output, args.branch, require_subboost=args.require_subboost)

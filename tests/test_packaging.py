@@ -40,6 +40,41 @@ class PackagingTests(unittest.TestCase):
         self.output = self.root / "output"
         self.output.mkdir()
 
+
+    def test_subboost_luci_package_preserves_dependencies_and_config(self):
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            src = root / "source/luci-app-subboost"
+            required = {
+                "Makefile": "PKG_VERSION:=2.11.0\\nPKG_RELEASE:=2\\n",
+                "htdocs/luci-static/resources/view/subboost/settings.js": "'use strict';\\n",
+                "root/etc/config/subboost": "config settings 'main'\\n",
+                "root/usr/share/luci/menu.d/luci-app-subboost.json": "{}\\n",
+                "root/usr/share/rpcd/acl.d/luci-app-subboost.json": "{}\\n",
+            }
+            for name, data in required.items():
+                target = src / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(data)
+            package = pack.make_subboost_package(root / "source", root / "work")
+            self.assertEqual(package.name, "luci-app-subboost")
+            self.assertEqual(package.version, "2.11.0-r2")
+            self.assertTrue(package.universal)
+            self.assertEqual(package.depends, ["libc", "luci-base"])
+            self.assertEqual(package.license, "AGPL-3.0-only")
+            self.assertIn("/etc/config/subboost", package.conffiles)
+            self.assertTrue((package.payload / "www/luci-static/resources/view/subboost/settings.js").exists())
+            self.assertTrue((package.payload / "usr/share/rpcd/acl.d/luci-app-subboost.json").exists())
+            archive, meta = pack.package_ipk(package, "x86_64", root / "work")
+            self.assertEqual(meta["Architecture"], "all")
+            contents = tar_contents(archive.read_bytes())
+            control = tar_contents(contents["control.tar.gz"][0])
+            self.assertIn(b"/etc/config/subboost", control["conffiles"][0])
+            installed = tar_contents(contents["data.tar.gz"][0])
+            self.assertIn("www/luci-static/resources/view/subboost/settings.js", installed)
+            self.assertIn("etc/config/subboost", installed)
+
     def test_package_release_is_not_hardcoded(self):
         self.assertEqual(pack.package_version("PKG_VERSION:=1.0.7\nPKG_RELEASE:=10\n"), "1.0.7-r10")
         self.assertEqual(pack.package_version("PKG_VERSION:=1.0.7\n"), "1.0.7-r1")

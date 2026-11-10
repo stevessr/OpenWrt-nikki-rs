@@ -33,10 +33,13 @@ def stamp_makefile(content: str, revision: str) -> str:
 def main() -> None:
     run_number = int(os.environ["NIGHTLY_BUILD_NUMBER"])
     revision = nightly_revision(datetime.now(timezone.utc), run_number)
-    for filename in PACKAGES:
-        path = ROOT / filename
+    filenames = [ROOT / filename for filename in PACKAGES]
+    source = os.environ.get("SUBBOOST_SOURCE_DIR")
+    if source:
+        filenames.append(Path(source) / "luci-app-subboost/Makefile")
+    for path in filenames:
         path.write_text(stamp_makefile(path.read_text(), revision))
-        print(f"{filename}: Nightly revision {revision}", flush=True)
+        print(f"{path}: Nightly revision {revision}", flush=True)
 
 
 if __name__ == "__main__":

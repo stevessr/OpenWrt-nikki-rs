@@ -25,6 +25,18 @@ class NightlyReleaseTests(unittest.TestCase):
         self.assertIn("PKG_RELEASE:=2026111000022", updated)
         self.assertNotEqual(updated, original)
 
+    def test_subboost_version_is_stamped_with_the_same_nightly_revision(self):
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory() as temporary:
+            luci = Path(temporary) / "luci-app-subboost"
+            luci.mkdir()
+            make = luci / "Makefile"
+            make.write_text("PKG_VERSION:=2.11.0\nPKG_RELEASE:=1\n")
+            revision = stamp.nightly_revision(datetime(2026, 11, 10, tzinfo=timezone.utc), 9)
+            make.write_text(stamp.stamp_makefile(make.read_text(), revision))
+            self.assertIn(f"PKG_RELEASE:={revision}", make.read_text())
+            self.assertIn("PKG_VERSION:=2.11.0", make.read_text())
+
     def test_stamp_rejects_ambiguous_makefiles(self):
         with self.assertRaises(ValueError):
             stamp.stamp_makefile("PKG_VERSION:=1.0.7\n", "20261110001")
@@ -40,6 +52,13 @@ class NightlyReleaseTests(unittest.TestCase):
         self.assertIn("schedule:", workflow)
         self.assertIn("workflow_dispatch:", workflow)
         self.assertIn("nightly: true", workflow)
+        self.assertIn("include_subboost: true", workflow)
+        self.assertIn("subboost-source-revision", workflow)
+        self.assertIn("luci-app-subboost", workflow)
+        self.assertIn("SUBBOOST_SOURCE.txt", workflow)
+        self.assertIn("repository: stevessr/subboost", package)
+        self.assertIn("SUBBOOST_SOURCE_DIR", package)
+        self.assertIn("--require-subboost", package)
         self.assertIn("sign: false", workflow)
         self.assertIn("upload_feed: false", workflow)
         self.assertIn("needs: packages", workflow)

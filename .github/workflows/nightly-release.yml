@@ -30,6 +30,7 @@ jobs:
     uses: ./.github/workflows/package.yml
     with:
       nightly: true
+      include_subboost: true
       sign: false
       upload_feed: false
       artifact_retention_days: 7
@@ -46,6 +47,10 @@ jobs:
           pattern: nikki-rs_*
           merge-multiple: true
           path: release
+      - uses: actions/download-artifact@v8
+        with:
+          name: subboost-source-revision
+          path: release
       - name: Verify all architecture archives before publishing
         shell: bash
         run: |
@@ -61,6 +66,11 @@ jobs:
           actual="$(find release -maxdepth 1 -type f -name 'nikki-rs_*.tar.gz' | wc -l)"
           echo "Architecture archives: $actual / $expected"
           test "$actual" -eq "$expected"
+          test -s release/SUBBOOST_SOURCE.txt
+          grep -Eq '^[a-f0-9]{40}$' release/SUBBOOST_SOURCE.txt
+          for archive in release/nikki-rs_*.tar.gz; do
+            tar -tzf "$archive" | grep -E '(^|/)(luci-app-subboost_|luci-app-subboost-)' > /dev/null
+          done
           (cd release && sha256sum nikki-rs_*.tar.gz > SHA256SUMS)
       - name: Ensure this build still matches latest main
         id: head
@@ -104,15 +114,18 @@ jobs:
           files: |
             release/nikki-rs_*.tar.gz
             release/SHA256SUMS
+            release/SUBBOOST_SOURCE.txt
           body: |
             Automatic test build from main.
 
             Commit: ${{ github.sha }}
             Build: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-            Contains Nikki RS, LuCI, and clash-rs packages for the existing
+            Contains Nikki RS, LuCI, clash-rs, and luci-app-subboost
+            (from stevessr/subboost main) for the existing
             OpenWrt 24.10 (IPK), 25.12 (APK), and SNAPSHOT (APK) architecture matrix.
-            Archives are verified before the release is updated.
+            Each architecture archive is verified to include SubBoost.
+            See SUBBOOST_SOURCE.txt for the exact SubBoost source commit.
 
             Nightly packages are unsigned and are not pushed to the stable feed.
             For direct APK installation use --allow-untrusted.

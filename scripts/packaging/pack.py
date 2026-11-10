@@ -106,6 +106,42 @@ def translation_version():
     return f"{date:%y.%j}.{stamp % 86400:05d}~{commit}"
 
 
+def make_subboost_package(source, work):
+    """Repackage the original SubBoost LuCI-only files for our native IPK/APK matrix.
+
+    This does NOT bundle SubBoost's Next.js app, database or backend, and does
+    not give the hosted web service any additional router runtime privileges.
+    """
+    source = Path(source)
+    luci = source / "luci-app-subboost"
+    required = [
+        luci / "Makefile",
+        luci / "htdocs/luci-static/resources/view/subboost/settings.js",
+        luci / "root/etc/config/subboost",
+        luci / "root/usr/share/luci/menu.d/luci-app-subboost.json",
+        luci / "root/usr/share/rpcd/acl.d/luci-app-subboost.json",
+    ]
+    for file in required:
+        if not file.is_file() or file.is_symlink():
+            raise ValueError(f"SubBoost LuCI source is missing or unsafe: {file}")
+    payload = work / "payloads/luci-app-subboost"
+    shutil.copytree(luci / "htdocs", payload / "www")
+    shutil.copytree(luci / "root", payload, dirs_exist_ok=True)
+    version = package_version((luci / "Makefile").read_text())
+    postinst = ('#!/bin/sh\n[ -n "${IPKG_INSTROOT}" ] || {\n'
+                '\trm -f /tmp/luci-indexcache.*\n\trm -rf /tmp/luci-modulecache/\n'
+                '\t/etc/init.d/rpcd reload 2>/dev/null\n\texit 0\n}\n')
+    return Package(
+        "luci-app-subboost", version, payload,
+        "LuCI integration for SubBoost subscription management",
+        ["libc", "luci-base"],
+        conffiles=["/etc/config/subboost"],
+        scripts={"postinst-pkg": postinst},
+        universal=True, section="luci", license="AGPL-3.0-only",
+        url="https://github.com/stevessr/subboost",
+    )
+
+
 def prepare(work, cache):
     if (work / "manifest.json").exists():
         raise ValueError(f"Use a fresh preparation directory: {work}")
@@ -133,6 +169,10 @@ def prepare(work, cache):
     packages.append(Package("luci-app-nikki-rs", version, payload, "LuCI Support for nikki-rs",
                             ["libc", "luci-base", "nikki-rs"], scripts={"postinst-pkg": postinst},
                             universal=True, section="luci"))
+    subboost_source = os.environ.get("SUBBOOST_SOURCE_DIR")
+    if subboost_source:
+        packages.append(make_subboost_package(subboost_source, work))
+
     po_version = translation_version()
     languages = {"zh_Hans": "zh-cn", "zh_Hant": "zh-tw"}
     for directory in sorted((luci / "po").iterdir()):

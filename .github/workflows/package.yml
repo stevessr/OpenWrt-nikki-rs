@@ -9,6 +9,9 @@ on:
       upload_feed:
         type: boolean
         default: false
+      nightly:
+        type: boolean
+        default: false
       artifact_retention_days:
         type: number
         default: 1
@@ -47,6 +50,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CLASH_RS_CACHE_DIR: .package-cache
         run: bash scripts/packaging/update-clash-rs.sh
+
+      - name: Stamp nightly package versions
+        if: inputs.nightly
+        env:
+          NIGHTLY_BUILD_NUMBER: ${{ github.run_number }}
+        run: python3 scripts/packaging/stamp-nightly.py
 
       - name: Cache prebuilt core archives
         uses: actions/cache@v4

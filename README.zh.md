@@ -305,3 +305,22 @@ SubBoost 订阅链接也支持反向代理前缀（例如
 `/subboost/api/subscriptions/TOKEN/config.yaml`）。LuCI 在导入时将
 `target` 规范为 `clash-rs`，并识别参数排列顺序不同或旧版本
 `target=nikki-rs` 的同一订阅，避免生成重复 UCI 条目。
+
+## Nightly 自动发布
+
+仓库 `main` 上 Nikki RS、LuCI、clash-rs 或打包相关文件变更后，会自动触发
+[Nightly Release](https://github.com/stevessr/OpenWrt-nikki-rs/releases/tag/nightly)。
+每天 UTC 18:00（日本时间次日凌晨 03:00）还会执行一次定时构建，
+也可在 GitHub Actions 的 **Nightly Release → Run workflow** 手动触发。
+
+Nightly 先使用已有的 OpenWrt 24.10、25.12、SNAPSHOT 打包矩阵，
+确认所有 42 个架构安装包归档完成，再更新滚动的 `nightly` 标签，
+上传按架构划分的 `.tar.gz` 安装归档和 `SHA256SUMS`。
+失败的构建不会替换之前成功的 Nightly。并发构建不会交叉覆盖产物。
+Nightly 的 `nikki-rs` 与 `luci-app-nikki-rs` 包带有 UTC 日期与构建序号的
+`PKG_RELEASE`，确保即使正常版本号尚未改变也可以进行包升级；
+正式发布和源码 Makefile 中的版本号不受影响。
+
+Nightly **不更新正式软件源**，其 IPK/APK 默认不签名。
+安装 APK 时需显式使用 `apk add --allow-untrusted`；
+直接下载对应路由器架构及 OpenWrt 版本的安装归档即可。

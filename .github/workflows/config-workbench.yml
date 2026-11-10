@@ -47,6 +47,10 @@ jobs:
         run: cargo test --manifest-path subboost-src/rusted/Cargo.toml --all-targets
       - name: Check frontend syntax
         run: node --check subboost-src/rusted/ui/app.js
+      - name: Validate procd and administration shell scripts
+        run: |
+          sh -n subboost-src/rusted/openwrt/subboost-rs.init
+          sh -n subboost-src/rusted/openwrt/subboost-rsctl
       - uses: goto-bus-stop/setup-zig@v2
       - name: Install Rust Zig cross-compiler
         run: cargo install cargo-zigbuild --locked

@@ -190,6 +190,15 @@ jobs:
                   assert e.code==502
               previous,_=request('/api/subscriptions/'+profile['id'])
               assert 'One' in previous['nodes_yaml'] and 'Two' in previous['nodes_yaml']
+              assert previous['revision'] > profile['revision']
+              edited,_=request('/api/subscriptions/'+profile['id'],method='PUT',body={
+                  'name':'Dual source edited','source_urls':profile['source_urls'],
+                  'manual_yaml':'','rules_text':'MATCH,DIRECT'})
+              assert 'One' in edited['nodes_yaml'] and 'Two' in edited['nodes_yaml']
+              changed,_=request('/api/subscriptions/'+profile['id'],method='PUT',body={
+                  'name':'New sources','source_urls':['http://127.0.0.1:38642/new'],
+                  'manual_yaml':'','rules_text':'MATCH,DIRECT'})
+              assert changed['nodes_yaml']=='' and changed['revision']>edited['revision']
           finally:
               local.shutdown()
           print('Native API + SQLite + templates + schedule + filter + provider outage recovery succeeded')

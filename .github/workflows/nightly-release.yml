@@ -31,6 +31,7 @@ jobs:
     with:
       nightly: true
       include_subboost: true
+      include_subboost_rs: true
       sign: false
       upload_feed: false
       artifact_retention_days: 7
@@ -71,6 +72,31 @@ jobs:
           for archive in release/nikki-rs_*.tar.gz; do
             tar -tzf "$archive" | grep -E '(^|/)(luci-app-subboost_|luci-app-subboost-)' > /dev/null
           done
+          # Explicitly verify native APKs are present on every supported
+          # x86/ARM64 target, and absent on unsupportable architectures.
+          python3 - <<'PY'
+          import json, tarfile
+          from pathlib import Path
+          targets = json.loads(Path('scripts/packaging/targets.json').read_text())
+          allowed = {'x86_64-unknown-linux-musl', 'aarch64-unknown-linux-musl'}
+          native_count = 0
+          for branch, info in targets['branches'].items():
+              for arch, target in targets['architectures'].items():
+                  if arch in info['exclude']:
+                      continue
+                  archive = Path('release') / f'nikki-rs_{arch}-{branch}.tar.gz'
+                  with tarfile.open(archive, 'r:gz') as tar:
+                      found = [v for v in tar.getnames()
+                               if Path(v).name.startswith('subboost-rs-')
+                               and v.endswith('.apk')]
+                  expected = info['format'] == 'apk' and target in allowed
+                  if bool(found) != expected:
+                      raise SystemExit(f'Invalid SubBoost native APK contents: {archive}: {found}')
+                  native_count += bool(found)
+          print(f'Verified {native_count} native SubBoost APKs and {expected} target conditions')
+          if native_count != 10:
+              raise SystemExit('Expected exactly 10 supported native SubBoost APK archives')
+          PY
           (cd release && sha256sum nikki-rs_*.tar.gz > SHA256SUMS)
       - name: Ensure this build still matches latest main
         id: head
@@ -121,10 +147,13 @@ jobs:
             Commit: ${{ github.sha }}
             Build: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
-            Contains Nikki RS, LuCI, clash-rs, and luci-app-subboost
+            Contains Nikki RS, LuCI, clash-rs, luci-app-subboost and
+            the native Rust + SQLite subboost-rs APK for supported
+            x86_64 and aarch64 OpenWrt 25.12/SNAPSHOT architectures.
             (from stevessr/subboost main) for the existing
             OpenWrt 24.10 (IPK), 25.12 (APK), and SNAPSHOT (APK) architecture matrix.
-            Each architecture archive is verified to include SubBoost.
+            Each archive contains SubBoost LuCI; 10 compatible APK archives
+            additionally include the actual native Rust server and WebUI.
             See SUBBOOST_SOURCE.txt for the exact SubBoost source commit.
 
             Nightly packages are unsigned and are not pushed to the stable feed.

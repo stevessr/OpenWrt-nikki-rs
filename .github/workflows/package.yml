@@ -15,6 +15,9 @@ on:
       include_subboost:
         type: boolean
         default: false
+      include_subboost_rs:
+        type: boolean
+        default: false
       artifact_retention_days:
         type: number
         default: 1
@@ -86,9 +89,38 @@ jobs:
       - name: Test packaging behavior
         run: python3 -m unittest discover -s tests -p 'test_packaging.py' -v
 
+      - uses: dtolnay/rust-toolchain@stable
+        if: inputs.include_subboost_rs
+        with:
+          targets: |
+            x86_64-unknown-linux-musl
+            aarch64-unknown-linux-musl
+      - uses: Swatinem/rust-cache@v2
+        if: inputs.include_subboost_rs
+        with:
+          workspaces: .package-subboost/rusted
+          key: openwrt-subboost-rs-musl
+      - uses: goto-bus-stop/setup-zig@v2
+        if: inputs.include_subboost_rs
+      - name: Build and validate native Rust SubBoost binaries
+        if: inputs.include_subboost_rs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .package-subboost/rusted/Cargo.toml
+          cargo test --manifest-path .package-subboost/rusted/Cargo.toml --all-targets
+          cargo install cargo-zigbuild --locked
+          mkdir -p .package-subboost-binaries
+          for target in x86_64-unknown-linux-musl aarch64-unknown-linux-musl; do
+            cargo zigbuild --manifest-path .package-subboost/rusted/Cargo.toml --release --target "$target"
+            install -Dm755 ".package-subboost/rusted/target/$target/release/subboost-rs" ".package-subboost-binaries/$target/subboost-rs"
+            file ".package-subboost-binaries/$target/subboost-rs"
+          done
+
       - name: Prepare common files and five prebuilt cores
         env:
           SUBBOOST_SOURCE_DIR: ${{ inputs.include_subboost && '.package-subboost' || '' }}
+          SUBBOOST_RS_BINARIES: ${{ inputs.include_subboost_rs && '.package-subboost-binaries' || '' }}
         run: |
           python3 scripts/packaging/pack.py prepare
           # Artifact uploads normalize file modes; transport the payload as tar
@@ -142,12 +174,14 @@ jobs:
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           SIGN_PACKAGES: ${{ inputs.sign }}
           REQUIRE_SUBBOOST: ${{ inputs.include_subboost }}
+          REQUIRE_NATIVE_SUBBOOST: ${{ inputs.include_subboost_rs }}
         run: |
           options=()
           if [[ "$SIGN_PACKAGES" == true ]]; then options+=(--sign); fi
           python3 scripts/packaging/pack.py build --branch '${{ matrix.branch }}' "${options[@]}"
           verify_options=()
           if [[ "$REQUIRE_SUBBOOST" == true ]]; then verify_options+=(--require-subboost); fi
+          if [[ "$REQUIRE_NATIVE_SUBBOOST" == true ]]; then verify_options+=(--require-native-subboost); fi
           python3 scripts/packaging/verify.py --branch '${{ matrix.branch }}' "${verify_options[@]}"
 
       - name: Archive feed tree for publishing

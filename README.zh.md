@@ -359,3 +359,10 @@ rm -rf /tmp/luci-modulecache/
 
 若 `/etc/config/subboost` 已丢失，可以按照 SubBoost 文档恢复默认 UCI
 配置，升级不会清除已有用户设置。
+
+
+### 原生 SubBoost RS APK（Rust + SQLite）
+
+Nightly 在 OpenWrt 25.12 / SNAPSHOT 的 x86_64 和所有 aarch64 变种归档内添加 `subboost-rs` 原生 APK，与 `luci-app-subboost` 分离。Rust 服务使用 SQLite WAL、内嵌 WebUI，直接在路由器端运行，不再依赖 Node.js 和 PostgreSQL。其它架构仍仅发布 LuCI 包，直至该架构的原生二进制通过验证。
+
+安装后使用 `/etc/init.d/subboost-rs` 管理服务，`subboost-rsctl token` 查看管理令牌，浏览器打开 `http://路由器地址:3000`。服务作为 nobody 运行，数据存放 `/etc/subboost-rs`，卸载 APK 不删除数据库。端口默认仅依赖 OpenWrt 防火墙的 LAN/WAN 分区隔离；请勿向 WAN 暴露 3000 端口。高阶模板与自动规则策略仍在继续移植，当前 Rust 后端不宣称与 Next.js 全功能等价。

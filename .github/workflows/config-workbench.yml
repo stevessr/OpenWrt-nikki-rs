@@ -22,3 +22,100 @@ jobs:
         run: |
           find luci-app-nikki-rs/htdocs/luci-static/resources -name '*.js' -print0 |
             xargs -0 -n 1 node --check
+
+
+  subboost-rs-integration:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Fetch current SubBoost RS feature source
+        uses: actions/checkout@v4
+        with:
+          repository: stevessr/subboost
+          ref: main
+          path: subboost-src
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: |
+            x86_64-unknown-linux-musl
+            aarch64-unknown-linux-musl
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: subboost-src/rusted
+      - name: Compile and test Rust + SQLite server and HTTP API
+        run: cargo test --manifest-path subboost-src/rusted/Cargo.toml --all-targets
+      - name: Check frontend syntax
+        run: node --check subboost-src/rusted/ui/app.js
+      - name: Validate procd and administration shell scripts
+        run: |
+          sh -n subboost-src/rusted/openwrt/subboost-rs.init
+          sh -n subboost-src/rusted/openwrt/subboost-rsctl
+      - uses: goto-bus-stop/setup-zig@v2
+      - name: Install Rust Zig cross-compiler
+        run: cargo install cargo-zigbuild --locked
+      - name: Build x86_64 and ARM64 musl binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          for target in x86_64-unknown-linux-musl aarch64-unknown-linux-musl; do
+            cargo zigbuild --manifest-path subboost-src/rusted/Cargo.toml --release --target "$target"
+            test -s "subboost-src/rusted/target/$target/release/subboost-rs"
+            file "subboost-src/rusted/target/$target/release/subboost-rs"
+          done
+
+      - name: Native router server HTTP + SQLite lifecycle smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          binary="$PWD/subboost-src/rusted/target/x86_64-unknown-linux-musl/release/subboost-rs"
+          export SUBBOOST_DB="$RUNNER_TEMP/subboost-smoke.sqlite"
+          export SUBBOOST_TOKEN_FILE="$RUNNER_TEMP/subboost-smoke.token"
+          export SUBBOOST_BIND=127.0.0.1:38641
+          "$binary" > "$RUNNER_TEMP/subboost-smoke.log" 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          python3 - <<'PY'
+          import json
+          import os
+          import pathlib
+          import time
+          import urllib.request
+          import urllib.error
+          from urllib.parse import quote
+          base = 'http://127.0.0.1:38641'
+          token_file = pathlib.Path(os.environ['SUBBOOST_TOKEN_FILE'])
+          for _ in range(100):
+              try:
+                  with urllib.request.urlopen(base+'/api/health/live', timeout=1) as response:
+                      assert json.load(response)['database'] == 'sqlite'
+                  break
+              except (OSError, AssertionError):
+                  time.sleep(.1)
+          else:
+              raise SystemExit('Native HTTP server did not become healthy')
+          token = token_file.read_text().strip()
+          def request(path, *, method='GET', body=None, authorized=True):
+              data = json.dumps(body).encode() if body is not None else None
+              headers = {'Content-Type':'application/json'}
+              if authorized: headers['Authorization'] = 'Bearer '+token
+              req = urllib.request.Request(base+path,data=data,headers=headers,method=method)
+              with urllib.request.urlopen(req,timeout=5) as response:
+                  return json.loads(response.read()),response.status
+          try:
+              request('/api/subscriptions',authorized=False)
+              raise SystemExit('Unauthenticated access unexpectedly allowed')
+          except urllib.error.HTTPError as err:
+              assert err.code == 401
+          row,_ = request('/api/subscriptions',method='POST',body={
+              'name':'CI profile','source_urls':[],
+              'manual_yaml':'proxies:\n  - {name: Test, type: ss, server: example.org, port: 8388, cipher: aes-128-gcm, password: test}\n',
+              'rules_text':'MATCH,Proxy'
+          })
+          req = urllib.request.Request(base+'/api/subscriptions/'+quote(row['token'])+'/config.yaml?target=clash-rs')
+          with urllib.request.urlopen(req,timeout=5) as response:
+              yaml = response.read().decode()
+          assert 'Test' in yaml and 'MATCH,Proxy' in yaml, yaml
+          print('Native HTTP API + SQLite smoke succeeded')
+          PY

@@ -27,7 +27,7 @@ def inspect_ipk(path):
     return info, data
 
 
-def verify(output, branch, require_subboost=False):
+def verify(output, branch, require_subboost=False, require_native_subboost=False):
     config = TARGETS["branches"][branch]
     common = {}
     count = 0
@@ -39,6 +39,13 @@ def verify(output, branch, require_subboost=False):
         assert {"nikki-rs", "clash-rs", "luci-app-nikki-rs"}.issubset(versions), feed
         if require_subboost:
             assert "luci-app-subboost" in versions, ("Missing SubBoost LuCI", feed)
+        target = TARGETS["architectures"][arch]
+        native_supported = (config["format"] == "apk" and target in {
+            "x86_64-unknown-linux-musl", "aarch64-unknown-linux-musl"
+        })
+        if require_native_subboost:
+            assert ("subboost-rs" in versions) == native_supported, (
+                "Native SubBoost package missing or shipped to unsupported arch", feed)
         suffix = config["format"]
         paths = sorted(feed.glob("*." + suffix))
         assert len(paths) == len(versions), (feed, "Package count mismatch")
@@ -84,6 +91,9 @@ def verify(output, branch, require_subboost=False):
                 info = json.loads(result)["info"]
                 assert info["name"] == name and info["version"] == version, path
                 assert info["arch"] == package_arch, path
+                if name == "subboost-rs":
+                    assert "luci-app-subboost" in str(info.get("depends", [])), path
+                    assert "procd" in str(info.get("depends", [])), path
             if universal:
                 digest = hashlib.sha256(path.read_bytes()).hexdigest()
                 assert common.setdefault(name, digest) == digest, "Universal package differs by architecture"
@@ -105,5 +115,7 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path, default=Path(".package-output"))
     parser.add_argument("--branch", required=True, choices=list(TARGETS["branches"]))
     parser.add_argument("--require-subboost", action="store_true")
+    parser.add_argument("--require-native-subboost", action="store_true")
     args = parser.parse_args()
-    verify(args.output, args.branch, require_subboost=args.require_subboost)
+    verify(args.output, args.branch, require_subboost=args.require_subboost,
+           require_native_subboost=args.require_native_subboost)

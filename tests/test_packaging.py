@@ -107,6 +107,46 @@ class PackagingTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "gated on UCI"):
                 pack.make_subboost_package(root / "source", root / "work")
 
+    def test_native_subboost_architecture_validation_and_service_payload(self):
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            source = root / "source"
+            bins = root / "bins"
+            rust = source / "rusted"
+            pack.write(rust / "Cargo.toml", '[package]\nversion = "0.1.0"\n')
+            pack.write(source / "luci-app-subboost/Makefile", "PKG_VERSION:=2.11.0\nPKG_RELEASE:=77\n")
+            for path, contents in {
+                "openwrt/subboost-rs.init": "#!/bin/sh /etc/rc.common\nUSE_PROCD=1\n",
+                "openwrt/subboost-rs.config": "config service 'main'\n",
+                "openwrt/subboost-rsctl": "#!/bin/sh\n",
+            }.items():
+                pack.write(rust / path, contents)
+            machines = {"x86_64-unknown-linux-musl": 62, "aarch64-unknown-linux-musl": 183}
+            for target, machine in machines.items():
+                elf = bytearray(64)
+                elf[:4] = b"\x7fELF"
+                elf[18:20] = machine.to_bytes(2, "little")
+                (bins / target).mkdir(parents=True)
+                (bins / target / "subboost-rs").write_bytes(elf)
+            native = pack.make_native_subboost_packages(source, bins, root / "work")
+            self.assertEqual(set(native), set(machines))
+            self.assertEqual(native["x86_64-unknown-linux-musl"].version, "0.1.0-r77")
+            for target, package in native.items():
+                self.assertFalse(package.universal)
+                self.assertEqual(package.name, "subboost-rs")
+                self.assertEqual(package.depends, ["libc", "procd", "luci-app-subboost"])
+                self.assertIn("/etc/config/subboost-rs", package.conffiles)
+                self.assertEqual((package.payload / "etc/config/subboost-rs").stat().st_mode & 0o777, 0o600)
+                self.assertEqual((package.payload / "etc/init.d/subboost-rs").stat().st_mode & 0o777, 0o755)
+                self.assertTrue((package.payload / "usr/bin/subboost-rs").exists())
+
+            (bins / "aarch64-unknown-linux-musl/subboost-rs").write_bytes(
+                (bins / "x86_64-unknown-linux-musl/subboost-rs").read_bytes()
+            )
+            with self.assertRaisesRegex(ValueError, "wrong-architecture"):
+                pack.make_native_subboost_packages(source, bins, root / "wrong")
+
     def test_package_release_is_not_hardcoded(self):
         self.assertEqual(pack.package_version("PKG_VERSION:=1.0.7\nPKG_RELEASE:=10\n"), "1.0.7-r10")
         self.assertEqual(pack.package_version("PKG_VERSION:=1.0.7\n"), "1.0.7-r1")

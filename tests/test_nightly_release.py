@@ -53,6 +53,8 @@ class NightlyReleaseTests(unittest.TestCase):
         self.assertIn("workflow_dispatch:", workflow)
         self.assertIn("nightly: true", workflow)
         self.assertIn("include_subboost: true", workflow)
+        self.assertIn("include_subboost_rs: true", workflow)
+        self.assertIn("Expected exactly 10 supported native SubBoost APK", workflow)
         self.assertIn("subboost-source-revision", workflow)
         self.assertIn("luci-app-subboost", workflow)
         self.assertIn("SUBBOOST_SOURCE.txt", workflow)

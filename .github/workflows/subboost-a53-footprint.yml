@@ -1,0 +1,103 @@
+name: SubBoost Cortex-A53 footprint
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/subboost-a53-footprint.yml'
+      - 'scripts/packaging/**'
+
+permissions:
+  contents: read
+
+jobs:
+  published-package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch published Cortex-A53 APK release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release download nightly -R stevessr/OpenWrt-nikki-rs \
+            -p 'nikki-rs_aarch64_cortex-a53-openwrt-25.12.tar.gz' -D .
+      - name: Report exact APK and combined archive bytes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, tarfile
+          from pathlib import Path
+          archive=Path('nikki-rs_aarch64_cortex-a53-openwrt-25.12.tar.gz')
+          with tarfile.open(archive) as f:
+              entries={Path(m.name).name: m.size for m in f if m.isfile()}
+          native={k:v for k,v in entries.items() if k.startswith('subboost-rs-') and k.endswith('.apk')}
+          luci={k:v for k,v in entries.items() if k.startswith('luci-app-subboost-') and k.endswith('.apk')}
+          assert len(native)==1 and len(luci)==1,(native,luci)
+          result={'release':'nightly','arch':'aarch64_cortex-a53','openwrt':'25.12',
+              'combined_archive_bytes':archive.stat().st_size,
+              'subboost_rs_apk_bytes':next(iter(native.values())),
+              'luci_app_subboost_apk_bytes':next(iter(luci.values()))}
+          print(json.dumps(result,indent=2))
+          Path('a53-apk-size.json').write_text(json.dumps(result,indent=2)+'\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: a53-published-apk-size
+          path: a53-apk-size.json
+          retention-days: 14
+
+  arm64-native-rss:
+    # Same architecture & musl build, but not physical Cortex-A53 hardware.
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: stevessr/subboost
+          ref: main
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-unknown-linux-musl
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: rusted
+          key: a53-footprint
+      - uses: goto-bus-stop/setup-zig@v2
+      - name: Build exact musl target shipped to A53
+        run: |
+          cargo install cargo-zigbuild --locked
+          cargo zigbuild --manifest-path rusted/Cargo.toml \
+            --release --target aarch64-unknown-linux-musl
+          file rusted/target/aarch64-unknown-linux-musl/release/subboost-rs
+      - name: Native ARM64 RSS and SQLite footprint with 1000 and 3000 nodes
+        run: |
+          python3 rusted/scripts/benchmark.py \
+            --binary rusted/target/aarch64-unknown-linux-musl/release/subboost-rs \
+            --nodes 1000 --out a53-arm64-native-rss-1000.json
+          python3 rusted/scripts/benchmark.py \
+            --binary rusted/target/aarch64-unknown-linux-musl/release/subboost-rs \
+            --nodes 3000 --out a53-arm64-native-rss-3000.json
+          python3 rusted/scripts/benchmark.py \
+            --binary rusted/target/aarch64-unknown-linux-musl/release/subboost-rs \
+            --nodes 1000 --modules full --out a53-arm64-native-rss-1000-full.json
+          python3 rusted/scripts/benchmark.py \
+            --binary rusted/target/aarch64-unknown-linux-musl/release/subboost-rs \
+            --nodes 3000 --modules standard --out a53-arm64-native-rss-3000-standard.json
+      - name: Enforce broad ARM64 runtime and binary footprint budgets
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          for filename in sorted(Path('.').glob('a53-arm64-native-rss-*.json')):
+              d=json.loads(filename.read_text())
+              assert d['binary_bytes'] <= 6*1024*1024,(filename,d['binary_bytes'])
+              limit=40*1024 if d['node_count']==1000 else 64*1024
+              assert d['loaded']['VmRSS_kib'] <= limit,(filename,d['loaded'])
+              print(filename,'RSS',d['loaded']['VmRSS_kib'],'KiB; binary',d['binary_bytes'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: a53-arm64-native-rss
+          path: a53-arm64-native-rss-*.json
+          retention-days: 14

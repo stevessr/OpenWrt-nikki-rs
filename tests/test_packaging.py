@@ -50,8 +50,12 @@ class PackagingTests(unittest.TestCase):
                 "Makefile": "PKG_VERSION:=2.11.0\nPKG_RELEASE:=2\n",
                 "htdocs/luci-static/resources/view/subboost/settings.js": "'use strict';\n",
                 "root/etc/config/subboost": "config settings 'main'\n",
-                "root/usr/share/luci/menu.d/luci-app-subboost.json": "{}\n",
-                "root/usr/share/rpcd/acl.d/luci-app-subboost.json": "{}\n",
+                "root/usr/share/luci/menu.d/luci-app-subboost.json":
+                    '{"admin/services/subboost":{"action":{"type":"view",'
+                    '"path":"subboost/settings"},"depends":{"acl":["luci-app-subboost"]}}}\n',
+                "root/usr/share/rpcd/acl.d/luci-app-subboost.json":
+                    '{"luci-app-subboost":{"description":"SubBoost",'
+                    '"read":{"uci":["subboost"]}}}\n',
             }
             for name, data in required.items():
                 target = src / name
@@ -71,9 +75,37 @@ class PackagingTests(unittest.TestCase):
             contents = tar_contents(archive.read_bytes())
             control = tar_contents(contents["control.tar.gz"][0])
             self.assertIn(b"/etc/config/subboost", control["conffiles"][0])
+            self.assertIn(b"luci-indexcache", control["postinst"][0])
+            self.assertIn(b"/etc/init.d/rpcd reload", control["postinst"][0])
+            self.assertNotIn("postinst-pkg", control)
             installed = tar_contents(contents["data.tar.gz"][0])
             self.assertIn("www/luci-static/resources/view/subboost/settings.js", installed)
             self.assertIn("etc/config/subboost", installed)
+
+    def test_subboost_menu_with_uci_gate_is_rejected_before_packaging(self):
+        from tempfile import TemporaryDirectory
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            luci = root / "source/luci-app-subboost"
+            for filename in (
+                "Makefile",
+                "htdocs/luci-static/resources/view/subboost/settings.js",
+                "root/etc/config/subboost",
+                "root/usr/share/luci/menu.d/luci-app-subboost.json",
+                "root/usr/share/rpcd/acl.d/luci-app-subboost.json",
+            ):
+                target = luci / filename
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text("PKG_VERSION:=1\nPKG_RELEASE:=1\n")
+            (luci / "root/usr/share/luci/menu.d/luci-app-subboost.json").write_text(
+                '{"admin/services/subboost":{"action":{"path":"subboost/settings"},'
+                '"depends":{"acl":["luci-app-subboost"],"uci":{"subboost":true}}}}'
+            )
+            (luci / "root/usr/share/rpcd/acl.d/luci-app-subboost.json").write_text(
+                '{"luci-app-subboost":{}}'
+            )
+            with self.assertRaisesRegex(ValueError, "gated on UCI"):
+                pack.make_subboost_package(root / "source", root / "work")
 
     def test_package_release_is_not_hardcoded(self):
         self.assertEqual(pack.package_version("PKG_VERSION:=1.0.7\nPKG_RELEASE:=10\n"), "1.0.7-r10")

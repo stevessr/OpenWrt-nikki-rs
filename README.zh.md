@@ -337,3 +337,25 @@ Nightly Release 的 `SUBBOOST_SOURCE.txt`。打包与发布校验会确认每份
 可同时安装 `nikki-rs`、`luci-app-nikki-rs` 和 `luci-app-subboost`。
 SubBoost LuCI 包仅管理订阅链接和向 Nikki RS 同步，不会在路由器部署
 Next.js 或 PostgreSQL 服务；已有的 `/etc/config/subboost` 将作为配置文件保留。
+
+### 修复 SubBoost 安装后服务菜单缺失
+
+SubBoost 的独立菜单应显示在 **服务 → SubBoost**（另有 **Nikki RS → SubBoost**
+订阅导入入口）。早期版本的菜单还依赖 `/etc/config/subboost` 被 LuCI
+实时识别，安装包即使存在也可能被菜单缓存或旧会话隐藏。
+
+现在 Nightly 会校验 SubBoost 的 ACL、菜单路由以及其不包含额外 UCI
+可见性门槛，并将 LuCI 缓存清理与 `rpcd` 重载直接写入 IPK 安装脚本。
+更新 `luci-app-subboost` 后重新登录 LuCI 即可获取新的权限与菜单。
+
+对于已安装旧版本的设备，可立即运行：
+
+```sh
+rm -f /tmp/luci-indexcache*
+rm -rf /tmp/luci-modulecache/
+/etc/init.d/rpcd restart
+/etc/init.d/uhttpd restart
+```
+
+若 `/etc/config/subboost` 已丢失，可以按照 SubBoost 文档恢复默认 UCI
+配置，升级不会清除已有用户设置。

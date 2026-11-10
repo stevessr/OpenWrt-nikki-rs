@@ -1,0 +1,118 @@
+name: Nightly Release
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'nikki-rs/**'
+      - 'luci-app-nikki-rs/**'
+      - 'clash-rs/**'
+      - 'scripts/packaging/**'
+      - '.github/workflows/package.yml'
+      - '.github/workflows/nightly-release.yml'
+      - '.github/actions/upload-packages/**'
+  schedule:
+    # 03:00 JST (18:00 UTC). Releases also run on relevant main pushes.
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Never update the moving nightly tag from concurrent runs.
+concurrency:
+  group: nikki-rs-nightly-release
+  cancel-in-progress: false
+
+jobs:
+  packages:
+    uses: ./.github/workflows/package.yml
+    with:
+      nightly: true
+      sign: false
+      upload_feed: false
+      artifact_retention_days: 7
+    secrets: inherit
+
+  publish:
+    needs: packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: nikki-rs_*
+          merge-multiple: true
+          path: release
+      - name: Verify all architecture archives before publishing
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="$(python3 - <<'PY'
+          import json
+          from pathlib import Path
+          targets = json.loads(Path('scripts/packaging/targets.json').read_text())
+          print(sum(len(targets['architectures']) - len(branch['exclude'])
+                    for branch in targets['branches'].values()))
+          PY
+          )"
+          actual="$(find release -maxdepth 1 -type f -name 'nikki-rs_*.tar.gz' | wc -l)"
+          echo "Architecture archives: $actual / $expected"
+          test "$actual" -eq "$expected"
+          (cd release && sha256sum nikki-rs_*.tar.gz > SHA256SUMS)
+      - name: Ensure this build still matches latest main
+        id: head
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          head="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          if [[ "$head" == "$GITHUB_SHA" ]]; then
+            echo 'publish=true' >> "$GITHUB_OUTPUT"
+          else
+            echo "Skip stale nightly build: $GITHUB_SHA (main is $head)"
+            echo 'publish=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Point nightly tag to the tested main commit
+        if: steps.head.outputs.publish == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/nightly" >/dev/null 2>&1; then
+            gh api --method PATCH "repos/$GITHUB_REPOSITORY/git/refs/tags/nightly" \
+              -f "sha=$GITHUB_SHA" -F force=true >/dev/null
+          else
+            gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
+              -f 'ref=refs/tags/nightly' -f "sha=$GITHUB_SHA" >/dev/null
+          fi
+      - name: Publish and replace nightly release assets
+        if: steps.head.outputs.publish == 'true'
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: nightly
+          name: Nikki RS Nightly
+          target_commitish: ${{ github.sha }}
+          prerelease: true
+          make_latest: false
+          overwrite_files: true
+          fail_on_unmatched_files: true
+          files: |
+            release/nikki-rs_*.tar.gz
+            release/SHA256SUMS
+          body: |
+            Automatic test build from main.
+
+            Commit: ${{ github.sha }}
+            Build: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Contains Nikki RS, LuCI, and clash-rs packages for the existing
+            OpenWrt 24.10 (IPK), 25.12 (APK), and SNAPSHOT (APK) architecture matrix.
+            Archives are verified before the release is updated.
+
+            Nightly packages are unsigned and are not pushed to the stable feed.
+            For direct APK installation use --allow-untrusted.

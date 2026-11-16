@@ -9,6 +9,15 @@ on:
       upload_feed:
         type: boolean
         default: false
+      nightly:
+        type: boolean
+        default: false
+      include_subboost:
+        type: boolean
+        default: false
+      include_subboost_rs:
+        type: boolean
+        default: false
       artifact_retention_days:
         type: number
         default: 1
@@ -25,6 +34,22 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
+      # SubBoost main is the source of truth for the independent LuCI package
+      # and the native Rust + SQLite server. The latter is packaged only for
+      # supported 64-bit musl APK targets, never for unsupported IPK targets.
+      - name: Check out current SubBoost LuCI package
+        if: inputs.include_subboost
+        uses: actions/checkout@v6
+        with:
+          repository: stevessr/subboost
+          ref: main
+          path: .package-subboost
+          persist-credentials: false
+
+      - name: Record exact SubBoost source commit
+        if: inputs.include_subboost
+        run: git -C .package-subboost rev-parse HEAD > SUBBOOST_SOURCE.txt
 
       - name: Install native tool dependencies
         run: |
@@ -48,6 +73,13 @@ jobs:
           CLASH_RS_CACHE_DIR: .package-cache
         run: bash scripts/packaging/update-clash-rs.sh
 
+      - name: Stamp nightly package versions
+        if: inputs.nightly
+        env:
+          NIGHTLY_BUILD_NUMBER: ${{ github.run_number }}
+          SUBBOOST_SOURCE_DIR: ${{ inputs.include_subboost && '.package-subboost' || '' }}
+        run: python3 scripts/packaging/stamp-nightly.py
+
       - name: Cache prebuilt core archives
         uses: actions/cache@v4
         with:
@@ -57,12 +89,79 @@ jobs:
       - name: Test packaging behavior
         run: python3 -m unittest discover -s tests -p 'test_packaging.py' -v
 
+      - uses: dtolnay/rust-toolchain@stable
+        if: inputs.include_subboost_rs
+        with:
+          targets: |
+            x86_64-unknown-linux-musl
+            aarch64-unknown-linux-musl
+      - uses: Swatinem/rust-cache@v2
+        if: inputs.include_subboost_rs
+        with:
+          workspaces: .package-subboost/rusted
+          key: openwrt-subboost-rs-musl
+      - uses: goto-bus-stop/setup-zig@v2
+        if: inputs.include_subboost_rs
+      - name: Validate SubBoost RS source and upstream feature catalog
+        if: inputs.include_subboost_rs
+        shell: bash
+        env:
+          WITH_SUBBOOST_LUCI: ${{ inputs.include_subboost }}
+        run: |
+          set -euo pipefail
+          if [[ "$WITH_SUBBOOST_LUCI" != "true" ]]; then
+            echo "Native SubBoost RS requires the matching LuCI package" >&2
+            exit 1
+          fi
+          node --check .package-subboost/rusted/ui/app.js
+          (cd .package-subboost && node rusted/scripts/sync-modules.cjs --check)
+          sh -n .package-subboost/rusted/openwrt/subboost-rs.init
+          sh -n .package-subboost/rusted/openwrt/subboost-rsctl
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('.package-subboost/rusted')
+          modules=json.loads((root/'data/proxy-group-modules.json').read_text())
+          assert len(modules)==36, 'Unexpected upstream module count'
+          assert sum(len(m['rules']) for m in modules)==94, 'Unexpected upstream rule count'
+          assert len({m['id'] for m in modules})==len(modules)
+          assert (root/'PARITY.md').is_file(), 'Missing documented parity ledger'
+          print(f'Validated {len(modules)} canonical groups and 94 upstream rules')
+          PY
+
+      - name: Build and validate native Rust SubBoost binaries
+        if: inputs.include_subboost_rs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .package-subboost/rusted/Cargo.toml
+          cargo test --manifest-path .package-subboost/rusted/Cargo.toml --all-targets
+          cargo install cargo-zigbuild --locked
+          mkdir -p .package-subboost-binaries
+          for target in x86_64-unknown-linux-musl aarch64-unknown-linux-musl; do
+            cargo zigbuild --manifest-path .package-subboost/rusted/Cargo.toml --release --target "$target"
+            install -Dm755 ".package-subboost/rusted/target/$target/release/subboost-rs" ".package-subboost-binaries/$target/subboost-rs"
+            file ".package-subboost-binaries/$target/subboost-rs"
+          done
+
       - name: Prepare common files and five prebuilt cores
+        env:
+          SUBBOOST_SOURCE_DIR: ${{ inputs.include_subboost && '.package-subboost' || '' }}
+          SUBBOOST_RS_BINARIES: ${{ inputs.include_subboost_rs && '.package-subboost-binaries' || '' }}
         run: |
           python3 scripts/packaging/pack.py prepare
           # Artifact uploads normalize file modes; transport the payload as tar
           # so scripts stay executable and UCI configuration stays mode 0600.
           tar -czf package-inputs.tar.gz .package-work .build-tools/bin
+
+      - name: Upload SubBoost source provenance
+        if: inputs.include_subboost
+        uses: actions/upload-artifact@v7
+        with:
+          name: subboost-source-revision
+          path: SUBBOOST_SOURCE.txt
+          retention-days: 7
+          if-no-files-found: error
 
       - name: Upload prepared files and native tools
         uses: actions/upload-artifact@v7
@@ -101,11 +200,16 @@ jobs:
           KEY_BUILD: ${{ secrets.KEY_BUILD }}
           PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
           SIGN_PACKAGES: ${{ inputs.sign }}
+          REQUIRE_SUBBOOST: ${{ inputs.include_subboost }}
+          REQUIRE_NATIVE_SUBBOOST: ${{ inputs.include_subboost_rs }}
         run: |
           options=()
           if [[ "$SIGN_PACKAGES" == true ]]; then options+=(--sign); fi
           python3 scripts/packaging/pack.py build --branch '${{ matrix.branch }}' "${options[@]}"
-          python3 scripts/packaging/verify.py --branch '${{ matrix.branch }}'
+          verify_options=()
+          if [[ "$REQUIRE_SUBBOOST" == true ]]; then verify_options+=(--require-subboost); fi
+          if [[ "$REQUIRE_NATIVE_SUBBOOST" == true ]]; then verify_options+=(--require-native-subboost); fi
+          python3 scripts/packaging/verify.py --branch '${{ matrix.branch }}' "${verify_options[@]}"
 
       - name: Archive feed tree for publishing
         if: inputs.upload_feed

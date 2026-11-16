@@ -231,7 +231,8 @@ class OverrideManagerTests(unittest.TestCase):
 
         syntax_error = self.cli(CONFIG_MANAGER, 'validate', target, candidate, success=False)
         self.assertIn('Invalid YAML:', syntax_error.stderr)
-        self.assertRegex(syntax_error.stderr, r'\bL3\.C\d+')
+        # yq versions report locations either as Lx.Cy or as 'yaml: line N'.
+        self.assertRegex(syntax_error.stderr, r'(?:\bL\d+\.C\d+|\byaml:\s*line\s+\d+)')
         self.assertNotIn('top-level mapping required', syntax_error.stderr)
 
         candidate.write_text('not-a-mapping\n')

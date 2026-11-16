@@ -106,6 +106,107 @@ def translation_version():
     return f"{date:%y.%j}.{stamp % 86400:05d}~{commit}"
 
 
+def make_subboost_package(source, work):
+    """Repackage the original SubBoost LuCI-only files for our native IPK/APK matrix.
+
+    This does NOT bundle SubBoost's Next.js app, database or backend, and does
+    not give the hosted web service any additional router runtime privileges.
+    """
+    source = Path(source)
+    luci = source / "luci-app-subboost"
+    required = [
+        luci / "Makefile",
+        luci / "htdocs/luci-static/resources/view/subboost/settings.js",
+        luci / "root/etc/config/subboost",
+        luci / "root/usr/share/luci/menu.d/luci-app-subboost.json",
+        luci / "root/usr/share/rpcd/acl.d/luci-app-subboost.json",
+    ]
+    for file in required:
+        if not file.is_file() or file.is_symlink():
+            raise ValueError(f"SubBoost LuCI source is missing or unsafe: {file}")
+
+    # Verify menu discoverability against the actual source, not just the
+    # presence of a menu file. A UCI gate makes it disappear on routers with
+    # missing or cached config despite the LuCI package being installed.
+    menu = json.loads((luci / "root/usr/share/luci/menu.d/luci-app-subboost.json").read_text())
+    acl = json.loads((luci / "root/usr/share/rpcd/acl.d/luci-app-subboost.json").read_text())
+    entry = menu.get("admin/services/subboost", {})
+    depends = entry.get("depends", {})
+    if (entry.get("action", {}).get("path") != "subboost/settings"
+            or depends.get("acl") != ["luci-app-subboost"]
+            or "uci" in depends
+            or "luci-app-subboost" not in acl):
+        raise ValueError("SubBoost LuCI menu missing, gated on UCI, or lacking ACL")
+
+    payload = work / "payloads/luci-app-subboost"
+    shutil.copytree(luci / "htdocs", payload / "www")
+    shutil.copytree(luci / "root", payload, dirs_exist_ok=True)
+    version = package_version((luci / "Makefile").read_text())
+    postinst = ('#!/bin/sh\n[ -n "${IPKG_INSTROOT}" ] || {\n'
+                '\trm -f /tmp/luci-indexcache.*\n\trm -rf /tmp/luci-modulecache/\n'
+                '\t/etc/init.d/rpcd reload 2>/dev/null\n\texit 0\n}\n')
+    return Package(
+        "luci-app-subboost", version, payload,
+        "LuCI integration for SubBoost subscription management",
+        ["libc", "luci-base"],
+        conffiles=["/etc/config/subboost"],
+        scripts={"postinst-pkg": postinst},
+        universal=True, section="luci", license="AGPL-3.0-only",
+        url="https://github.com/stevessr/subboost",
+    )
+
+
+def make_native_subboost_packages(source, binaries, work):
+    """Stage verified Rust binaries for the two musl targets supported by APK.
+
+    A wrong-arch binary cannot silently ship under another OpenWrt arch.
+    Other CPU targets remain LuCI-only until actually cross-compiled.
+    """
+    source = Path(source)
+    binaries = Path(binaries)
+    rust = source / "rusted"
+    match = re.search(r'(?m)^version\s*=\s*"([^"]+)"', (rust / "Cargo.toml").read_text())
+    if not match:
+        raise ValueError("Rust SubBoost package version missing")
+    revision = variable((source / "luci-app-subboost/Makefile").read_text(), "PKG_RELEASE")
+    version = f"{match.group(1)}-r{revision}"
+    native = {}
+    elf_machines = {"x86_64-unknown-linux-musl": 62, "aarch64-unknown-linux-musl": 183}
+    for target, machine in elf_machines.items():
+        executable = binaries / target / "subboost-rs"
+        if not executable.is_file() or executable.is_symlink():
+            raise ValueError(f"Missing native SubBoost binary: {target}")
+        with executable.open("rb") as binary_stream:
+            header = binary_stream.read(64)
+        if (len(header) != 64 or header[:4] != b"\x7fELF" or
+                int.from_bytes(header[18:20], "little") != machine):
+            raise ValueError(f"Invalid/wrong-architecture SubBoost ELF: {target}")
+
+        payload = work / "native-subboost" / target
+        files = [
+            (executable, "usr/bin/subboost-rs", 0o755),
+            (rust / "openwrt/subboost-rsctl", "usr/bin/subboost-rsctl", 0o755),
+            (rust / "openwrt/subboost-rs.init", "etc/init.d/subboost-rs", 0o755),
+            (rust / "openwrt/subboost-rs.config", "etc/config/subboost-rs", 0o600),
+        ]
+        for input_file, output_path, mode in files:
+            if not input_file.is_file() or input_file.is_symlink():
+                raise ValueError(f"Missing/unsafe SubBoost runtime file: {input_file}")
+            dest = payload / output_path
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(input_file, dest)
+            dest.chmod(mode)
+        native[target] = Package(
+            "subboost-rs", version, payload,
+            "Native Rust SQLite SubBoost subscription server with embedded WebUI",
+            ["libc", "procd", "luci-app-subboost"],
+            conffiles=["/etc/config/subboost-rs"],
+            license="AGPL-3.0-only",
+            url="https://github.com/stevessr/subboost",
+        )
+    return native
+
+
 def prepare(work, cache):
     if (work / "manifest.json").exists():
         raise ValueError(f"Use a fresh preparation directory: {work}")
@@ -133,6 +234,16 @@ def prepare(work, cache):
     packages.append(Package("luci-app-nikki-rs", version, payload, "LuCI Support for nikki-rs",
                             ["libc", "luci-base", "nikki-rs"], scripts={"postinst-pkg": postinst},
                             universal=True, section="luci"))
+    subboost_source = os.environ.get("SUBBOOST_SOURCE_DIR")
+    if subboost_source:
+        packages.append(make_subboost_package(subboost_source, work))
+    subboost_rs_binaries = os.environ.get("SUBBOOST_RS_BINARIES")
+    native_subboost = {}
+    if subboost_rs_binaries:
+        if not subboost_source:
+            raise ValueError("Native SubBoost needs an explicit source checkout")
+        native_subboost = make_native_subboost_packages(subboost_source, subboost_rs_binaries, work)
+
     po_version = translation_version()
     languages = {"zh_Hans": "zh-cn", "zh_Hant": "zh-tw"}
     for directory in sorted((luci / "po").iterdir()):
@@ -183,10 +294,11 @@ def prepare(work, cache):
     for package in core_packages.values():
         package.depends.insert(0, "libc")
     manifest = {"packages": [], "cores": {}}
-    for package in packages + list(core_packages.values()):
+    for package in packages + list(core_packages.values()) + list(native_subboost.values()):
         package.payload = str(package.payload.relative_to(work))
     manifest["packages"] = [vars(p) for p in packages]
     manifest["cores"] = {target: vars(p) for target, p in core_packages.items()}
+    manifest["native_subboost"] = {target: vars(p) for target, p in native_subboost.items()}
     write(work / "manifest.json", json.dumps(manifest, indent=2) + "\n")
 
 
@@ -222,12 +334,19 @@ def payload_archive(root):
 def lifecycle(package, apk=False):
     guard = '[ -s "${IPKG_INSTROOT}/lib/functions.sh" ] || exit 0\n. "${IPKG_INSTROOT}/lib/functions.sh"\n'
     post = '[ "${IPKG_NO_SCRIPT}" = "1" ] && exit 0\n' + guard
-    if not apk:
-        return {"postinst": "#!/bin/sh\n" + post + 'default_postinst "$0" "$@"\n',
-                "prerm": "#!/bin/sh\n" + guard + 'default_prerm "$0" "$@"\n', **package.scripts}
-    exports = f'export root="${{IPKG_INSTROOT}}"\nexport pkgname="{package.name}"\n'
     custom = package.scripts.get("postinst-pkg", "")
     custom = "\n".join(line for line in custom.splitlines() if not line.startswith("#!"))
+    # OpenWrt LuCI defines Package/.../postinst directly. The custom hook
+    # must be part of the actual opkg postinst script, not an undocumented
+    # control.tar.gz postinst-pkg entry which opkg may never execute.
+    if not apk:
+        remaining = {key: script for key, script in package.scripts.items()
+                     if key != "postinst-pkg"}
+        return {"postinst": "#!/bin/sh\n" + post +
+                'default_postinst "$0" "$@"\n' + custom + "\n",
+                "prerm": "#!/bin/sh\n" + guard + 'default_prerm "$0" "$@"\n',
+                **remaining}
+    exports = f'export root="${{IPKG_INSTROOT}}"\nexport pkgname="{package.name}"\n'
     install = post + exports + "add_group_and_user\ndefault_postinst\n" + custom + "\n"
     result = {"post-install": "#!/bin/sh\n" + install,
               "post-upgrade": "#!/bin/sh\nexport PKG_UPGRADE=1\n" + install,
@@ -292,7 +411,9 @@ def build(work, output, branch, arch_filter=None, sign=False):
     manifest = json.loads((work / "manifest.json").read_text())
     packages = [Package(**entry) for entry in manifest["packages"]]
     cores = {target: Package(**entry) for target, entry in manifest["cores"].items()}
-    for package in packages + list(cores.values()):
+    native_subboost = {target: Package(**entry)
+                       for target, entry in manifest.get("native_subboost", {}).items()}
+    for package in packages + list(cores.values()) + list(native_subboost.values()):
         package.payload = work / package.payload
     config = TARGETS["branches"][branch]
     key_name = "KEY_BUILD" if config["format"] == "ipk" else "PRIVATE_KEY"
@@ -323,7 +444,9 @@ def build(work, output, branch, arch_filter=None, sign=False):
             records = []
             versions = {}
             with tempfile.TemporaryDirectory(dir=scratch) as staging:
-                for package in [cores[target], *packages]:
+                native = [native_subboost[target]] if (
+                    config["format"] == "apk" and target in native_subboost) else []
+                for package in [cores[target], *packages, *native]:
                     versions[package.name] = package.version
                     if config["format"] == "ipk":
                         if package.universal:

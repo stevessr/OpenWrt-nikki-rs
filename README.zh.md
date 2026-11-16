@@ -81,15 +81,22 @@ dns:
     - https://1.1.1.1/dns-query
 ```
 
-### GeoSite 分流 DNS
+### 上游默认配置对齐
 
-新安装默认启用 GeoSite/MMDB 覆盖配置项和分流策略：
+新安装的 UCI 默认值与 [CHKayanami/OpenWrt-nikki-rs](https://github.com/CHKayanami/OpenWrt-nikki-rs) 对齐：不主动覆盖订阅中的 `nameserver-policy`、`proxy-server-nameserver`、`mmdb` 或 `geosite`。其默认开关均为 `0`，保留用户按需开启的能力。
 
-- `geosite:private,cn` → UDP `223.5.5.5`。
-- `geosite:proxy` → Cloudflare 与 Google DoH。
-- 代理节点引导解析使用配置中的阿里 DoH，避免代理 DNS 递归。
+之前本仓库的版本曾将上述四项默认打开，并使用自定义 `geosite:proxy` 策略。现在恢复上游的 DNS 策略示例，默认不将其强制注入最终订阅配置。**已有安装的 UCI 配置不会被包更新覆盖**；如需取消曾经自动启用的覆盖项，可手动执行：
 
-继续使用现有 GeoSite/MMDB 下载 URL；本次不增加定时更新任务。升级会保留 `/etc/config/nikki-rs`，已有安装不会自动覆盖原 UCI 值。
+```sh
+uci set nikki-rs.mixin.dns_nameserver_policy='0'
+uci set nikki-rs.mixin.dns_proxy_server_nameserver='0'
+uci set nikki-rs.mixin.overwrite_mmdb='0'
+uci set nikki-rs.mixin.overwrite_geosite='0'
+uci commit nikki-rs
+/etc/init.d/nikki-rs restart
+```
+
+此操作只关闭默认覆盖，不删除自定义 DNS 服务器及 GEO 文件路径，不影响 SubBoost 订阅、core_update、DNS2 和 eBPF 的现有管理入口。需要继续使用 UCI DNS/GEO 覆盖时，可以在 LuCI 中重新显式打开。
 
 DNS 服务器使用非标准端口时，请写成 `udp://127.0.0.1:3053`。clash-rs 会把裸写的 `127.0.0.1:3053` 当作 IPv6 地址并在配置测试阶段拒绝。
 
@@ -282,3 +289,92 @@ make package/luci-app-nikki-rs/compile
 - **[clash-rs](https://github.com/Watfaq/clash-rs)**：感谢开发团队用 Rust 打造了高性能、轻量且强大的 Clash 代理内核。
 
 
+
+
+## SubBoost 的 clash-rs 专用订阅
+
+在 **服务 → Nikki RS → SubBoost** 导入 SubBoost 生成的 YAML 链接时，
+LuCI 会自动为 SubBoost 标准订阅 API 添加 `?target=clash-rs`（保留已有查询参数），
+该接口提供针对 Nikki-RS 的 clash-rs 配置：规则提供者添加 `subboost-` 命名空间、
+提供者缓存写入 `/etc/nikki-rs/providers/`，并针对 GEO 相关规则设置本地数据库
+路径及下载地址。普通第三方订阅链接不会被自动修改。
+
+完整的订阅转换服务需使用支持该参数的 SubBoost 版本。Nikki-RS 仍负责 DNS、
+TUN、eBPF 和防火墙设置；导入订阅不会自动切换正在使用的配置。
+
+
+SubBoost 订阅链接也支持反向代理前缀（例如
+`/subboost/api/subscriptions/TOKEN/config.yaml`）。LuCI 在导入时将
+`target` 规范为 `clash-rs`，并识别参数排列顺序不同或旧版本
+`target=nikki-rs` 的同一订阅，避免生成重复 UCI 条目。
+
+## Nightly 自动发布
+
+仓库 `main` 上 Nikki RS、LuCI、clash-rs 或打包相关文件变更后，会自动触发
+[Nightly Release](https://github.com/stevessr/OpenWrt-nikki-rs/releases/tag/nightly)。
+每天 UTC 18:00（日本时间次日凌晨 03:00）还会执行一次定时构建，
+也可在 GitHub Actions 的 **Nightly Release → Run workflow** 手动触发。
+
+Nightly 先使用已有的 OpenWrt 24.10、25.12、SNAPSHOT 打包矩阵，
+确认所有 42 个架构安装包归档完成，再更新滚动的 `nightly` 标签，
+上传按架构划分的 `.tar.gz` 安装归档和 `SHA256SUMS`。
+失败的构建不会替换之前成功的 Nightly。并发构建不会交叉覆盖产物。
+Nightly 的 `nikki-rs` 与 `luci-app-nikki-rs` 包带有 UTC 日期与构建序号的
+`PKG_RELEASE`，确保即使正常版本号尚未改变也可以进行包升级；
+正式发布和源码 Makefile 中的版本号不受影响。
+
+Nightly **不更新正式软件源**，其 IPK/APK 默认不签名。
+安装 APK 时需显式使用 `apk add --allow-untrusted`；
+直接下载对应路由器架构及 OpenWrt 版本的安装归档即可。
+
+### SubBoost 与 Nikki RS Nightly 同包发布
+
+Nightly 中所有 OpenWrt 24.10、25.12 和 SNAPSHOT 架构的安装归档
+**均包含 `luci-app-subboost`**。构建时从
+[stevessr/subboost](https://github.com/stevessr/subboost) 的 `main`
+获取原始 LuCI 文件（不是另起一份容易过期的复制品），
+并生成对应 `IPK` / `APK`；确切的 SubBoost 源代码提交哈希写入
+Nightly Release 的 `SUBBOOST_SOURCE.txt`。打包与发布校验会确认每份归档都实际包含该安装包。
+
+可同时安装 `nikki-rs`、`luci-app-nikki-rs` 和 `luci-app-subboost`。
+SubBoost LuCI 包仅管理订阅链接和向 Nikki RS 同步，不会在路由器部署
+Next.js 或 PostgreSQL 服务；已有的 `/etc/config/subboost` 将作为配置文件保留。
+
+### 修复 SubBoost 安装后服务菜单缺失
+
+SubBoost 的独立菜单应显示在 **服务 → SubBoost**（另有 **Nikki RS → SubBoost**
+订阅导入入口）。早期版本的菜单还依赖 `/etc/config/subboost` 被 LuCI
+实时识别，安装包即使存在也可能被菜单缓存或旧会话隐藏。
+
+现在 Nightly 会校验 SubBoost 的 ACL、菜单路由以及其不包含额外 UCI
+可见性门槛，并将 LuCI 缓存清理与 `rpcd` 重载直接写入 IPK 安装脚本。
+更新 `luci-app-subboost` 后重新登录 LuCI 即可获取新的权限与菜单。
+
+对于已安装旧版本的设备，可立即运行：
+
+```sh
+rm -f /tmp/luci-indexcache*
+rm -rf /tmp/luci-modulecache/
+/etc/init.d/rpcd restart
+/etc/init.d/uhttpd restart
+```
+
+若 `/etc/config/subboost` 已丢失，可以按照 SubBoost 文档恢复默认 UCI
+配置，升级不会清除已有用户设置。
+
+
+### 原生 SubBoost RS APK（Rust + SQLite）
+
+Nightly 在 OpenWrt 25.12 / SNAPSHOT 的 x86_64 和所有 aarch64 变种归档内添加 `subboost-rs` 原生 APK，与 `luci-app-subboost` 分离。Rust 服务使用 SQLite WAL、内嵌 WebUI，直接在路由器端运行，不再依赖 Node.js 和 PostgreSQL。其它架构仍仅发布 LuCI 包，直至该架构的原生二进制通过验证。
+
+安装后使用 `/etc/init.d/subboost-rs` 管理服务，`subboost-rsctl token` 查看管理令牌，浏览器打开 `http://路由器地址:3000`。服务作为 nobody 运行，数据存放 `/etc/subboost-rs`，卸载 APK 不删除数据库。端口默认仅依赖 OpenWrt 防火墙的 LAN/WAN 分区隔离；请勿向 WAN 暴露 3000 端口。高阶模板与自动规则策略仍在继续移植，当前 Rust 后端不宣称与 Next.js 全功能等价。
+
+
+**SubBoost RS 的 LuCI 入口**：如果此前安装过只支持远程编辑器的旧版 LuCI，旧的 `base_url` 会被保留。更新 Nightly 后在「服务 → SubBoost」点击「Open local SubBoost RS」可直接打开 `http://路由器地址:3000`，无需覆盖原来设置的远程服务地址。左侧菜单未更新时，在 SubBoost 页面使用「Refresh LuCI services menu」清理当前浏览器会话中的旧菜单；单独删除路由器端缓存无法清除这个浏览器缓存。
+
+
+### SubBoost RS 原版功能对齐与 a53 资源监测
+
+原生 Rust + SQLite SubBoost RS 已加入自定义模板、订阅源自动刷新与故障退避、逐来源保留成功节点缓存、名称正则筛选、订阅流量元数据和原版 36 个策略组模块（94 条关联规则）。新的策略组默认关闭，可在本地 WebUI 中选择精简、标准、完整预设以避免旧配置自动增加 MRS 下载占用。开发时可使用 SubBoost 仓库的 `rusted/PARITY.md` 检查剩余兼容差距。
+
+GitHub Actions 的 SubBoost Cortex-A53 footprint 工作流持续验证原生 aarch64 musl 二进制大小，并在 ARM64 Linux 测试机上模拟 1000、3000 节点及标准/完整策略组场景；这些结果不等同于 Cortex-A53 物理路由器上的 CPU/内存测量。原生二进制仅作为 25.12/SNAPSHOT 支持架构的 APK 发布，不影响 24.10 IPK 的原有部署。

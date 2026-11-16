@@ -1,8 +1,10 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nikki-rs
-PKG_VERSION:=1.0.7
-PKG_RELEASE:=10
+
+PKG_VERSION:=1.0.8
+PKG_RELEASE:=1
+
 
 PKG_LICENSE:=GPL3.0+
 PKG_MAINTAINER:=Joseph Mory <morytyann@gmail.com>

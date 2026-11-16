@@ -952,10 +952,6 @@ msgstr "GEO 数据配置"
 msgid "GSO"
 msgstr "通用分段卸载"
 
-#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:777
-msgid "GSO Max Size"
-msgstr "分段最大长度"
-
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:50
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:7
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:17
@@ -2991,3 +2987,9 @@ msgstr "以下规则按合并当前基础配置和此模块后的实际顺序显
 #: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
 msgid "Preview the effective ordered rules as typed conditions and target policies. The YAML below remains the source of truth."
 msgstr "以条件和目标策略形式预览实际生效的有序规则。下方 YAML 仍为配置来源。"
+
+msgid "LAN Connection Classification Cache"
+msgstr "LAN 连接分类缓存"
+
+msgid "Cache LAN TPROXY/TUN decisions to reduce repeated rule matching."
+msgstr "缓存 LAN TPROXY/TUN 分流结果，减少重复规则匹配。"

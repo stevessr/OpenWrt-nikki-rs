@@ -952,10 +952,6 @@ msgstr "GEO 資料設定"
 msgid "GSO"
 msgstr "通用分段卸載"
 
-#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:777
-msgid "GSO Max Size"
-msgstr "分段最大長度"
-
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:50
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:7
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:17
@@ -2810,3 +2806,9 @@ msgstr "生效配置可能包含代理憑據，請勿分享此視圖。"
 
 msgid "Duplicate rule"
 msgstr "重複規則"
+
+msgid "LAN Connection Classification Cache"
+msgstr "LAN 連線分類快取"
+
+msgid "Cache LAN TPROXY/TUN decisions to reduce repeated rule matching."
+msgstr "快取 LAN TPROXY/TUN 分流結果，減少重複規則比對。"

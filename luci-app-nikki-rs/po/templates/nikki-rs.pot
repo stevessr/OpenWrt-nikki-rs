@@ -974,10 +974,6 @@ msgstr ""
 msgid "GSO"
 msgstr ""
 
-#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:777
-msgid "GSO Max Size"
-msgstr ""
-
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/ebpf.js:50
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/overrides.js:7
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/settings.js:17
@@ -2625,4 +2621,10 @@ msgid "These rules are shown in their effective top-to-bottom order after mergin
 msgstr ""
 
 msgid "Preview the effective ordered rules as typed conditions and target policies. The YAML below remains the source of truth."
+msgstr ""
+
+msgid "LAN Connection Classification Cache"
+msgstr ""
+
+msgid "Cache LAN TPROXY/TUN decisions to reduce repeated rule matching."
 msgstr ""

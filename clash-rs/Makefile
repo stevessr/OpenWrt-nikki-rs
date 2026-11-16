@@ -1,35 +1,35 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=clash-rs
-PKG_VERSION:=0.20.23_alpha
+PKG_VERSION:=0.20.25_alpha
 PKG_RELEASE:=1
 
 # 架构映射与 SHA256 校验码
 ifneq ($(findstring x86_64,$(ARCH)),)
   CLASH_TARGET:=x86_64-unknown-linux-musl
-  CLASH_HASH:=50ba876081c35a2f3d4936ad370e64631c5a20a4e0c8af991bc310caaf8960b9
+  CLASH_HASH:=115b978ef0c139a24da147f40820e49eab52822160c147e7c2d9c25da3c50792
 else ifneq ($(findstring aarch64,$(ARCH)),)
   CLASH_TARGET:=aarch64-unknown-linux-musl
-  CLASH_HASH:=f5a6143dc46e29a4668d111f229a7eaf55c4348979817e05b7d2e1cb541eb199
+  CLASH_HASH:=0c5c686578736751eed0240c91cca4e2232517f31008e98e227688fa937069a7
 else ifneq ($(findstring arm,$(ARCH)),)
   CLASH_TARGET:=armv7-unknown-linux-musleabihf
-  CLASH_HASH:=938d196fb00edbfd9e5c9145334caf20f189b916bd873f07c7bd26da9a5f3213
+  CLASH_HASH:=d014ed901d5687f329e05a17b4bc54bdc46a819845603d551beac1428c12b2e8
 else ifneq ($(findstring riscv64,$(ARCH)),)
   CLASH_TARGET:=riscv64gc-unknown-linux-musl
-  CLASH_HASH:=0b3bf62f216b6503b7d5c6a322c1a072c8ee598c11f8218d7d09bc87bc91a6d3
+  CLASH_HASH:=92696316fb2a9283d077405116370ec64f123e6d6a3e913521c384dd194d8359
 else ifneq ($(findstring i386,$(ARCH)),)
   CLASH_TARGET:=i686-unknown-linux-musl
-  CLASH_HASH:=c7e30586bb14e1816caa0011d4e2c74111c74dc9ea4a8b37cf7da458e9420153
+  CLASH_HASH:=61ee693759ab1c898937e8bc4157942459b758d9706dd421ec3eb78a3de8d0b7
 else ifneq ($(findstring i686,$(ARCH)),)
   CLASH_TARGET:=i686-unknown-linux-musl
-  CLASH_HASH:=c7e30586bb14e1816caa0011d4e2c74111c74dc9ea4a8b37cf7da458e9420153
+  CLASH_HASH:=61ee693759ab1c898937e8bc4157942459b758d9706dd421ec3eb78a3de8d0b7
 endif
 
 
 PKG_HASH:=$(CLASH_HASH)
 
 PKG_SOURCE:=clash-rs-minimal-$(CLASH_TARGET).tar.gz
-PKG_SOURCE_URL:=https://github.com/CHKayanami/clash-rs/releases/download/v0.20.23-alpha/
+PKG_SOURCE_URL:=https://github.com/CHKayanami/clash-rs/releases/download/v0.20.25-alpha/
 PKG_BUILD_DIR:=$(BUILD_DIR)/clash-rs-minimal-$(CLASH_TARGET)
 
 include $(INCLUDE_DIR)/package.mk

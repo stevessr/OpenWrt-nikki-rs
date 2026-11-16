@@ -412,10 +412,6 @@ msgstr "Файл:"
 msgid "GSO"
 msgstr "GSO"
 
-#: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:664
-msgid "GSO Max Size"
-msgstr "Макс. размер GSO"
-
 #: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:132
 #: applications/luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js:515
 msgid "General Config"
@@ -1235,3 +1231,9 @@ msgstr "Удалено строк"
 
 msgid "The effective configuration may contain proxy credentials. Do not share this view."
 msgstr "Действующая конфигурация может содержать учётные данные прокси. Не делитесь этим просмотром."
+
+msgid "LAN Connection Classification Cache"
+msgstr "Кэш классификации соединений LAN"
+
+msgid "Cache LAN TPROXY/TUN decisions to reduce repeated rule matching."
+msgstr "Кэширует решения TPROXY/TUN для LAN, сокращая повторную проверку правил."

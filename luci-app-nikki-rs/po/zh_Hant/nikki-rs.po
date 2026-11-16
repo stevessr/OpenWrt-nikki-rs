@@ -2807,3 +2807,6 @@ msgstr "刪除行"
 
 msgid "The effective configuration may contain proxy credentials. Do not share this view."
 msgstr "生效配置可能包含代理憑據，請勿分享此視圖。"
+
+msgid "Duplicate rule"
+msgstr "重複規則"

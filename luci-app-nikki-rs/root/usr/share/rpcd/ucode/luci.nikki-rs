@@ -176,6 +176,43 @@ function editor_override_preview(base, module, candidate, output) {
     return writefile(output, content) != null;
 }
 
+// Extract the ordered routing rules and rule provider names so the LuCI
+// editor can render a structured rule diff instead of a raw YAML wall.
+function editor_extract_rules(path) {
+    const expr = '{"rules": (.rules // [] | map(tostring)), "rule_providers": (."rule-providers" // {} | keys)}';
+    const proc = popen("yq -o=json -I=0 '" + expr + "' " + path);
+    if (!proc) return null;
+    const output = proc.read('all');
+    proc.close();
+    if (type(output) != 'string' || length(output) == 0 || length(output) > 2097152)
+        return null;
+    let data = null;
+    try { data = json(output); } catch (e) { return null; }
+    if (type(data) != 'object') return null;
+    const rules = [];
+    const list = type(data.rules) == 'array' ? data.rules : [];
+    const providers = [];
+    const plist = type(data.rule_providers) == 'array' ? data.rule_providers : [];
+    let total = 0;
+    let truncated = length(list) > 10000 || length(plist) > 1000;
+    for (let i = 0; i < length(list); i++) {
+        if (i >= 10000) { truncated = true; break; }
+        let entry = type(list[i]) == 'string' ? list[i] : json(list[i]);
+        if (type(entry) != 'string') entry = '';
+        if (length(entry) > 512) entry = substr(entry, 0, 509) + '...';
+        if (total + length(entry) > 262144) { truncated = true; break; }
+        total += length(entry);
+        push(rules, entry);
+    }
+    for (let i = 0; i < length(plist) && i < 1000; i++) {
+        const name = type(plist[i]) == 'string' ? plist[i] : json(plist[i]);
+        if (length(name) > 128) truncated = true;
+        push(providers, substr(name, 0, 128));
+    }
+    return { rules: rules, rule_providers: providers, truncated: truncated,
+        total_rules: length(list), total_rule_providers: length(plist) };
+}
+
 const methods = {
 	version: {
 		call: function() {
@@ -610,7 +647,12 @@ const methods = {
     override_preview: {
         args: { module: 'module', content: 'content' },
         call: function(req) {
-            return override_preview(req.args?.module, req.args?.content);
+            const result = override_preview(req.args?.module, req.args?.content);
+            if (!result.success) return result;
+            const rulesPath = staged_editor_content(result.content);
+            result.rules = rulesPath ? editor_extract_rules(rulesPath) : null;
+            if (rulesPath) unlink(rulesPath);
+            return result;
         }
     },
     core_status: {
@@ -721,10 +763,17 @@ const methods = {
             }
             const before = editor_read_limited(beforePath, 1048576);
             const after = editor_read_limited(afterPath, 1048576);
+            let rulesBefore = null;
+            let rulesAfter = null;
+            if (mode == 'yaml' && before != null && after != null) {
+                rulesBefore = editor_extract_rules(beforePath);
+                rulesAfter = editor_extract_rules(afterPath);
+            }
             system(['rm', '-rf', dir]);
             if (before == null || after == null)
                 return { success: false, error: 'The comparison exceeds the 1 MiB display limit' };
-            return { success: true, before: before, after: after, mode: mode, note: note };
+            return { success: true, before: before, after: after, mode: mode, note: note,
+                rules_before: rulesBefore, rules_after: rulesAfter };
           } catch (e) {
             return { success: false, error: 'Comparison failed unexpectedly' };
           }

@@ -101,6 +101,24 @@ return view.extend({
                     return;
                 }
                 const counts = diff.stats(lines);
+                const ruleReport = diff.rulesReport(result.rules_before, result.rules_after);
+                const tabbar = E('div', { 'class': 'cbi-tabmenu' }, [
+                    E('button', { 'type': 'button', 'class': 'cbi-tab', 'click': function () {
+                        rawPanel.style.display = '';
+                        rulesPanel.style.display = 'none';
+                        this.classList.add('active');
+                        rulesTab.classList.remove('active');
+                    } }, _('YAML diff')),
+                    E('button', { 'type': 'button', 'class': 'cbi-tab', 'click': function () {
+                        rawPanel.style.display = 'none';
+                        rulesPanel.style.display = '';
+                        this.classList.add('active');
+                        rawTab.classList.remove('active');
+                    } }, _('Rules view'))
+                ]);
+                const rawTab = tabbar.children[0];
+                const rulesTab = tabbar.children[1];
+                rawTab.classList.add('active');
                 const body = lines.map(function (line) {
                     const prefix = line.type === '@' ? '' : line.type;
                     const color = line.type === '+' ? '#1a7f37' :
@@ -109,19 +127,28 @@ return view.extend({
                     return E('div', { style: color ? 'color:' + color : '' },
                         prefix + line.text);
                 });
+                const rawPanel = E('div', {
+                    style: 'max-height:65vh;overflow:auto;border:1px solid #ccc;border-radius:4px;padding:.5em;font-family:monospace;font-size:12px;white-space:pre'
+                }, body);
+                const rulesPanel = E('div', {
+                    style: 'display:none;max-height:65vh;overflow:auto;border:1px solid #ccc;border-radius:4px;padding:.5em'
+                }, ruleReport);
+                const rulesAvailable = result.rules_before && result.rules_after;
+                if (!rulesAvailable) {
+                    tabbar.children[1].disabled = true;
+                    tabbar.children[1].title = _('No rule-level comparison is available for this file.');
+                }
                 ui.showModal(_('Effective configuration comparison'), [
                     E('p', {}, result.note || ''),
                     E('p', {}, _('Added lines') + ': ' + counts.added + '  ' +
                         _('Removed lines') + ': ' + counts.removed),
                     E('p', { 'class': 'cbi-value-description' },
                         _('The effective configuration may contain proxy credentials. Do not share this view.')),
-                    E('div', {
-                        style: 'max-height:65vh;overflow:auto;border:1px solid #ccc;border-radius:4px;padding:.5em;font-family:monospace;font-size:12px;white-space:pre'
-                    }, body),
-                    E('div', { 'class': 'right' }, [
+                    tabbar, rawPanel, rulesPanel,
+                    E('div', { 'class': 'right', 'style': 'margin-top:.75em' }, [
                         E('button', { 'class': 'btn', 'click': ui.hideModal }, _('Close'))
                     ])
-                ]);
+                ], 'wide');
             });
         };
 

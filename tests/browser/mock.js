@@ -57,7 +57,7 @@ window.mock = {
     },
     overridePreview: (module,content) => {
         calls.push({op:'overridePreview',module,content});
-        return reply({success:true,content:'mode: rule\n'});
+        return reply({success:true,content:'mode: rule\n',rules:{rules:['DOMAIN-SUFFIX,example.com,PROXY','MATCH,DIRECT'],rule_providers:['ads']}});
     },
     configApply: (module,content,revision) => {
         calls.push({op:'configApply',module,content,revision});
@@ -69,7 +69,9 @@ window.mock = {
         return reply({success:true,
             before:'dns:\n  nameserver:\n    - 223.5.5.5\n',
             after:'dns:\n  nameserver:\n    - 127.0.0.1\n',
-            mode:'yaml',note:'test comparison'});
+            mode:'yaml',note:'test comparison',
+            rules_before:{rules:['DOMAIN-SUFFIX,example.com,PROXY','MATCH,DIRECT'],rule_providers:['ads']},
+            rules_after:{rules:['DOMAIN-SUFFIX,new.example,REJECT','DOMAIN-SUFFIX,example.com,PROXY','MATCH,DIRECT'],rule_providers:['ads','block']}});
     },
     saveConfigRevision: (path,content,revision) => {
         calls.push({op:'saveConfigRevision',path,content,revision});

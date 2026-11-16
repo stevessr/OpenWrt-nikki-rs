@@ -2,6 +2,7 @@
 'require view';
 'require ui';
 'require tools.nikki-rs as nikki';
+'require tools.nikki-diff as diff';
 
 const modules = [
     { id: 'general', label: _('General'), hint: _('Log level, mode, ports, IPv6 and general Clash options') },
@@ -60,6 +61,7 @@ return view.extend({
         const dirtyStatus = E('p', { 'class': 'cbi-value-description' }, _('All changes saved'));
         const status = E('p', { 'class': 'cbi-value-description' },
             _('Saving does not restart the proxy. Preview uses the last generated base profile; restart Nikki RS after saving to apply changes.'));
+        const ruleVisual = E('div', { 'class': 'nikki-rules-visual', 'style': 'display:none' });
         const history = E('div', {});
         const controls = E('div', { 'class': 'cbi-page-actions' });
         const busy = function (running) {
@@ -81,6 +83,30 @@ return view.extend({
                 busy(false);
                 inFlight = false;
             });
+        };
+        const renderRulesVisual = function () {
+            ruleVisual.replaceChildren();
+            ruleVisual.style.display = selector.value === 'rules' ? '' : 'none';
+            if (selector.value !== 'rules') return;
+            const preview = makeButton(_('Preview routing rules'), 'action', function () {
+                return nikki.overridePreview('rules', editor.value).then(function (result) {
+                    if (!result.success) throw new Error(result.error || _('Could not produce preview'));
+                    const afterView = result.rules;
+                    if (!afterView || !Array.isArray(afterView.rules))
+                        throw new Error(_('Rule details could not be extracted from the merged profile'));
+                    const report = diff.rulesReport({ rules: [], rule_providers: [] }, afterView);
+                    ui.showModal(_('Routing rules preview'), [
+                        E('p', {}, _('These rules are shown in their effective top-to-bottom order after merging the current base profile and this module.')),
+                        report,
+                        E('div', { 'class': 'right' }, E('button', {
+                            'type': 'button', 'class': 'btn', 'click': ui.hideModal
+                        }, _('Close')))
+                    ], 'wide');
+                });
+            });
+            ruleVisual.appendChild(preview);
+            ruleVisual.appendChild(E('p', { 'class': 'cbi-value-description' },
+                _('Preview the effective ordered rules as typed conditions and target policies. The YAML below remains the source of truth.')));
         };
         editor.addEventListener('input', function () {
             dirtyStatus.textContent = editor.value === savedContent ? _('All changes saved') :
@@ -105,6 +131,7 @@ return view.extend({
                         activeModule = selected;
                         dirtyStatus.textContent = _('All changes saved');
                         history.replaceChildren();
+                        renderRulesVisual();
                     }
                 }).catch(function (error) {
                     selector.value = activeModule;
@@ -342,6 +369,7 @@ return view.extend({
             });
         }));
 
+        renderRulesVisual();
         return E('div', { 'class': 'cbi-map' }, [
             heading, introduction,
             E('div', { 'class': 'cbi-section' }, [
@@ -355,7 +383,7 @@ return view.extend({
                     E('a', { 'href': L.url('admin/services/nikki-rs/mixin') }, _('Mixin Config')),
                     _('. Previously saved YAML overrides remain editable here.')
                 ]),
-                dirtyStatus, editor, status, history
+                dirtyStatus, ruleVisual, editor, status, history
             ]),
             controls
         ]);

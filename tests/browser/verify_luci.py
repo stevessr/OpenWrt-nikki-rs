@@ -211,6 +211,11 @@ try:
         visit("overrides?module=rules")
         assert page.get_by_label("Module", exact=True).input_value() == "rules"
         assert "nikki-rules" in page.locator("#view textarea").input_value()
+        click("Preview routing rules")
+        rule_preview = page.locator(".modal").inner_text()
+        assert "example.com" in rule_preview and "PROXY" in rule_preview, rule_preview
+        assert "MATCH" in rule_preview and "DIRECT" in rule_preview, rule_preview
+        click("Close")
         click("Preview merged configuration")
         click("Close")
         click("Review configuration changes")
@@ -228,7 +233,11 @@ try:
         modal = page.locator(".modal").inner_text()
         assert "223.5.5.5" in modal and "127.0.0.1" in modal, modal
         assert "test comparison" in modal, modal
-        screenshot("editor-diff")
+        page.get_by_role("button", name="Rules view", exact=True).click()
+        rule_view = page.locator(".modal").inner_text()
+        assert "new.example" in rule_view and "REJECT" in rule_view, rule_view
+        assert "Added rule providers: block" in rule_view, rule_view
+        screenshot("editor-diff-rules")
         mobile("editor-diff")
         click("Close")
         results.append("editor: effective configuration comparison, readable YAML diff, credential warning, mobile layout")

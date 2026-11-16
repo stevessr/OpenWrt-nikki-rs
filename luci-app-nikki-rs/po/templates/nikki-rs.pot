@@ -2536,3 +2536,93 @@ msgstr ""
 
 msgid "The effective configuration may contain proxy credentials. Do not share this view."
 msgstr ""
+
+msgid "Added"
+msgstr ""
+
+msgid "Removed"
+msgstr ""
+
+msgid "Moved"
+msgstr ""
+
+msgid "Unchanged"
+msgstr ""
+
+msgid "partial"
+msgstr ""
+
+msgid "Duplicates"
+msgstr ""
+
+msgid "Added rule providers"
+msgstr ""
+
+msgid "Removed rule providers"
+msgstr ""
+
+msgid "No provider changes found in the extracted portion."
+msgstr ""
+
+msgid "Rule providers unchanged"
+msgstr ""
+
+msgid "Change"
+msgstr ""
+
+msgid "Priority"
+msgstr ""
+
+msgid "Rule type"
+msgstr ""
+
+msgid "Match value"
+msgstr ""
+
+msgid "Target policy"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+msgid "Duplicate rule"
+msgstr ""
+
+msgid "Show unchanged rules"
+msgstr ""
+
+msgid "Rule details were truncated during extraction. Change counts, duplicate counts, and provider differences cover only the extracted portion."
+msgstr ""
+
+msgid "Rules are matched from top to bottom. The priority column shows the old and new position of every changed rule."
+msgstr ""
+
+msgid "No routing rule changes."
+msgstr ""
+
+msgid "Display limited to the first 3000 rules."
+msgstr ""
+
+msgid "No rule-level comparison is available for this file."
+msgstr ""
+
+msgid "YAML diff"
+msgstr ""
+
+msgid "Rules view"
+msgstr ""
+
+msgid "Preview routing rules"
+msgstr ""
+
+msgid "Rule details could not be extracted from the merged profile"
+msgstr ""
+
+msgid "Routing rules preview"
+msgstr ""
+
+msgid "These rules are shown in their effective top-to-bottom order after merging the current base profile and this module."
+msgstr ""
+
+msgid "Preview the effective ordered rules as typed conditions and target policies. The YAML below remains the source of truth."
+msgstr ""

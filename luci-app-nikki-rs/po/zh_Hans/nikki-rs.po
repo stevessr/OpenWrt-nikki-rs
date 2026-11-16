@@ -2871,3 +2871,123 @@ msgstr "导入由 SubBoost 生成的 Clash/Mihomo YAML 订阅。Nikki RS 将沿�
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/subboost.js
 msgid "Configuration links contain a secret token and are saved in UCI. HTTPS is recommended. Some Mihomo-only settings may be ignored by clash-rs."
 msgstr "配置链接包含私密令牌，并保存于 UCI。建议使用 HTTPS。部分 Mihomo 专有配置可能被 clash-rs 忽略。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Added"
+msgstr "新增"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Removed"
+msgstr "已删除"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Moved"
+msgstr "已移动"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Unchanged"
+msgstr "未变化"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "partial"
+msgstr "部分"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Duplicates"
+msgstr "重复项"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Added rule providers"
+msgstr "新增规则集"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Removed rule providers"
+msgstr "移除规则集"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "No provider changes found in the extracted portion."
+msgstr "在已提取部分中未发现规则集变化。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Rule providers unchanged"
+msgstr "规则集未变化"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Change"
+msgstr "变化"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Priority"
+msgstr "优先级"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Rule type"
+msgstr "规则类型"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Match value"
+msgstr "匹配值"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Target policy"
+msgstr "目标策略"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Notes"
+msgstr "备注"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Duplicate rule"
+msgstr "重复规则"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Show unchanged rules"
+msgstr "显示未变化的规则"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Rule details were truncated during extraction. Change counts, duplicate counts, and provider differences cover only the extracted portion."
+msgstr "规则详情已截断。变化数、重复数和规则集差异仅包含已提取部分。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Rules are matched from top to bottom. The priority column shows the old and new position of every changed rule."
+msgstr "规则按从上到下的顺序匹配。优先级列显示每条变更规则的原位置和新位置。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "No routing rule changes."
+msgstr "路由规则没有变化。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Display limited to the first 3000 rules."
+msgstr "最多显示前 3000 条规则。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "No rule-level comparison is available for this file."
+msgstr "此文件不支持规则级对比。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "YAML diff"
+msgstr "YAML 差异"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Rules view"
+msgstr "规则视图"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Preview routing rules"
+msgstr "预览路由规则"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Rule details could not be extracted from the merged profile"
+msgstr "无法从合并后的配置中提取规则详情"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Routing rules preview"
+msgstr "路由规则预览"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "These rules are shown in their effective top-to-bottom order after merging the current base profile and this module."
+msgstr "以下规则按合并当前基础配置和此模块后的实际顺序显示。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/tools/nikki-diff.js
+msgid "Preview the effective ordered rules as typed conditions and target policies. The YAML below remains the source of truth."
+msgstr "以条件和目标策略形式预览实际生效的有序规则。下方 YAML 仍为配置来源。"

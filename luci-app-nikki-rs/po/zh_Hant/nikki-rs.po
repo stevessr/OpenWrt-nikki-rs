@@ -2812,3 +2812,75 @@ msgstr "LAN 連線分類快取"
 
 msgid "Cache LAN TPROXY/TUN decisions to reduce repeated rule matching."
 msgstr "快取 LAN TPROXY/TUN 分流結果，減少重複規則比對。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "Import rules from selected profile"
+msgstr "從目前選定設定匯入規則"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "Saves pending Mixin changes, appends rules from the profile file selected in App Config, and skips duplicates. Applying the import may restart Nikki RS."
+msgstr "匯入前會先儲存 Mixin 頁面中尚未儲存的變更，然後追加目前設定檔中的規則並自動去重。套用匯入可能會重新啟動 Nikki RS。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "Could not import rules from the selected profile."
+msgstr "無法從目前選定設定匯入規則。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "The selected profile has more rules than the safe import limit. No rules were imported."
+msgstr "目前設定檔的規則數量超過安全匯入上限，未匯入任何規則。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "More than 2000 unique rules would be imported. No rules were imported."
+msgstr "待匯入的唯一規則超過 2000 條，未匯入任何規則。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "No new rules to import. All supported rules already exist."
+msgstr "沒有可匯入的新規則，所有支援的規則均已存在。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "Unsupported or invalid rules skipped: "
+msgstr "已略過不支援或無效的規則："
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "Imported rules: "
+msgstr "已匯入規則："
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "duplicates skipped: "
+msgstr "已略過重複項："
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "unsupported skipped: "
+msgstr "不支援項已略過："
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "Nikki RS configuration applied."
+msgstr "Nikki RS 設定已套用。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/mixin.js
+msgid "Rule import failed: "
+msgstr "規則匯入失敗："
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Compare selected profile with effective config"
+msgstr "比對選定設定與生效設定"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Shows how current Mixin Config, mixin.yaml and Advanced Config overrides change the selected profile. This is a read-only preview."
+msgstr "檢視目前的 Mixin Config、mixin.yaml 和進階設定覆寫項對選定設定檔的變更結果。此預覽為唯讀。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Could not preview the effective profile."
+msgstr "無法預覽生效設定。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Effective profile changes"
+msgstr "生效設定差異"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "The diff may contain proxy credentials. Do not share it."
+msgstr "差異中可能包含代理憑據，請勿分享。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Profile comparison failed: "
+msgstr "設定比對失敗："

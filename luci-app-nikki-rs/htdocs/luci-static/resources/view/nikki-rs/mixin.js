@@ -2,6 +2,8 @@
 'require form';
 'require view';
 'require uci';
+'require ui';
+'require tools.nikki-diff as diff';
 'require fs';
 'require network';
 'require poll';
@@ -1309,6 +1311,57 @@ return view.extend({
 
         o = s.taboption('rule', form.Flag, 'rule', _('Append Rule'));
         o.rmempty = false;
+
+        o = s.taboption('rule', form.Button, '_import_profile_rules', _('Import rules from selected profile'));
+        o.inputstyle = 'action';
+        o.description = _('Saves pending Mixin changes, appends rules from the profile file selected in App Config, and skips duplicates. Applying the import may restart Nikki RS.');
+        o.onclick = function () {
+            return m.save().then(function () {
+                return nikki.profileRuleImport();
+            }).then(function (result) {
+                if (!result.success) {
+                    alert(result.error || _('Could not import rules from the selected profile.'));
+                    return;
+                }
+                if (result.truncated) {
+                    alert(_('The selected profile has more rules than the safe import limit. No rules were imported.'));
+                    return;
+                }
+                const existing = uci.sections('nikki-rs', 'rule');
+                const merged = diff.mergeImportedRules(result.rules, existing);
+                if (merged.rules.length > 2000) {
+                    alert(_('More than 2000 unique rules would be imported. No rules were imported.'));
+                    return;
+                }
+                if (merged.rules.length === 0) {
+                    alert(_('No new rules to import. All supported rules already exist.') +
+                        (merged.invalid ? ' ' + _('Unsupported or invalid rules skipped: ') + merged.invalid : ''));
+                    return;
+                }
+                uci.set('nikki-rs', 'mixin', 'rule', '1');
+                for (const rule of merged.rules) {
+                    const section = uci.add('nikki-rs', 'rule');
+                    uci.set('nikki-rs', section, 'enabled', '1');
+                    uci.set('nikki-rs', section, 'type', rule.type);
+                    if (rule.matcher)
+                        uci.set('nikki-rs', section, 'matcher', rule.matcher);
+                    uci.set('nikki-rs', section, 'node', rule.node);
+                    uci.set('nikki-rs', section, 'no_resolve', rule.no_resolve ? '1' : '0');
+                }
+                return uci.save().then(function () {
+                    return uci.apply();
+                }).then(function () {
+                    const message = _('Imported rules: ') + merged.rules.length +
+                        ', ' + _('duplicates skipped: ') + merged.duplicates +
+                        ', ' + _('unsupported skipped: ') + merged.invalid +
+                        '. ' + _('Nikki RS configuration applied.');
+                    alert(message);
+                    window.location.reload();
+                });
+            }).catch(function (error) {
+                alert(_('Rule import failed: ') + String(error));
+            });
+        };
 
         o = s.taboption('rule', form.SectionValue, '_rules', form.TableSection, 'rule', _('Edit Rules'));
         o.retain = true;

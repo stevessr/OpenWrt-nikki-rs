@@ -299,6 +299,64 @@ function providerDiff(before, after) {
     return { added: added, removed: removed };
 }
 
+function toUciRule(value) {
+    if (typeof value === 'string') {
+        const parsed = parseRule(value);
+        if (!parsed.type || !parsed.policy)
+            return null;
+        return {
+            type: parsed.type.trim(),
+            matcher: /^MATCH$/i.test(parsed.type) ? '' : parsed.value.trim(),
+            node: parsed.policy.trim(),
+            no_resolve: /(?:^|,\s*)no-resolve(?:,|$)/i.test(parsed.options)
+        };
+    }
+    if (!value || typeof value !== 'object')
+        return null;
+    const rule = {
+        type: String(value.type || '').trim(),
+        matcher: String(value.matcher || '').trim(),
+        node: String(value.node || value.policy || '').trim(),
+        no_resolve: value.no_resolve === true || value.no_resolve === 1 || value.no_resolve === '1'
+    };
+    return rule.type && rule.node ? rule : null;
+}
+
+function uciRuleKey(value) {
+    const rule = toUciRule(value);
+    if (!rule)
+        return null;
+    return [rule.type.toUpperCase(), rule.matcher, rule.node, rule.no_resolve ? 'no-resolve' : ''].join(',');
+}
+
+function mergeImportedRules(source, existing) {
+    const seen = Object.create(null);
+    for (const value of (Array.isArray(existing) ? existing : [])) {
+        const key = uciRuleKey(value);
+        if (key != null)
+            seen[key] = true;
+    }
+
+    const added = [];
+    let duplicates = 0;
+    let invalid = 0;
+    for (const value of (Array.isArray(source) ? source : [])) {
+        const rule = toUciRule(value);
+        if (!rule) {
+            invalid++;
+            continue;
+        }
+        const key = uciRuleKey(rule);
+        if (seen[key]) {
+            duplicates++;
+            continue;
+        }
+        seen[key] = true;
+        added.push(rule);
+    }
+    return { rules: added, duplicates: duplicates, invalid: invalid };
+}
+
 const statusLabels = {
     added: [ '+', '#1a7f37', '#e6ffec' ],
     removed: [ '−', '#cf222e', '#ffebe9' ],
@@ -461,5 +519,7 @@ return baseclass.extend({
     ruleStats: ruleStats,
     duplicateRules: duplicateRules,
     providerDiff: providerDiff,
+    toUciRule: toUciRule,
+    mergeImportedRules: mergeImportedRules,
     rulesReport: rulesReport
 });

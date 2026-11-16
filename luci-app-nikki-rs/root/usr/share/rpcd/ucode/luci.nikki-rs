@@ -199,7 +199,10 @@ function editor_extract_rules(path) {
         if (i >= 10000) { truncated = true; break; }
         let entry = type(list[i]) == 'string' ? list[i] : json(list[i]);
         if (type(entry) != 'string') entry = '';
-        if (length(entry) > 512) entry = substr(entry, 0, 509) + '...';
+        if (length(entry) > 512) {
+            truncated = true;
+            entry = substr(entry, 0, 509) + '...';
+        }
         if (total + length(entry) > 262144) { truncated = true; break; }
         total += length(entry);
         push(rules, entry);
@@ -211,6 +214,56 @@ function editor_extract_rules(path) {
     }
     return { rules: rules, rule_providers: providers, truncated: truncated,
         total_rules: length(list), total_rule_providers: length(plist) };
+}
+
+function profile_effective_diff() {
+    const profile = editor_active_profile();
+    if (!profile || !editor_path_valid(profile) || !access(profile, 'r'))
+        return { success: false, error: 'Choose an existing profile in App Config before comparing.' };
+    const source = editor_read_limited(profile, 2097152);
+    if (source == null)
+        return { success: false, error: 'The selected profile is missing or exceeds the 2 MiB limit.' };
+    const dir = editor_tempdir();
+    if (!dir)
+        return { success: false, error: 'Unable to create a comparison workspace.' };
+    const beforePath = dir + '/before.yaml';
+    const afterPath = dir + '/after.yaml';
+    let ok = editor_write(beforePath, source) && editor_preview_profile(profile, afterPath);
+    if (ok)
+        ok = editor_normalize_yaml(beforePath) && editor_normalize_yaml(afterPath);
+    if (!ok) {
+        system(['rm', '-rf', dir]);
+        return { success: false, error: 'Could not compose the effective profile. Check the profile and Nikki RS log.' };
+    }
+    const before = editor_read_limited(beforePath, 1048576);
+    const after = editor_read_limited(afterPath, 1048576);
+    let rulesBefore = null;
+    let rulesAfter = null;
+    if (before != null && after != null) {
+        rulesBefore = editor_extract_rules(beforePath);
+        rulesAfter = editor_extract_rules(afterPath);
+    }
+    system(['rm', '-rf', dir]);
+    if (before == null || after == null)
+        return { success: false, error: 'The effective profile exceeds the 1 MiB display limit.' };
+    return {
+        success: true, before: before, after: after, mode: 'yaml',
+        note: 'Compared the selected source profile with its effective output after applying current UCI mixin settings, mixin.yaml when enabled, Advanced Config overrides, and startup safety rules. This preview does not start or restart the service.',
+        rules_before: rulesBefore, rules_after: rulesAfter
+    };
+}
+
+function profile_rule_import() {
+    const profile = editor_active_profile();
+    if (!profile || !editor_path_valid(profile) || !access(profile, 'r'))
+        return { success: false, error: 'Choose an existing profile in App Config before importing rules.' };
+    const view = editor_extract_rules(profile);
+    if (view == null)
+        return { success: false, error: 'Could not extract rules from the selected profile.' };
+    return {
+        success: true, rules: view.rules, total_rules: view.total_rules,
+        truncated: view.truncated
+    };
 }
 
 const methods = {
@@ -777,6 +830,16 @@ const methods = {
           } catch (e) {
             return { success: false, error: 'Comparison failed unexpectedly' };
           }
+        }
+    },
+    profile_effective_diff: {
+        call: function() {
+            return profile_effective_diff();
+        }
+    },
+    profile_rule_import: {
+        call: function() {
+            return profile_rule_import();
         }
     },
     save_config: {

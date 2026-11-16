@@ -46,7 +46,7 @@ class Handler(BaseHTTPRequestHandler):
             file = Path(__file__).with_name("mock.js")
         else:
             name = path.rsplit("/", 1)[-1]
-            if name not in ("settings", "collections", "overrides", "rules-builder", "app", "editor"):
+            if name not in ("settings", "collections", "overrides", "rules-builder", "app", "editor", "mixin", "profile"):
                 name = "settings"
             return self.respond("""<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="/luci-static/bootstrap/cascade.css">
@@ -68,16 +68,24 @@ L.require('view.nikki-rs.NAME').then(v=>window.currentView=v);
             message = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
         except (ValueError, KeyError):
             return self.respond("{}", "application/json")
+        added = [0]
         def result(req):
             params = req.get("params") or []
             method = params[2] if len(params) > 2 else ""
             if method == "get" and params[3].get("config") == "nikki-rs":
                 return {"jsonrpc":"2.0","id":req["id"],"result":[0,{"values":{
-                    "config":{".name":"config",".type":"config","enabled":"1","scheduled_restart":"1","scheduled_restart_cron":"15 4 * * 2"},
+                    "config":{".name":"config",".type":"config","enabled":"1","profile":"file:test.yaml","scheduled_restart":"1","scheduled_restart_cron":"15 4 * * 2"},
                     "procd":{".name":"procd",".type":"procd"},
                     "editor":{".name":"editor",".type":"editor"},
+                    "mixin":{".name":"mixin",".type":"mixin","rule":"0","rule_provider":"0","mixin_file_content":"0"},
+                    "rule1":{".name":"rule1",".type":"rule","enabled":"1","type":"DOMAIN-SUFFIX","matcher":"example.com","node":"PROXY"},
                     "status":{".name":"status",".type":"status"}
                 }}]}
+            if method in ("apply", "confirm"):
+                return {"jsonrpc":"2.0","id":req["id"],"result":[0,0]}
+            if method == "add":
+                added[0] += 1
+                return {"jsonrpc":"2.0","id":req["id"],"result":[0,{"section":"cfg%04d" % added[0]}]}
             data = {"access": True} if method == "access" else {"values": {}} if method == "get" else {}
             return {"jsonrpc":"2.0","id":req["id"],"result":[0,data]}
         self.respond(json.dumps([result(r) for r in message] if isinstance(message, list) else result(message)), "application/json")
@@ -92,7 +100,11 @@ try:
         page = browser.new_page(viewport={"width":1440,"height":1000}, screen={"width":390,"height":844})
         errors = []
         page.on("pageerror", lambda error: (errors.append(str(error)), print("PAGE ERROR", error, getattr(error, "stack", ""), flush=True)))
-        page.on("dialog", lambda dialog: dialog.accept())
+        dialogs = []
+        def accept_dialog(dialog):
+            dialogs.append(dialog.message)
+            dialog.accept()
+        page.on("dialog", accept_dialog)
         def visit(name, selector="#view h2"):
             page.goto(base + "/" + name, wait_until="networkidle")
             try:
@@ -241,6 +253,32 @@ try:
         mobile("editor-diff")
         click("Close")
         results.append("editor: effective configuration comparison, readable YAML diff, credential warning, mobile layout")
+        visit("profile", "#view .cbi-map")
+        click("Compare selected profile with effective config")
+        page.locator(".modal").wait_for(state="visible")
+        profile_modal = page.locator(".modal").inner_text()
+        assert "test profile comparison" in profile_modal, profile_modal
+        assert "MATCH" in profile_modal and "DIRECT" in profile_modal, profile_modal
+        assert "Added lines: 1" in profile_modal, profile_modal
+        page.get_by_label("Show unchanged rules").check()
+        assert "example.com" in page.locator(".modal").inner_text()
+        page.get_by_role("button", name="YAML diff", exact=True).click()
+        assert "mode: rule" in page.locator(".modal").inner_text()
+        screenshot("profile-effective-diff")
+        mobile("profile-effective-diff")
+        click("Close")
+        results.append("profile: effective configuration diff after mixin and overrides, rules and YAML views")
+        visit("mixin", "#view .cbi-map")
+        page.locator(".cbi-tabmenu a").filter(has_text="Rule Config").click()
+        page.wait_for_timeout(200)
+        click("Import rules from selected profile")
+        page.wait_for_timeout(1800)
+        assert page.evaluate("sessionStorage.getItem('profileRuleImportCalled') === '1'"), "rule import RPC not called: " + repr(dialogs)
+        assert any("Imported rules: 1" in message for message in dialogs), dialogs
+        assert any("duplicates skipped: 2" in message for message in dialogs), dialogs
+        assert any("unsupported skipped: 1" in message for message in dialogs), dialogs
+        screenshot("mixin-rule-import")
+        results.append("mixin: one-click rule import from selected profile with deduplication")
         assert not errors, errors
         browser.close()
 finally:

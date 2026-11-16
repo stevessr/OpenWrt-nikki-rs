@@ -81,5 +81,19 @@ window.mock = {
     restoreConfig: () => reply({success:true}),
     overrideTest: () => reply({success:true}),
     overrideInspect: () => reply({success:true,info:'{"mode":"rule","rules":1,"proxies":0,"groups":0,"duplicate_rules":0}'}),
-    overrideAnalyze: () => reply({success:true,report:{changed_sections:[],before:{},after:{dns:true}}})
+    overrideAnalyze: () => reply({success:true,report:{changed_sections:[],before:{},after:{dns:true}}}),
+    profileEffectiveDiff: () => {
+        calls.push({op:'profileEffectiveDiff'});
+        return reply({success:true,mode:'yaml',note:'test profile comparison',
+            before:'mode: rule\nrules:\n  - DOMAIN-SUFFIX,example.com,PROXY\n',
+            after:'mode: rule\nrules:\n  - DOMAIN-SUFFIX,example.com,PROXY\n  - MATCH,DIRECT\n',
+            rules_before:{rules:['DOMAIN-SUFFIX,example.com,PROXY'],rule_providers:[]},
+            rules_after:{rules:['DOMAIN-SUFFIX,example.com,PROXY','MATCH,DIRECT'],rule_providers:[]}});
+    },
+    profileRuleImport: () => {
+        calls.push({op:'profileRuleImport'});
+        sessionStorage.setItem('profileRuleImportCalled', '1');
+        return reply({success:true,total_rules:4,truncated:false,
+            rules:['DOMAIN-SUFFIX,example.com,PROXY','MATCH,DIRECT','DOMAIN-SUFFIX,example.com,PROXY','bogus']});
+    }
 };

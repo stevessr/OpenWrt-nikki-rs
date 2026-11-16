@@ -38,6 +38,16 @@ assert.deepEqual(diff.ruleStats(diff.ruleDiff(['__proto__'], ['constructor'])),
   { added:1, removed:1, moved:0, unchanged:0 });
 assert.deepEqual(diff.providerDiff(['__proto__','constructor'], ['constructor','toString']),
   { added:['toString'], removed:['__proto__'] });
+const imported = diff.mergeImportedRules(
+  ['DOMAIN-SUFFIX,example.com,PROXY','IP-CIDR,10.0.0.0/8,DIRECT,no-resolve','MATCH,DIRECT','MATCH,DIRECT'],
+  [{type:'DOMAIN-SUFFIX',matcher:'example.com',node:'PROXY',no_resolve:false}]);
+assert.equal(imported.duplicates, 2, 'existing and in-source duplicates are skipped');
+assert.equal(imported.rules.length, 2);
+assert.deepEqual(imported.rules[0],
+  {type:'IP-CIDR',matcher:'10.0.0.0/8',node:'DIRECT',no_resolve:true});
+assert.deepEqual(imported.rules[1], {type:'MATCH',matcher:'',node:'DIRECT',no_resolve:false});
+assert.equal(diff.mergeImportedRules(['not-a-rule'], []).invalid, 1);
+assert.equal(diff.mergeImportedRules(['DOMAIN,a,PROXY'], []).rules[0].matcher, 'a');
 """, str(DIFF)], check=True, capture_output=True, text=True)
 
     def test_rpc_includes_structured_rules(self):
@@ -45,6 +55,18 @@ assert.deepEqual(diff.providerDiff(['__proto__','constructor'], ['constructor','
         self.assertIn("function editor_extract_rules", source)
         self.assertIn("rules_before: rulesBefore", source)
         self.assertIn("rules_after: rulesAfter", source)
+
+    def test_rpc_exposes_profile_diff_and_rule_import(self):
+        source = (ROOT / "luci-app-nikki-rs/root/usr/share/rpcd/ucode/luci.nikki-rs").read_text()
+        self.assertIn("function profile_effective_diff", source)
+        self.assertIn("function profile_rule_import", source)
+        self.assertIn("profile_effective_diff: {", source)
+        self.assertIn("profile_rule_import: {", source)
+        # The effective diff composes through the non-destructive preview helper.
+        self.assertIn("editor_preview_profile(profile, afterPath)", source)
+        # Rule import reads only the selected profile and never the live run profile.
+        self.assertIn("editor_extract_rules(profile)", source)
+        self.assertNotIn("editor_extract_rules('/etc/nikki-rs/run/config.yaml')", source)
 
     def test_ui_exposes_rules_view_and_ordered_rule_preview(self):
         editor = (ROOT / "luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/editor.js").read_text()

@@ -2,7 +2,9 @@
 'require form';
 'require view';
 'require uci';
+'require ui';
 'require tools.nikki-rs as nikki';
+'require tools.nikki-diff as diff';
 
 return view.extend({
     load: function () {
@@ -23,6 +25,58 @@ return view.extend({
         o.root_directory = nikki.profilesDir;
         o.write = function (section_id, formvalue) {
             return true;
+        };
+
+        o = s.option(form.Button, '_effective_diff', _('Compare selected profile with effective config'));
+        o.inputstyle = 'action';
+        o.description = _('Shows how current Mixin Config, mixin.yaml and Advanced Config overrides change the selected profile. This is a read-only preview.');
+        o.onclick = function () {
+            return nikki.profileEffectiveDiff().then(function (result) {
+                if (!result.success) {
+                    alert(result.error || _('Could not preview the effective profile.'));
+                    return;
+                }
+                const lines = diff.unified(result.before, result.after, 3);
+                const counts = diff.stats(lines);
+                const ruleView = diff.rulesReport(result.rules_before, result.rules_after);
+                const rawPanel = E('div', {
+                    'style': 'display:none;max-height:62vh;overflow:auto;border:1px solid #ccc;border-radius:4px;padding:.5em;font-family:monospace;font-size:12px;white-space:pre'
+                }, lines.length ? lines.map(function (line) {
+                    const prefix = line.type === '@' ? '' : line.type;
+                    const color = line.type === '+' ? '#1a7f37' :
+                        line.type === '-' ? '#cf222e' :
+                        line.type === '@' ? '#57606a' : '';
+                    return E('div', { 'style': color ? 'color:' + color : '' }, prefix + line.text);
+                }) : E('p', {}, _('No effective configuration changes.')));
+                const rulesPanel = E('div', {
+                    'style': 'max-height:62vh;overflow:auto;border:1px solid #ccc;border-radius:4px;padding:.5em'
+                }, ruleView);
+                const yamlTab = E('button', { 'type': 'button', 'class': 'cbi-tab', 'click': function () {
+                    rawPanel.style.display = '';
+                    rulesPanel.style.display = 'none';
+                    this.classList.add('active');
+                    rulesTab.classList.remove('active');
+                } }, _('YAML diff'));
+                const rulesTab = E('button', { 'type': 'button', 'class': 'cbi-tab active', 'click': function () {
+                    rawPanel.style.display = 'none';
+                    rulesPanel.style.display = '';
+                    this.classList.add('active');
+                    yamlTab.classList.remove('active');
+                } }, _('Rules view'));
+                ui.showModal(_('Effective profile changes'), [
+                    E('p', {}, result.note || ''),
+                    E('p', {}, _('Added lines') + ': ' + counts.added + ' · ' + _('Removed lines') + ': ' + counts.removed),
+                    E('p', { 'class': 'cbi-value-description' },
+                        _('The diff may contain proxy credentials. Do not share it.')),
+                    E('div', { 'class': 'cbi-tabmenu' }, [yamlTab, rulesTab]),
+                    rulesPanel, rawPanel,
+                    E('div', { 'class': 'right', 'style': 'margin-top:.75em' }, E('button', {
+                        'type': 'button', 'class': 'btn', 'click': ui.hideModal
+                    }, _('Close')))
+                ], 'wide');
+            }).catch(function (error) {
+                alert(_('Profile comparison failed: ') + String(error));
+            });
         };
 
         s = m.section(form.GridSection, 'subscription', _('Subscription'));

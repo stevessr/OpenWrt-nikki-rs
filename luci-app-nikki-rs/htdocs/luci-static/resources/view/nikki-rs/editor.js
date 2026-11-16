@@ -5,6 +5,7 @@
 'require fs';
 'require ui';
 'require tools.nikki-rs as nikki';
+'require tools.nikki-diff as diff';
 
 return view.extend({
     load: function () {
@@ -33,6 +34,13 @@ return view.extend({
 
         for (const subscription of subscriptions) {
             o.value(nikki.subscriptionsDir + '/' + subscription['.name'] + '.yaml', _('Subscription:') + subscription.name);
+        };
+
+        for (const module of ['general', 'dns', 'dns2', 'proxy-groups', 'proxy-providers',
+            'rule-providers', 'rules', 'listeners', 'inbound-providers', 'tun', 'sniffer',
+            'hosts', 'geodata', 'custom']) {
+            o.value(nikki.homeDir + '/overrides/' + module + '.yaml',
+                _('Advanced Config') + ': ' + module);
         };
 
         o.value(nikki.mixinFilePath, _('File for Mixin'));
@@ -72,6 +80,48 @@ return view.extend({
                 ui.addNotification(null, E('p', {}, result.success ?
                     _('Configuration syntax is valid.') : (result.error || _('Validation failed'))),
                     result.success ? 'info' : 'danger');
+            });
+        };
+
+        o = s.option(form.Button, '_diff', _('Compare effective configuration'));
+        o.inputstyle = 'action';
+        o.onclick = function (ev, section_id) {
+            const path = m.lookupOption('_file', section_id)[0].formvalue(section_id);
+            const content = m.lookupOption('_file_content', section_id)[0].formvalue(section_id);
+            return nikki.editorDiff(path, content).then(function (result) {
+                if (!result.success) {
+                    ui.addNotification(null, E('p', {},
+                        result.error || _('Comparison failed')), 'danger');
+                    return;
+                }
+                const lines = diff.unified(result.before, result.after, 3);
+                if (lines.length === 0) {
+                    ui.addNotification(null, E('p', {},
+                        _('No effective configuration changes.')), 'info');
+                    return;
+                }
+                const counts = diff.stats(lines);
+                const body = lines.map(function (line) {
+                    const prefix = line.type === '@' ? '' : line.type;
+                    const color = line.type === '+' ? '#1a7f37' :
+                        line.type === '-' ? '#cf222e' :
+                        line.type === '@' ? '#57606a' : '';
+                    return E('div', { style: color ? 'color:' + color : '' },
+                        prefix + line.text);
+                });
+                ui.showModal(_('Effective configuration comparison'), [
+                    E('p', {}, result.note || ''),
+                    E('p', {}, _('Added lines') + ': ' + counts.added + '  ' +
+                        _('Removed lines') + ': ' + counts.removed),
+                    E('p', { 'class': 'cbi-value-description' },
+                        _('The effective configuration may contain proxy credentials. Do not share this view.')),
+                    E('div', {
+                        style: 'max-height:65vh;overflow:auto;border:1px solid #ccc;border-radius:4px;padding:.5em;font-family:monospace;font-size:12px;white-space:pre'
+                    }, body),
+                    E('div', { 'class': 'right' }, [
+                        E('button', { 'class': 'btn', 'click': ui.hideModal }, _('Close'))
+                    ])
+                ]);
             });
         };
 

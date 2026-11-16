@@ -166,6 +166,9 @@ const callNikkiCoreRollback = rpc.declare({
 const callNikkiValidateConfig = rpc.declare({
     object: 'luci.nikki-rs', method: 'validate_config', params: ['path', 'content'], expect: { '': {} }
 });
+const callNikkiEditorDiff = rpc.declare({
+    object: 'luci.nikki-rs', method: 'editor_diff', params: ['path', 'content'], expect: { '': {} }
+});
 const callNikkiSaveConfig = rpc.declare({
     object: 'luci.nikki-rs', method: 'save_config', params: ['path', 'content'], expect: { '': {} }
 });
@@ -245,6 +248,7 @@ return baseclass.extend({
     coreUpdate: function (variant, tag) { return callNikkiCoreUpdate(variant, tag); },
     coreRollback: function () { return callNikkiCoreRollback(); },
     validateConfig: function (path, content) { return callNikkiValidateConfig(path, content); },
+    editorDiff: function (path, content) { return callNikkiEditorDiff(path, content); },
     saveConfig: function (path, content) { return callNikkiSaveConfig(path, content); },
     listConfigBackups: function (path) { return callNikkiConfigBackups(path); },
     restoreConfig: function (path, backup) { return callNikkiRestoreConfig(path, backup); },

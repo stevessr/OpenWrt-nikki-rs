@@ -2786,3 +2786,24 @@ msgstr "procd 設定"
 
 #~ msgid "Value is out of range: "
 #~ msgstr "值超出範圍："
+
+msgid "Compare effective configuration"
+msgstr "對比生效配置"
+
+msgid "Effective configuration comparison"
+msgstr "生效配置對比"
+
+msgid "No effective configuration changes."
+msgstr "生效配置沒有變化。"
+
+msgid "Comparison failed"
+msgstr "對比失敗"
+
+msgid "Added lines"
+msgstr "新增行"
+
+msgid "Removed lines"
+msgstr "刪除行"
+
+msgid "The effective configuration may contain proxy credentials. Do not share this view."
+msgstr "生效配置可能包含代理憑據，請勿分享此視圖。"

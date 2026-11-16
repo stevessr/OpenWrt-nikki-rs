@@ -46,7 +46,7 @@ class Handler(BaseHTTPRequestHandler):
             file = Path(__file__).with_name("mock.js")
         else:
             name = path.rsplit("/", 1)[-1]
-            if name not in ("settings", "collections", "overrides", "rules-builder", "app"):
+            if name not in ("settings", "collections", "overrides", "rules-builder", "app", "editor"):
                 name = "settings"
             return self.respond("""<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="/luci-static/bootstrap/cascade.css">
@@ -64,7 +64,10 @@ L.require('view.nikki-rs.NAME').then(v=>window.currentView=v);
         self.send_error(404)
 
     def do_POST(self):
-        message = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+        try:
+            message = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+        except (ValueError, KeyError):
+            return self.respond("{}", "application/json")
         def result(req):
             params = req.get("params") or []
             method = params[2] if len(params) > 2 else ""
@@ -72,6 +75,7 @@ L.require('view.nikki-rs.NAME').then(v=>window.currentView=v);
                 return {"jsonrpc":"2.0","id":req["id"],"result":[0,{"values":{
                     "config":{".name":"config",".type":"config","enabled":"1","scheduled_restart":"1","scheduled_restart_cron":"15 4 * * 2"},
                     "procd":{".name":"procd",".type":"procd"},
+                    "editor":{".name":"editor",".type":"editor"},
                     "status":{".name":"status",".type":"status"}
                 }}]}
             data = {"access": True} if method == "access" else {"values": {}} if method == "get" else {}
@@ -87,12 +91,12 @@ try:
         browser = pw.chromium.launch(executable_path=args.chromium, headless=True, args=["--no-sandbox", "--no-proxy-server"])
         page = browser.new_page(viewport={"width":1440,"height":1000}, screen={"width":390,"height":844})
         errors = []
-        page.on("pageerror", lambda error: (errors.append(str(error)), print("PAGE ERROR", error, flush=True)))
+        page.on("pageerror", lambda error: (errors.append(str(error)), print("PAGE ERROR", error, getattr(error, "stack", ""), flush=True)))
         page.on("dialog", lambda dialog: dialog.accept())
-        def visit(name):
+        def visit(name, selector="#view h2"):
             page.goto(base + "/" + name, wait_until="networkidle")
             try:
-                page.locator("#view h2").first.wait_for(timeout=10000)
+                page.locator(selector).first.wait_for(timeout=10000)
             except Exception:
                 (args.output / "failure.html").write_text(page.content())
                 page.screenshot(path=str(args.output / "failure.png"), full_page=True)
@@ -216,6 +220,18 @@ try:
         visit("rules-builder")
         assert page.url.endswith("/overrides?module=rules"), page.url
         results.append("advanced: module deep link, existing rule YAML, preview/review, legacy bookmark")
+        visit("editor", "#view textarea")
+        assert page.get_by_role("button", name="Compare effective configuration", exact=True).count() == 1
+        page.get_by_label("Choose File", exact=True).select_option("/etc/nikki-rs/mixin.yaml")
+        click("Compare effective configuration")
+        page.locator(".modal").wait_for(state="visible")
+        modal = page.locator(".modal").inner_text()
+        assert "223.5.5.5" in modal and "127.0.0.1" in modal, modal
+        assert "test comparison" in modal, modal
+        screenshot("editor-diff")
+        mobile("editor-diff")
+        click("Close")
+        results.append("editor: effective configuration comparison, readable YAML diff, credential warning, mobile layout")
         assert not errors, errors
         browser.close()
 finally:

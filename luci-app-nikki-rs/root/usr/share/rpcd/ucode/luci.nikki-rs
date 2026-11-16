@@ -6,6 +6,11 @@ import { access, popen, readfile, writefile, unlink } from 'fs';
 import { get_users, get_groups, get_cgroups, load_profile } from '/etc/nikki-rs/ucode/include.uc';
 
 
+function allowed_override_module(module) {
+    if (type(module) != 'string') return false;
+    return index(['general', 'dns', 'dns2', 'proxy-groups', 'proxy-providers', 'rule-providers', 'rules', 'listeners', 'inbound-providers', 'tun', 'sniffer', 'hosts', 'geodata', 'custom'], module) >= 0;
+}
+
 function editor_path_valid(path) {
     if (type(path) != 'string') return false;
     const base = '/etc/nikki-rs/';
@@ -64,11 +69,6 @@ function editor_operation(action, path, content) {
 }
 
 
-function allowed_override_module(module) {
-    if (type(module) != 'string') return false;
-    return index(['general', 'dns', 'dns2', 'proxy-groups', 'proxy-providers', 'rule-providers', 'rules', 'listeners', 'inbound-providers', 'tun', 'sniffer', 'hosts', 'geodata', 'custom'], module) >= 0;
-}
-
 function override_preview(module, content) {
     if (!allowed_override_module(module)) return { success: false, error: 'Unknown module' };
     const stage = staged_editor_content(content);
@@ -115,6 +115,65 @@ function config_snapshot(path) {
     if (type(content) != 'string' || before != after || length(content) > 2097152)
         return { success: false, error: 'Configuration changed while reading or is too large' };
     return { success: true, content: content, revision: before };
+}
+
+function editor_tempdir() {
+    const proc = popen('mktemp -d /tmp/nikki-rs-diff.XXXXXX');
+    if (!proc) return null;
+    const path = trim(proc.read('all'));
+    proc.close();
+    return index(path, '/tmp/nikki-rs-diff.') == 0 ? path : null;
+}
+
+function editor_write(path, content) {
+    return type(content) == 'string' && writefile(path, content) != null;
+}
+
+function editor_read_limited(path, limit) {
+    const content = readfile(path);
+    if (type(content) != 'string' || length(content) > limit) return null;
+    return content;
+}
+
+function editor_normalize_yaml(path) {
+    const proc = popen("yq -P '... comments=\"\"' " + path);
+    if (!proc) return false;
+    const content = proc.read('all');
+    proc.close();
+    if (type(content) != 'string' || length(content) == 0 || length(content) > 2097152)
+        return false;
+    return writefile(path, content) != null;
+}
+
+function editor_active_profile() {
+    const proc = popen('uci -q get nikki-rs.config.profile');
+    if (!proc) return null;
+    const value = trim(proc.read('all'));
+    proc.close();
+    let matched = match(value, /^file:([a-zA-Z0-9_.-]+\.(yaml|yml))$/);
+    if (matched != null) return '/etc/nikki-rs/profiles/' + matched[1];
+    matched = match(value, /^subscription:([a-zA-Z0-9_-]+)$/);
+    if (matched != null) return '/etc/nikki-rs/subscriptions/' + matched[1] + '.yaml';
+    return null;
+}
+
+function editor_preview_profile(source, output, mixin) {
+    const args = ['/etc/init.d/nikki-rs', 'preview_profile', source, output];
+    if (type(mixin) == 'string' && length(mixin) > 0) push(args, mixin);
+    return system(args) == 0 && access(output, 'r');
+}
+
+function editor_override_preview(base, module, candidate, output) {
+    let command = '/etc/nikki-rs/scripts/override-manager.sh preview ' + base;
+    if (type(module) == 'string' && length(module) > 0)
+        command += ' ' + module + ' ' + candidate;
+    const proc = popen(command);
+    if (!proc) return false;
+    const content = proc.read('all');
+    proc.close();
+    if (type(content) != 'string' || length(content) == 0 || length(content) > 2097152)
+        return false;
+    return writefile(output, content) != null;
 }
 
 const methods = {
@@ -581,6 +640,94 @@ const methods = {
         args: { path: 'path', content: 'content' },
         call: function(req) {
             return editor_operation('validate', req.args?.path, req.args?.content);
+        }
+    },
+    editor_diff: {
+        args: { path: 'path', content: 'content' },
+        call: function(req) {
+          try {
+            const path = req.args?.path;
+            if (!editor_path_valid(path))
+                return { success: false, error: 'Unsupported configuration path' };
+            const stage = staged_editor_content(req.args?.content);
+            if (!stage)
+                return { success: false, error: 'Invalid or oversized content' };
+            const dir = editor_tempdir();
+            if (!dir) {
+                unlink(stage);
+                return { success: false, error: 'Unable to create a comparison workspace' };
+            }
+            const beforePath = dir + '/before';
+            const afterPath = dir + '/after';
+            const relative = substr(path, length('/etc/nikki-rs/'));
+            let mode = 'yaml';
+            let note = '';
+            let ok = false;
+
+            if (path == '/etc/nikki-rs/run/config.yaml') {
+                ok = editor_write(beforePath, readfile(path)) &&
+                     editor_write(afterPath, readfile(stage));
+                note = 'Compares the saved startup profile with the editor content. Nikki RS regenerates this file on restart.';
+            }
+            else if (relative == 'mixin.yaml') {
+                const profile = editor_active_profile();
+                const proc = popen('uci -q get nikki-rs.mixin.mixin_file_content');
+                const enabled = proc ? trim(proc.read('all')) == '1' : false;
+                if (proc) proc.close();
+                if (!profile || !access(profile, 'r')) {
+                    system(['rm', '-rf', dir]);
+                    unlink(stage);
+                    return { success: false, error: 'The active profile is missing; start Nikki RS once first' };
+                }
+                ok = editor_preview_profile(profile, beforePath) &&
+                     editor_preview_profile(profile, afterPath, stage);
+                note = enabled ?
+                    'Compares the effective configuration from the saved mixin with the editor content.' :
+                    'The mixin file is not applied while "Use mixin file content" is disabled.';
+            }
+            else if (match(relative, /^(profiles|subscriptions)\/[a-zA-Z0-9_.-]+\.(yaml|yml)$/) != null) {
+                ok = editor_preview_profile(path, beforePath) &&
+                     editor_preview_profile(stage, afterPath);
+                note = 'Compares the effective configuration from the saved file with the editor content.';
+            }
+            else if (match(relative, /^overrides\/([a-z-]+)\.yaml$/) != null) {
+                const module = match(relative, /^overrides\/([a-z-]+)\.yaml$/)[1];
+                const base = '/etc/nikki-rs/run/base.yaml';
+                if (!access(base, 'r')) {
+                    system(['rm', '-rf', dir]);
+                    unlink(stage);
+                    return { success: false, error: 'Start Nikki RS once to generate the base profile used for comparison' };
+                }
+                ok = editor_override_preview(base, null, null, beforePath) &&
+                     editor_override_preview(base, module, stage, afterPath);
+                note = 'Compares the current merged configuration with the same merge using this module candidate. The base profile is from the last Nikki RS start.';
+            }
+            else {
+                mode = 'text';
+                ok = editor_write(beforePath, readfile(path)) &&
+                     editor_write(afterPath, readfile(stage));
+                note = 'Compares the saved file with the editor content.';
+            }
+
+            unlink(stage);
+            if (!ok) {
+                system(['rm', '-rf', dir]);
+                return { success: false, error: 'Could not compose the comparison. Check YAML syntax and the Nikki RS log.' };
+            }
+            if (mode == 'yaml' && (!editor_normalize_yaml(beforePath) ||
+                                   !editor_normalize_yaml(afterPath))) {
+                system(['rm', '-rf', dir]);
+                return { success: false, error: 'Could not normalize YAML for comparison' };
+            }
+            const before = editor_read_limited(beforePath, 1048576);
+            const after = editor_read_limited(afterPath, 1048576);
+            system(['rm', '-rf', dir]);
+            if (before == null || after == null)
+                return { success: false, error: 'The comparison exceeds the 1 MiB display limit' };
+            return { success: true, before: before, after: after, mode: mode, note: note };
+          } catch (e) {
+            return { success: false, error: 'Comparison failed unexpectedly' };
+          }
         }
     },
     save_config: {

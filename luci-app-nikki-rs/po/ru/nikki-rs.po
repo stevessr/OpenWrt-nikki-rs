@@ -1214,3 +1214,24 @@ msgstr "Клиентская подсеть зарубежного DNS"
 
 msgid "Optional EDNS Client Subnet (IP or CIDR), for example 203.0.113.0/24. Leave empty to omit."
 msgstr "Необязательная подсеть клиента EDNS (IP или CIDR), например 203.0.113.0/24. Оставьте пустым, чтобы не добавлять."
+
+msgid "Compare effective configuration"
+msgstr "Сравнить действующую конфигурацию"
+
+msgid "Effective configuration comparison"
+msgstr "Сравнение действующей конфигурации"
+
+msgid "No effective configuration changes."
+msgstr "Действующая конфигурация не изменилась."
+
+msgid "Comparison failed"
+msgstr "Не удалось сравнить"
+
+msgid "Added lines"
+msgstr "Добавлено строк"
+
+msgid "Removed lines"
+msgstr "Удалено строк"
+
+msgid "The effective configuration may contain proxy credentials. Do not share this view."
+msgstr "Действующая конфигурация может содержать учётные данные прокси. Не делитесь этим просмотром."

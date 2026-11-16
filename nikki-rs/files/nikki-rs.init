@@ -14,6 +14,7 @@ extra_command 'update_rule_provider' 'Update rule provider by section id'
 extra_command 'update_china_mainland_ip' 'Update China Mainland IP list'
 extra_command 'update_china_mainland_ip6' 'Update China Mainland IP6 list'
 extra_command 'clear_logs' 'Clear logs if size exceeds the limit'
+extra_command 'preview_profile' 'Compose an effective profile for a candidate file without starting the service'
 
 boot_func() {
 	# prepare files
@@ -101,7 +102,7 @@ mixin_profile() (
 	yq -M -i 'del(.ebpf)' "$RUN_PROFILE_PATH" 2>> "$APP_LOG_PATH" || exit 1
 
 	local mixin_rule_provider; config_get_bool mixin_rule_provider "mixin" "rule_provider" 0
-	if [ "$mixin_rule_provider" = 1 ]; then
+	if [ "$mixin_rule_provider" = 1 ] && [ "${preview_mode:-0}" != 1 ]; then
 		config_foreach prepare_rule_provider "rule_provider"
 	fi
 	ucode -S "$MIXIN_UC" > "$mixin_tmpdir/mixin.json" 2>> "$APP_LOG_PATH" || exit 1
@@ -129,6 +130,71 @@ mixin_profile() (
 	mv -f "$RUN_PROFILE_PATH" "$mixin_target" || exit 1
 	mv -f "$mixin_tmpdir/base.yaml" "$RUN_DIR/base.yaml" || exit 1
 )
+
+# Compose an effective profile for the LuCI editor's before/after comparison.
+# The live run directory, profile, mixin and log are never modified.
+preview_profile() {
+	local source="$1"
+	local output="$2"
+	local mixin_override="${3:-}"
+	case "$source" in /etc/nikki-rs/*|/tmp/nikki-rs-edit.*) ;; *) return 1 ;; esac
+	case "$output" in /tmp/nikki-rs-*|/var/run/nikki-rs/*) ;; *) return 1 ;; esac
+	[ -f "$source" ] && [ ! -L "$source" ] || return 1
+	if [ -n "$mixin_override" ]; then
+		case "$mixin_override" in /etc/nikki-rs/mixin.yaml|/tmp/nikki-rs-edit.*) ;; *) return 1 ;; esac
+		[ -f "$mixin_override" ] && [ ! -L "$mixin_override" ] || return 1
+	fi
+
+	local tmpdir
+	tmpdir="$(mktemp -d /tmp/nikki-rs-preview.XXXXXX)" || return 1
+	trap 'rm -rf "$tmpdir"' EXIT INT TERM
+
+	config_load nikki-rs
+	local overwrite_authentication overwrite_tun_dns_hijack overwrite_fake_ip_filter
+	local overwrite_black_filter overwrite_hosts overwrite_dns_nameserver
+	local overwrite_dns_proxy_server_nameserver overwrite_dns_nameserver_policy
+	local ui_internal overwrite_sniffer_force_domain_name overwrite_sniffer_ignore_domain_name
+	local overwrite_sniffer_sniff overwrite_mmdb overwrite_geosite overwrite_asn_mmdb
+	local mixin_file_content proxy_enabled ebpf_enabled
+	config_get_bool overwrite_authentication "mixin" "authentication" 0
+	config_get_bool overwrite_tun_dns_hijack "mixin" "tun_dns_hijack" 0
+	config_get_bool overwrite_fake_ip_filter "mixin" "fake_ip_filter" 0
+	config_get_bool overwrite_black_filter "mixin" "black_filter" 0
+	config_get_bool overwrite_hosts "mixin" "hosts" 0
+	config_get_bool overwrite_dns_nameserver "mixin" "dns_nameserver" 0
+	config_get_bool overwrite_dns_proxy_server_nameserver "mixin" "dns_proxy_server_nameserver" 0
+	config_get_bool overwrite_dns_nameserver_policy "mixin" "dns_nameserver_policy" 0
+	config_get_bool ui_internal "mixin" "ui_internal" 0
+	config_get_bool overwrite_sniffer_force_domain_name "mixin" "sniffer_force_domain_name" 0
+	config_get_bool overwrite_sniffer_ignore_domain_name "mixin" "sniffer_ignore_domain_name" 0
+	config_get_bool overwrite_sniffer_sniff "mixin" "sniffer_sniff" 0
+	config_get_bool overwrite_mmdb "mixin" "overwrite_mmdb" 0
+	config_get_bool overwrite_geosite "mixin" "overwrite_geosite" 0
+	config_get_bool overwrite_asn_mmdb "mixin" "overwrite_asn_mmdb" 0
+	config_get_bool mixin_file_content "mixin" "mixin_file_content" 0
+	config_get_bool proxy_enabled "proxy" "enabled" 0
+	config_get_bool ebpf_enabled "ebpf" "enabled" 0
+
+	local saved_mixin_file="$MIXIN_FILE_PATH"
+	local saved_app_log="$APP_LOG_PATH"
+	local saved_run_dir="$RUN_DIR"
+	local saved_run_profile="$RUN_PROFILE_PATH"
+	RUN_DIR="$tmpdir"
+	RUN_PROFILE_PATH="$tmpdir/config.yaml"
+	APP_LOG_PATH="$tmpdir/app.log"
+	if [ -n "$mixin_override" ]; then
+		MIXIN_FILE_PATH="$mixin_override"
+	fi
+	cp -f "$source" "$RUN_PROFILE_PATH" || return 1
+	preview_mode=1
+	mixin_profile 2>> "$APP_LOG_PATH" || return 1
+	cp -f "$RUN_PROFILE_PATH" "$output" || return 1
+	MIXIN_FILE_PATH="$saved_mixin_file"
+	APP_LOG_PATH="$saved_app_log"
+	RUN_DIR="$saved_run_dir"
+	RUN_PROFILE_PATH="$saved_run_profile"
+	return 0
+}
 
 start_service() {
 	# prepare files

@@ -64,7 +64,7 @@ wget -O - https://github.com/CHKayanami/OpenWrt-nikki-rs/raw/refs/heads/main/ins
 2. Navigate to **Services** -> **Nikki RS**.
 3. Import subscription link or configuration profile, and enable the transparent proxy service.
 
-The LuCI **Editor** validates YAML before saving. Syntax errors include parser line and column details; **History / Restore** retains the 10 most recent revisions.
+The LuCI **Editor** validates YAML before saving. Syntax errors include parser line and column details; **History / Restore** retains the 10 most recent revisions. **Compare effective configuration** composes the candidate profile with the current UCI, `mixin.yaml` and override modules without starting or changing the service, normalizes the YAML, and shows a line-by-line diff of the effective result.
 
 ## GeoSite-based DNS defaults
 
@@ -75,6 +75,8 @@ Fresh installations now enable the GeoSite/MMDB override fields and split DNS:
 - Proxy-node bootstrap uses the configured AliDNS DoH servers to avoid DNS recursion.
 
 The existing GeoSite/MMDB URLs are used; this change adds no scheduled data updater. Package upgrades preserve `/etc/config/nikki-rs`, so existing installs keep their current values.
+
+For a DNS server on a non-standard port, use `udp://127.0.0.1:3053`. Plain `127.0.0.1:3053` is parsed as an IPv6 address by clash-rs and is rejected during the profile test.
 
 The package does not rewrite dnsmasq settings because Nikki RS is disabled by default. To route LAN DNS through Nikki, back up `/etc/config/dhcp`, ensure Nikki DNS is running on port `1053`, then set:
 

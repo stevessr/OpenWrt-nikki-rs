@@ -21,6 +21,16 @@ let collections = {
 const clone = value => JSON.parse(JSON.stringify(value));
 const reply = value => new Promise(resolve => setTimeout(() => resolve(clone(value)), 20));
 window.mock = {
+    homeDir: '/etc/nikki-rs',
+    profilesDir: '/etc/nikki-rs/profiles',
+    subscriptionsDir: '/etc/nikki-rs/subscriptions',
+    mixinFilePath: '/etc/nikki-rs/mixin.yaml',
+    runProfilePath: '/etc/nikki-rs/run/config.yaml',
+    blackFilterPath: '/etc/nikki-rs/dns/black_filter',
+    fakeIpFilterPath: '/etc/nikki-rs/dns/fake_ip_filter',
+    fallbackFilterPath: '/etc/nikki-rs/dns/fallback_filter',
+    proxyWhitelistPath: '/etc/nikki-rs/nftables/proxy_whitelist.txt',
+    proxyWhitelist6Path: '/etc/nikki-rs/nftables/proxy_whitelist6.txt',
     version: () => reply({app:'test',core:'test'}),
     status: () => reply(true),
     listProfiles: () => reply([]),
@@ -54,6 +64,13 @@ window.mock = {
         return reply({success:true});
     },
     validateConfig: () => reply({success:true}),
+    editorDiff: (path,content) => {
+        calls.push({op:'editorDiff',path,content});
+        return reply({success:true,
+            before:'dns:\n  nameserver:\n    - 223.5.5.5\n',
+            after:'dns:\n  nameserver:\n    - 127.0.0.1\n',
+            mode:'yaml',note:'test comparison'});
+    },
     saveConfigRevision: (path,content,revision) => {
         calls.push({op:'saveConfigRevision',path,content,revision});
         return reply({success:true});

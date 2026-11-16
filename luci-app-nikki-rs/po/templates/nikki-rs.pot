@@ -2515,3 +2515,24 @@ msgstr ""
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/app.js:147
 msgid "procd Config"
 msgstr ""
+
+msgid "Compare effective configuration"
+msgstr ""
+
+msgid "Effective configuration comparison"
+msgstr ""
+
+msgid "No effective configuration changes."
+msgstr ""
+
+msgid "Comparison failed"
+msgstr ""
+
+msgid "Added lines"
+msgstr ""
+
+msgid "Removed lines"
+msgstr ""
+
+msgid "The effective configuration may contain proxy credentials. Do not share this view."
+msgstr ""

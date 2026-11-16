@@ -29,7 +29,7 @@
 - **安全更新**：根据 `uname -m` 选择架构，校验 GitHub Release 中的 SHA256 digest、解包后的可执行文件和当前启动配置；服务无法重新启动时自动恢复原内核。
 - **不覆盖系统包**：下载的核心位于 `/etc/nikki-rs/core/clash-rs`，保留 `/usr/bin/clash-rs` 为基础版本。支持手动回退到上一个覆盖版本，或回退到系统包。
 - **自动更新**：可在 LuCI 中开启，并设置 cron（默认每周日 04:15），默认**关闭**。
-- **安全编辑器**：配置文件保存前校验 YAML 根节点格式；语法错误会显示解析器提供的行、列位置。原子覆盖保存，并在 `/etc/nikki-rs/backups/` 保留最近 10 个版本。LuCI **Editor → Validate Before Saving / History / Restore** 可检测和回退。修改 `run/config.yaml` 是临时的，服务重启会重新生成，应优先编辑源配置或 `mixin.yaml`。
+- **安全编辑器**：配置文件保存前校验 YAML 根节点格式；语法错误会显示解析器提供的行、列位置。原子覆盖保存，并在 `/etc/nikki-rs/backups/` 保留最近 10 个版本。LuCI **Editor → Validate Before Saving / History / Restore** 可检测和回退。修改 `run/config.yaml` 是临时的，服务重启会重新生成，应优先编辑源配置或 `mixin.yaml`。**Compare effective configuration** 会在不启动服务的情况下，用当前 UCI、`mixin.yaml` 和 overrides 生成候选配置，规范化 YAML 后显示行级差异，便于确认修改真正生效后的结果。
 
 命令行示例：
 
@@ -90,6 +90,8 @@ dns:
 - 代理节点引导解析使用配置中的阿里 DoH，避免代理 DNS 递归。
 
 继续使用现有 GeoSite/MMDB 下载 URL；本次不增加定时更新任务。升级会保留 `/etc/config/nikki-rs`，已有安装不会自动覆盖原 UCI 值。
+
+DNS 服务器使用非标准端口时，请写成 `udp://127.0.0.1:3053`。clash-rs 会把裸写的 `127.0.0.1:3053` 当作 IPv6 地址并在配置测试阶段拒绝。
 
 Nikki RS 默认关闭，因此软件包不会自动改写 dnsmasq。若要让 LAN 客户端使用 Nikki DNS，先备份 `/etc/config/dhcp`，确认 Nikki DNS 正在 `1053` 端口监听，再执行：
 

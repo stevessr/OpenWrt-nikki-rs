@@ -179,6 +179,20 @@ preview_profile() {
 	local saved_app_log="$APP_LOG_PATH"
 	local saved_run_dir="$RUN_DIR"
 	local saved_run_profile="$RUN_PROFILE_PATH"
+	# mixin_profile installs its own EXIT trap, which replaces the one above in
+	# this shell. Restore our cleanup on every exit path so preview workspaces
+	# never accumulate in the router's RAM-backed /tmp.
+	restore_preview() {
+		MIXIN_FILE_PATH="$saved_mixin_file"
+		APP_LOG_PATH="$saved_app_log"
+		RUN_DIR="$saved_run_dir"
+		RUN_PROFILE_PATH="$saved_run_profile"
+	}
+	cleanup_preview() {
+		restore_preview
+		rm -rf "$tmpdir"
+	}
+	trap 'cleanup_preview' EXIT INT TERM
 	RUN_DIR="$tmpdir"
 	RUN_PROFILE_PATH="$tmpdir/config.yaml"
 	APP_LOG_PATH="$tmpdir/app.log"
@@ -189,10 +203,8 @@ preview_profile() {
 	preview_mode=1
 	mixin_profile 2>> "$APP_LOG_PATH" || return 1
 	cp -f "$RUN_PROFILE_PATH" "$output" || return 1
-	MIXIN_FILE_PATH="$saved_mixin_file"
-	APP_LOG_PATH="$saved_app_log"
-	RUN_DIR="$saved_run_dir"
-	RUN_PROFILE_PATH="$saved_run_profile"
+	cleanup_preview
+	trap - EXIT INT TERM
 	return 0
 }
 

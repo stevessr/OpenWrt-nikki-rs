@@ -27,6 +27,18 @@ class EditorDiffContractTests(unittest.TestCase):
         self.assertIn('${preview_mode:-0}', source)
         self.assertIn("preview_profile()", source)
 
+    def test_preview_profile_cleans_its_workspace(self):
+        # mixin_profile replaces the EXIT trap of the calling shell, so the
+        # preview workspace must be removed explicitly and the trap restored.
+        source = INIT.read_text()
+        start = source.index("preview_profile() {")
+        end = source.index("start_service() {")
+        block = source[start:end]
+        self.assertIn("cleanup_preview() {", block)
+        self.assertIn("trap 'cleanup_preview' EXIT INT TERM", block)
+        self.assertIn('rm -rf "$tmpdir"', block)
+        self.assertIn("cleanup_preview\n\ttrap - EXIT INT TERM", block)
+
 
 if __name__ == "__main__":
     unittest.main()

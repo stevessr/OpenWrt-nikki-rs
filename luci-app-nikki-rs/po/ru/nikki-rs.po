@@ -1309,3 +1309,115 @@ msgstr "В diff могут присутствовать учётные данн�
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
 msgid "Profile comparison failed: "
 msgstr "Не удалось сравнить профиль: "
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Profile Files"
+msgstr "Файлы профилей"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "File Name"
+msgstr "Имя файла"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Size"
+msgstr "Размер"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Profile Status"
+msgstr "Состояние профиля"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Action"
+msgstr "Действие"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Selected"
+msgstr "Выбран"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Available"
+msgstr "Доступен"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Open in Editor"
+msgstr "Открыть в редакторе"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "No profile files uploaded yet. Upload a YAML profile below."
+msgstr "Файлы профиля ещё не загружены. Загрузите YAML ниже."
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Manage local YAML profiles here. The selected profile is shown in App Config; use Open in Editor to review or edit a file."
+msgstr "Здесь можно управлять локальными YAML-профилями. Выбранный профиль отображается в настройках приложения; откройте файл в редакторе для просмотра или изменения."
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Last Successful Update"
+msgstr "Последнее успешное обновление"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Last Update Attempt"
+msgstr "Последняя попытка обновления"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Update Status"
+msgstr "Состояние обновления"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Failed"
+msgstr "Ошибка"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Not updated"
+msgstr "Не обновлялась"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Last Update Error"
+msgstr "Последняя ошибка обновления"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Update failed. Check the subscription status and Nikki RS logs."
+msgstr "Обновление не удалось. Проверьте статус подписки и журнал Nikki RS."
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Could not update subscription: "
+msgstr "Не удалось обновить подписку: "
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Could not resolve the subscription host (DNS)"
+msgstr "Не удалось разрешить имя сервера подписки (DNS)"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Could not connect to the subscription server"
+msgstr "Не удалось подключиться к серверу подписки"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Connection timed out"
+msgstr "Истекло время ожидания соединения"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "TLS handshake failed"
+msgstr "Ошибка TLS-рукопожатия"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "TLS certificate validation failed"
+msgstr "Не удалось проверить TLS-сертификат"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Invalid or unsupported subscription URL"
+msgstr "Некорректный или неподдерживаемый URL подписки"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Downloaded content is not valid Clash YAML (parser line %d)."
+msgstr "Загруженные данные не являются корректным Clash YAML (ошибка парсера, строка %d)."
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Downloaded YAML has no proxies or proxy-providers section, or contains invalid syntax."
+msgstr "В загруженном YAML отсутствует раздел proxies/proxy-providers или синтаксис неверен."
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "The subscription server returned an empty file."
+msgstr "Сервер подписки вернул пустой файл."
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Profile file management"
+msgstr "Управление файлами профилей"

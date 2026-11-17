@@ -10,7 +10,7 @@ import mimetypes
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from threading import Thread
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 from playwright.sync_api import sync_playwright
 
 parser = argparse.ArgumentParser()
@@ -64,8 +64,16 @@ L.require('view.nikki-rs.NAME').then(v=>window.currentView=v);
         self.send_error(404)
 
     def do_POST(self):
+        path = urlparse(self.path).path
+        raw = self.rfile.read(int(self.headers.get("Content-Length", "0")))
+        if path.endswith("/cgi-download"):
+            fields = parse_qs(raw.decode())
+            requested = fields.get("path", [""])[0]
+            if requested == "/etc/nikki-rs/profiles/test.yaml":
+                return self.respond("mode: rule\nrules:\n  - MATCH,DIRECT\n", "text/plain")
+            return self.send_error(404)
         try:
-            message = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+            message = json.loads(raw)
         except (ValueError, KeyError):
             return self.respond("{}", "application/json")
         added = [0]
@@ -79,6 +87,7 @@ L.require('view.nikki-rs.NAME').then(v=>window.currentView=v);
                     "editor":{".name":"editor",".type":"editor"},
                     "mixin":{".name":"mixin",".type":"mixin","rule":"0","rule_provider":"0","mixin_file_content":"0"},
                     "rule1":{".name":"rule1",".type":"rule","enabled":"1","type":"DOMAIN-SUFFIX","matcher":"example.com","node":"PROXY"},
+                    "subscription1":{".name":"subscription1",".type":"subscription","name":"Broken feed","success":"0","error":"HTTP 403: access denied","update":"2026-11-16 10:00:00","last_attempt":"2026-11-17 18:40:00","url":"https://secret.example/sub?token=hidden","user_agent":"clash-rs","prefer":"remote"},
                     "status":{".name":"status",".type":"status"}
                 }}]}
             if method in ("apply", "confirm"):
@@ -268,6 +277,19 @@ try:
         mobile("profile-effective-diff")
         click("Close")
         results.append("profile: effective configuration diff after mixin and overrides, rules and YAML views")
+        inventory = page.locator("#view").inner_text()
+        assert "Profile Files" in inventory and "test.yaml" in inventory and "SELECTED" in inventory.upper(), inventory
+        assert "HTTP 403: access denied" in inventory and "Last Update Error" in inventory, inventory
+        assert "token=hidden" not in inventory, "subscription URL/token leaked into the table"
+        click("Update")
+        page.get_by_text("HTTP 403: access denied", exact=False).last.wait_for(timeout=3000)
+        assert page.evaluate("calls.some(c=>c.op==='updateSubscription')"), "update handler should surface structured failure"
+        page.get_by_role("link", name="Open in Editor", exact=True).click()
+        page.locator("#view textarea").wait_for()
+        assert page.url.endswith("?file=%2Fetc%2Fnikki-rs%2Fprofiles%2Ftest.yaml"), page.url
+        assert page.get_by_label("Choose File", exact=True).input_value() == "/etc/nikki-rs/profiles/test.yaml"
+        assert "MATCH,DIRECT" in page.locator("#view textarea").input_value()
+        results.append("profile: profile file inventory, direct editor navigation, subscription failure detail and retry feedback")
         visit("mixin", "#view .cbi-map")
         page.locator(".cbi-tabmenu a").filter(has_text="Rule Config").click()
         page.wait_for_timeout(200)

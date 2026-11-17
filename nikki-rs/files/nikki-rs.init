@@ -704,6 +704,51 @@ clear_logs() {
 	fi
 }
 
+subscription_fetch() {
+	local proxy="$1" headers="$2" output="$3" url="$4" user_agent="$5" errfile="$6" max_time="$7" connect_time="$8" retries="$9"
+	local http_status curl_rc curl_error
+	: > "$errfile"
+	if [ -n "$proxy" ]; then
+		http_status=$(curl -sS -f -m "$max_time" --connect-timeout "$connect_time" --retry "$retries" -L -X GET -A "$user_agent" -x "$proxy" -D "$headers" -o "$output" -w '%{http_code}' "$url" 2>"$errfile")
+	else
+		http_status=$(curl -sS -f -m "$max_time" --connect-timeout "$connect_time" --retry "$retries" -L -X GET -A "$user_agent" -D "$headers" -o "$output" -w '%{http_code}' "$url" 2>"$errfile")
+	fi
+	curl_rc=$?
+	subscription_curl_status="$http_status"
+	subscription_curl_reason=''
+	[ "$curl_rc" -eq 0 ] && return 0
+	curl_error=$(sed -n 's/.*curl: (\([0-9][0-9]*\)).*/\1/p' "$errfile" | tail -n 1)
+	case "$http_status" in
+		[45][0-9][0-9])
+			case "$http_status" in
+				401) subscription_curl_reason='HTTP 401: authentication required' ;;
+				403) subscription_curl_reason='HTTP 403: access denied' ;;
+				404) subscription_curl_reason='HTTP 404: subscription URL not found' ;;
+				429) subscription_curl_reason='HTTP 429: request rate limited' ;;
+				5*) subscription_curl_reason="HTTP $http_status: subscription server error" ;;
+				*) subscription_curl_reason="HTTP $http_status: request rejected" ;;
+			esac
+			;;
+		*)
+			[ -n "$http_status" ] || http_status=unknown
+			case "$curl_error" in
+				3) subscription_curl_reason='Invalid or unsupported subscription URL' ;;
+				5) subscription_curl_reason='Could not resolve the proxy server' ;;
+				6) subscription_curl_reason='Could not resolve the subscription host (DNS)' ;;
+				7) subscription_curl_reason='Could not connect to the subscription server' ;;
+				22) subscription_curl_reason="HTTP request failed (status $http_status)" ;;
+				28) subscription_curl_reason='Connection timed out' ;;
+				35) subscription_curl_reason='TLS handshake failed' ;;
+				52|56) subscription_curl_reason='Connection closed or interrupted while receiving data' ;;
+				60) subscription_curl_reason='TLS certificate validation failed' ;;
+				'') subscription_curl_reason="Download failed (curl exit $curl_rc)" ;;
+				*) subscription_curl_reason="Download failed (curl error $curl_error)" ;;
+			esac
+			;;
+	esac
+	return 1
+}
+
 update_subscription() {
 	local subscription_section; subscription_section="$1"
 	if [ -z "$subscription_section" ]; then
@@ -717,69 +762,94 @@ update_subscription() {
 	config_get subscription_info_url "$subscription_section" "info_url"
 	config_get subscription_url "$subscription_section" "url"
 	config_get subscription_user_agent "$subscription_section" "user_agent"
-	# reset subscription info
-	uci_remove "nikki-rs" "$subscription_section" "expire" > /dev/null 2>&1
-	uci_remove "nikki-rs" "$subscription_section" "upload" > /dev/null 2>&1
-	uci_remove "nikki-rs" "$subscription_section" "download" > /dev/null 2>&1
-	uci_remove "nikki-rs" "$subscription_section" "total" > /dev/null 2>&1
-	uci_remove "nikki-rs" "$subscription_section" "used" > /dev/null 2>&1
-	uci_remove "nikki-rs" "$subscription_section" "avaliable" > /dev/null 2>&1
-	uci_remove "nikki-rs" "$subscription_section" "update" > /dev/null 2>&1
-	uci_remove "nikki-rs" "$subscription_section" "success" > /dev/null 2>&1
+	# Keep the last successful quota/update data until a new update succeeds.
+	# Only reset the transient error state at the start of a new attempt.
+	uci_remove "nikki-rs" "$subscription_section" "error" > /dev/null 2>&1
+	uci_set "nikki-rs" "$subscription_section" "success" "0"
+	uci_set "nikki-rs" "$subscription_section" "last_attempt" "$(date "+%Y-%m-%d %H:%M:%S")"
 	# update subscription
 	log "Profile" "Update subscription: $subscription_name."
-	local success
+	local success subscription_error proxy_error direct_error
+	subscription_error=''
+	proxy_error=''
+	direct_error=''
 	local subscription_info_header_tmpfile; subscription_info_header_tmpfile="$TEMP_DIR/$subscription_section.info.header"
 	local subscription_header_tmpfile; subscription_header_tmpfile="$TEMP_DIR/$subscription_section.header"
 	local subscription_tmpfile; subscription_tmpfile="$TEMP_DIR/$subscription_section.yaml"
 	local subscription_info_file
 	local subscription_file; subscription_file="$SUBSCRIPTIONS_DIR/$subscription_section.yaml"
 	local mixed_port; config_get mixed_port "mixin" "mixed_port" "7890"
-	# fetch subscription info
+	# Fetch quota metadata opportunistically; its failure does not invalidate the YAML.
 	if [ -n "$subscription_info_url" ]; then
 		log "Profile" "Fetch subscription info."
-		local info_downloaded=0
-		if [ -n "$mixed_port" ]; then
-			if curl -s -f -m 60 --connect-timeout 10 --retry 1 -L -X GET -A "$subscription_user_agent" -x "http://127.0.0.1:$mixed_port" -D "$subscription_info_header_tmpfile" "$subscription_info_url" > /dev/null 2>&1; then
-				info_downloaded=1
-			fi
+		local info_downloaded=0 info_errfile="$TEMP_DIR/$subscription_section.info.err"
+		if [ -n "$mixed_port" ] && subscription_fetch "http://127.0.0.1:$mixed_port" "$subscription_info_header_tmpfile" /dev/null "$subscription_info_url" "$subscription_user_agent" "$info_errfile" 60 10 1; then
+			info_downloaded=1
 		fi
-		if [ "$info_downloaded" = 0 ]; then
-			curl -s -f -m 120 --connect-timeout 15 --retry 3 -L -X GET -A "$subscription_user_agent" -D "$subscription_info_header_tmpfile" "$subscription_info_url" > /dev/null 2>&1
+		if [ "$info_downloaded" = 0 ] && subscription_fetch '' "$subscription_info_header_tmpfile" /dev/null "$subscription_info_url" "$subscription_user_agent" "$info_errfile" 120 15 3; then
+			info_downloaded=1
 		fi
-		if [ ! -f "$subscription_info_file" ] && grep -q -i "subscription-userinfo:" "$subscription_info_header_tmpfile"; then
+		if [ ! -f "$subscription_info_file" ] && grep -q -i "subscription-userinfo:" "$subscription_info_header_tmpfile" 2>/dev/null; then
 			subscription_info_file="$subscription_info_header_tmpfile"
 		fi
+		rm -f "$info_errfile"
 	fi
-	# download subscription
+	# download subscription and retain a safe, actionable failure summary
 	log "Profile" "Download subscription."
-	local sub_downloaded=0
+	local sub_downloaded=0 subscription_errfile="$TEMP_DIR/$subscription_section.download.err"
 	if [ -n "$mixed_port" ]; then
-		if curl -s -f -m 60 --connect-timeout 10 --retry 1 -L -X GET -A "$subscription_user_agent" -D "$subscription_header_tmpfile" -x "http://127.0.0.1:$mixed_port" -o "$subscription_tmpfile" "$subscription_url" > /dev/null 2>&1; then
+		if subscription_fetch "http://127.0.0.1:$mixed_port" "$subscription_header_tmpfile" "$subscription_tmpfile" "$subscription_url" "$subscription_user_agent" "$subscription_errfile" 60 10 1; then
 			sub_downloaded=1
+		else
+			proxy_error="$subscription_curl_reason"
 		fi
 	fi
 	if [ "$sub_downloaded" = 0 ]; then
-		if curl -s -f -m 120 --connect-timeout 15 --retry 3 -L -X GET -A "$subscription_user_agent" -D "$subscription_header_tmpfile" -o "$subscription_tmpfile" "$subscription_url" > /dev/null 2>&1; then
+		if subscription_fetch '' "$subscription_header_tmpfile" "$subscription_tmpfile" "$subscription_url" "$subscription_user_agent" "$subscription_errfile" 120 15 3; then
 			sub_downloaded=1
+		else
+			direct_error="$subscription_curl_reason"
 		fi
 	fi
 	if [ "$sub_downloaded" = 1 ]; then
 		log "Profile" "Subscription download successful."
-		if [ ! -f "$subscription_info_file" ] && grep -q -i "subscription-userinfo:" "$subscription_header_tmpfile"; then
+		if [ -z "$subscription_info_file" ] && grep -q -i "subscription-userinfo:" "$subscription_header_tmpfile"; then
 			subscription_info_file="$subscription_header_tmpfile"
 		fi
-		if yq -M -p yaml -o yaml -e 'has("proxies") or has("proxy-providers")' "$subscription_tmpfile" > /dev/null 2>&1; then
-			log "Profile" "Subscription is valid."
-			success=1
-		else
-			log "Profile" "Subscription is not valid."
+		if [ ! -s "$subscription_tmpfile" ]; then
+			subscription_error='The subscription server returned an empty file.'
 			success=0
+		else
+			local validation_output validation_line
+			validation_output=$(yq -M -p yaml -o yaml -e 'has("proxies") or has("proxy-providers")' "$subscription_tmpfile" 2>&1 > /dev/null)
+			if [ "$?" -eq 0 ]; then
+				log "Profile" "Subscription is valid."
+				success=1
+			else
+				validation_line=$(printf '%s\n' "$validation_output" | sed -n 's/.*line \([0-9][0-9]*\).*/\1/p' | head -n 1)
+				if [ -n "$validation_line" ]; then
+					subscription_error="Downloaded content is not valid Clash YAML (parser line $validation_line)."
+				else
+					subscription_error='Downloaded YAML has no proxies or proxy-providers section, or contains invalid syntax.'
+				fi
+				log "Profile" "Subscription validation failed: $subscription_error"
+				success=0
+			fi
 		fi
 	else
-		log "Profile" "Subscription download failed."
+		if [ -n "$proxy_error" ] && [ -n "$direct_error" ]; then
+			subscription_error="Proxy attempt: $proxy_error; direct attempt: $direct_error."
+		elif [ -n "$direct_error" ]; then
+			subscription_error="$direct_error."
+		elif [ -n "$proxy_error" ]; then
+			subscription_error="$proxy_error."
+		else
+			subscription_error='Download failed for an unknown reason.'
+		fi
+		log "Profile" "Subscription download failed: $subscription_error"
 		success=0
 	fi
+	rm -f "$subscription_errfile"
 	# check if success
 	if [ "$success" = 1 ]; then
 		log "Profile" "Subscription update successful."
@@ -817,14 +887,17 @@ update_subscription() {
 		fi
 		uci_set "nikki-rs" "$subscription_section" "update" "$(date "+%Y-%m-%d %H:%M:%S")"
 		uci_set "nikki-rs" "$subscription_section" "success" "1"
+		uci_remove "nikki-rs" "$subscription_section" "error" > /dev/null 2>&1
 		# update subscription file
 		rm -f "$subscription_info_header_tmpfile"
 		rm -f "$subscription_header_tmpfile"
 		mv -f "$subscription_tmpfile" "$subscription_file"
 	elif [ "$success" = 0 ]; then
-		log "Profile" "Subscription update failed."
-		# update subscription info
+		[ -n "$subscription_error" ] || subscription_error='Subscription update failed. See Nikki RS logs for details.'
+		subscription_error=$(printf '%s' "$subscription_error" | cut -c 1-512)
+		log "Profile" "Subscription update failed: $subscription_error"
 		uci_set "nikki-rs" "$subscription_section" "success" "0"
+		uci_set "nikki-rs" "$subscription_section" "error" "$subscription_error"
 		# remove tmpfile
 		rm -f "$subscription_info_header_tmpfile"
 		rm -f "$subscription_header_tmpfile"

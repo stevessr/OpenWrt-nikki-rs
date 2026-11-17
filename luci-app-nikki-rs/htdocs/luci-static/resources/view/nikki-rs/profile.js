@@ -9,10 +9,14 @@
 return view.extend({
     load: function () {
         return Promise.all([
-            uci.load('nikki-rs')
+            uci.load('nikki-rs'),
+            nikki.listProfiles()
         ]);
     },
     render: function (data) {
+        const profiles = Array.isArray(data[1]) ? data[1] : [];
+        const subscriptions = uci.sections('nikki-rs', 'subscription');
+        const activeProfile = uci.get('nikki-rs', 'config', 'profile') || '';
         let m, s, o, so;
 
         m = new form.Map('nikki-rs');
@@ -26,6 +30,37 @@ return view.extend({
         o.write = function (section_id, formvalue) {
             return true;
         };
+
+        o = s.option(form.DummyValue, '_profile_inventory', _('Profile Files'));
+        o.rawhtml = true;
+        o.write = function () { };
+        o.cfgvalue = function () {
+            const rows = profiles.map(function (profile) {
+                const selected = activeProfile === 'file:' + profile.name;
+                const size = Number(profile.size) || 0;
+                const sizeText = size >= 1048576 ? (size / 1048576).toFixed(1) + ' MiB' :
+                    size >= 1024 ? (size / 1024).toFixed(1) + ' KiB' : size + ' B';
+                const editUrl = L.url('admin/services/nikki-rs/editor') +
+                    '?file=' + encodeURIComponent(nikki.profilesDir + '/' + profile.name);
+                return E('tr', {}, [
+                    E('td', {}, E('code', {}, profile.name)),
+                    E('td', {}, sizeText),
+                    E('td', {}, selected ? E('span', { 'class': 'label label-success' }, _('Selected')) : _('Available')),
+                    E('td', {}, E('a', { 'class': 'btn cbi-button', 'href': editUrl }, _('Open in Editor')))
+                ]);
+            });
+            const table = E('table', { 'class': 'table cbi-section-table', 'style': 'width:100%' }, [
+                E('thead', {}, E('tr', {}, [
+                    E('th', {}, _('File Name')),
+                    E('th', {}, _('Size')),
+                    E('th', {}, _('Profile Status')),
+                    E('th', {}, _('Action'))
+                ])),
+                E('tbody', {}, rows.length ? rows : [E('tr', {}, E('td', { 'colspan': '4' }, _('No profile files uploaded yet. Upload a YAML profile below.')))])
+            ]);
+            return table.outerHTML;
+        };
+        o.description = _('Manage local YAML profiles here. The selected profile is shown in App Config; use Open in Editor to review or edit a file.');
 
         o = s.option(form.Button, '_effective_diff', _('Compare selected profile with effective config'));
         o.inputstyle = 'action';
@@ -103,10 +138,30 @@ return view.extend({
         o.optional = true;
         o.readonly = true;
 
-        o = s.option(form.Value, 'update', _('Update At'));
+        o = s.option(form.Value, 'update', _('Last Successful Update'));
         o.modalonly = false;
         o.optional = true;
         o.readonly = true;
+
+        o = s.option(form.Value, 'last_attempt', _('Last Update Attempt'));
+        o.modalonly = true;
+        o.optional = true;
+        o.readonly = true;
+
+        o = s.option(form.DummyValue, '_update_status', _('Update Status'));
+        o.modalonly = false;
+        o.cfgvalue = function (section_id) {
+            const success = uci.get('nikki-rs', section_id, 'success');
+            const error = uci.get('nikki-rs', section_id, 'error');
+            const label = success === '1' ? _('Available') : error ? _('Failed') : _('Not updated');
+            return label;
+        };
+
+        o = s.option(form.Value, 'error', _('Last Update Error'));
+        o.modalonly = false;
+        o.optional = true;
+        o.readonly = true;
+        o.width = '36%';
 
         o = s.option(form.Button, 'update_subscription');
         o.editable = true;
@@ -114,8 +169,16 @@ return view.extend({
         o.inputtitle = _('Update');
         o.modalonly = false;
         o.onclick = function (_, section_id) {
-            return nikki.updateSubscription(section_id).then(function () {
+            return nikki.updateSubscription(section_id).then(function (result) {
+                if (!result || !result.success) {
+                    ui.addNotification(null, E('p', {}, result && result.error ?
+                        result.error : _('Update failed. Check the subscription status and Nikki RS logs.')), 'danger');
+                    window.setTimeout(function () { window.location.reload(); }, 1500);
+                    return;
+                }
                 window.location.reload();
+            }).catch(function (error) {
+                ui.addNotification(null, E('p', {}, _('Could not update subscription: ') + String(error)), 'danger');
             });
         };
 

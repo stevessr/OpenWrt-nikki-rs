@@ -315,12 +315,18 @@ const methods = {
 	update_subscription: {
 		args: { section_id: 'section_id' },
 		call: function(req) {
-			let success = false;
 			const section_id = req.args?.section_id;
-			if (section_id) {
-				success = system(['service', 'nikki-rs', 'update_subscription', section_id]) == 0;
-			}
-			return { success: success };
+			if (type(section_id) != 'string' || !match(section_id, /^[a-zA-Z0-9_]+$/))
+				return { success: false, error: 'Invalid subscription section' };
+			const command_ok = system(['service', 'nikki-rs', 'update_subscription', section_id]) == 0;
+			const status_proc = popen('uci -q get nikki-rs.' + section_id + '.success');
+			const status = status_proc ? trim(status_proc.read('all')) : '';
+			if (status_proc) status_proc.close();
+			const error_proc = popen('uci -q get nikki-rs.' + section_id + '.error');
+			const error = error_proc ? trim(error_proc.read('all')) : '';
+			if (error_proc) error_proc.close();
+			return { success: command_ok && status == '1',
+				error: error || (status == '1' ? '' : 'Update failed. Check Nikki RS logs for details.') };
 		}
 	},
 	update_rule_provider: {

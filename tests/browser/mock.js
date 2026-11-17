@@ -33,7 +33,11 @@ window.mock = {
     proxyWhitelist6Path: '/etc/nikki-rs/nftables/proxy_whitelist6.txt',
     version: () => reply({app:'test',core:'test'}),
     status: () => reply(true),
-    listProfiles: () => reply([]),
+    listProfiles: () => reply([{name:'test.yaml',size:1024,mtime:1794950000}]),
+    updateSubscription: section => {
+        calls.push({op:'updateSubscription',section});
+        return reply({success:false,error:'HTTP 403: access denied'});
+    },
     settingsRead: () => reply({success:true,revision:'settings-v1',fields:schema,values:settings}),
     settingsPatch: (module,delta,revision) => {
         calls.push({op:'settingsPatch',module,delta,revision});

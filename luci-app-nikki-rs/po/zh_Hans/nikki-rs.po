@@ -3065,3 +3065,115 @@ msgstr "差异中可能包含代理凭据，请勿分享。"
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
 msgid "Profile comparison failed: "
 msgstr "配置对比失败："
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Profile Files"
+msgstr "配置文件"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "File Name"
+msgstr "文件名"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Size"
+msgstr "大小"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Profile Status"
+msgstr "配置文件状态"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Action"
+msgstr "操作"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Selected"
+msgstr "已选中"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Available"
+msgstr "可用"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Open in Editor"
+msgstr "在编辑器中打开"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "No profile files uploaded yet. Upload a YAML profile below."
+msgstr "尚未上传配置文件。请在下方上传 YAML 配置。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Manage local YAML profiles here. The selected profile is shown in App Config; use Open in Editor to review or edit a file."
+msgstr "在此管理本地 YAML 配置文件。当前选中的配置显示在“应用配置”中；点击“在编辑器中打开”可查看或修改文件。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Last Successful Update"
+msgstr "上次成功更新"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Last Update Attempt"
+msgstr "最近尝试更新"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Update Status"
+msgstr "更新状态"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Failed"
+msgstr "失败"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Not updated"
+msgstr "未更新"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Last Update Error"
+msgstr "最近更新错误"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Update failed. Check the subscription status and Nikki RS logs."
+msgstr "更新失败。请查看订阅状态和 Nikki RS 日志。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Could not update subscription: "
+msgstr "无法更新订阅："
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Could not resolve the subscription host (DNS)"
+msgstr "无法解析订阅服务器主机名（DNS）"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Could not connect to the subscription server"
+msgstr "无法连接到订阅服务器"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Connection timed out"
+msgstr "连接超时"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "TLS handshake failed"
+msgstr "TLS 握手失败"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "TLS certificate validation failed"
+msgstr "TLS 证书验证失败"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Invalid or unsupported subscription URL"
+msgstr "订阅 URL 无效或不受支持"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Downloaded content is not valid Clash YAML (parser line %d)."
+msgstr "下载内容不是有效的 Clash YAML（解析器错误行：%d）。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Downloaded YAML has no proxies or proxy-providers section, or contains invalid syntax."
+msgstr "下载的 YAML 缺少 proxies 或 proxy-providers 节，或者语法无效。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "The subscription server returned an empty file."
+msgstr "订阅服务器返回了空文件。"
+
+#: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
+msgid "Profile file management"
+msgstr "配置文件管理"

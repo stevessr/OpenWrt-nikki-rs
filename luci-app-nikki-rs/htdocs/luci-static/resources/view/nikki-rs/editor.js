@@ -17,6 +17,10 @@ return view.extend({
     render: function (data) {
         const subscriptions = uci.sections('nikki-rs', 'subscription');
         const profiles = data[1];
+        const requestedFile = new URLSearchParams(window.location.search).get('file');
+        const selectedProfile = profiles.find(function (profile) {
+            return requestedFile === nikki.profilesDir + '/' + profile.name;
+        });
 
         let m, s, o;
 
@@ -187,7 +191,18 @@ return view.extend({
             });
         };
 
-        return m.render();
+        return m.render().then(function (node) {
+            if (!selectedProfile)
+                return node;
+            const path = nikki.profilesDir + '/' + selectedProfile.name;
+            return fs.read_direct(path).then(function (content) {
+                const fileOption = m.lookupOption('_file', 'editor')[0];
+                const contentOption = m.lookupOption('_file_content', 'editor')[0];
+                fileOption.getUIElement('editor').setValue(path);
+                contentOption.getUIElement('editor').setValue(content || '');
+                return node;
+            });
+        });
     },
     handleSaveApply: function (ev, mode) {
         return this.handleSave(ev).then(function () {

@@ -329,6 +329,28 @@ const methods = {
 				error: error || (status == '1' ? '' : 'Update failed. Check Nikki RS logs for details.') };
 		}
 	},
+    start_subscription_update: {
+        args: { section_id: 'section_id' },
+        call: function(req) {
+            const id = req.args?.section_id;
+            if (type(id) != 'string' || !match(id, /^[a-zA-Z0-9_]+$/))
+                return { success: false, error: 'Invalid subscription section' };
+            const ok = system(['/bin/sh', '/etc/nikki-rs/scripts/subscription-job.sh', 'start', id]) == 0;
+            return { success: ok, error: ok ? '' : 'Update already running, or subscription is not saved. Save first.' };
+        }
+    },
+    subscription_update_status: {
+        args: { section_id: 'section_id' },
+        call: function(req) {
+            const id = req.args?.section_id;
+            if (type(id) != 'string' || !match(id, /^[a-zA-Z0-9_]+$/))
+                return { state: 'failed', error: 'Invalid subscription section' };
+            const proc = popen('sh /etc/nikki-rs/scripts/subscription-job.sh status ' + id);
+            if (!proc) return { state: 'failed', error: 'Status unavailable' };
+            const output = proc.read('all'); proc.close();
+            try { return json(output); } catch (e) { return { state: 'failed', error: 'Invalid update status' }; }
+        }
+    },
 	update_rule_provider: {
 		args: { section_id: 'section_id' },
 		call: function(req) {
@@ -720,7 +742,11 @@ const methods = {
             if (!proc) return { info: 'Core status unavailable' };
             const info = trim(proc.read('all'));
             proc.close();
-            return { info: info };
+            const logproc = popen('/etc/nikki-rs/scripts/core-manager.sh log');
+            const log = logproc ? logproc.read('all') : '';
+            if (logproc) logproc.close();
+            const state = readfile('/etc/nikki-rs/core/operation.state') || '';
+            return { info: info, log: log, running: match(state, /state=running/) != null };
         }
     },
     core_update: {
@@ -729,12 +755,12 @@ const methods = {
             const variant = req.args?.variant ?? 'minimal';
             const tag = req.args?.tag ?? 'latest';
             if (variant != 'minimal' && variant != 'standard') return { success: false };
-            return { success: system(['/etc/nikki-rs/scripts/core-manager.sh', 'update', variant, tag]) == 0 };
+            return { success: system(['/etc/nikki-rs/scripts/core-manager.sh', 'start-update', variant, tag]) == 0 };
         }
     },
     core_rollback: {
         call: function() {
-            return { success: system(['/etc/nikki-rs/scripts/core-manager.sh', 'rollback']) == 0 };
+            return { success: system(['/etc/nikki-rs/scripts/core-manager.sh', 'start-rollback']) == 0 };
         }
     },
     validate_config: {

@@ -45,6 +45,12 @@ const callNikkiUpdateSubscription = rpc.declare({
     expect: { '': {} }
 });
 
+const callSubscriptionStart = rpc.declare({
+    object: 'luci.nikki-rs', method: 'start_subscription_update', params: ['section_id'], expect: { '': {} }
+});
+const callSubscriptionStatus = rpc.declare({
+    object: 'luci.nikki-rs', method: 'subscription_update_status', params: ['section_id'], expect: { '': {} }
+});
 const callNikkiUpdateRuleProvider = rpc.declare({
     object: 'luci.nikki-rs',
     method: 'update_rule_provider',
@@ -310,6 +316,8 @@ return baseclass.extend({
         return callNikkiProfile(defaults);
     },
 
+    startSubscriptionUpdate: function (section_id) { return callSubscriptionStart(section_id); },
+    subscriptionUpdateStatus: function (section_id) { return callSubscriptionStatus(section_id); },
     updateSubscription: function (section_id) {
         return callNikkiUpdateSubscription(section_id);
     },
@@ -369,8 +377,15 @@ return baseclass.extend({
         return callNikkiGetIdentifiers();
     },
 
-    listProfiles: function () {
+    listProfileEntries: function () {
         return L.resolveDefault(fs.list(this.profilesDir), []);
+    },
+    listProfiles: function () {
+        return this.listProfileEntries().then(function (entries) {
+            return entries.filter(function (entry) {
+                return entry.type === 'file' && /^[a-zA-Z0-9_.-]+\.ya?ml$/i.test(entry.name);
+            });
+        });
     },
 
     getAppLog: function () {

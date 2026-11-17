@@ -83,6 +83,8 @@ define Package/nikki-rs/install
 	$(INSTALL_BIN) $(CURDIR)/files/scripts/collections-manager.sh $(1)/etc/nikki-rs/scripts/collections-manager.sh
 	$(INSTALL_DATA) $(CURDIR)/files/schema/settings.json $(1)/etc/nikki-rs/schema/settings.json
 	$(INSTALL_BIN) $(CURDIR)/files/scripts/rules-manager.sh $(1)/etc/nikki-rs/scripts/rules-manager.sh
+	$(INSTALL_BIN) $(CURDIR)/files/scripts/subscription-job.sh $(1)/etc/nikki-rs/scripts/subscription-job.sh
+	$(INSTALL_BIN) $(CURDIR)/files/scripts/nikki-rule-targets.sh $(1)/etc/nikki-rs/scripts/nikki-rule-targets.sh
 	$(INSTALL_DATA) $(CURDIR)/files/overrides/*.yaml $(1)/etc/nikki-rs/overrides/
 
 	$(INSTALL_DATA) $(CURDIR)/files/dns/black_filter $(1)/etc/nikki-rs/dns/black_filter

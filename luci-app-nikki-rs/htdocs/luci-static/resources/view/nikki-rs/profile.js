@@ -10,7 +10,7 @@ return view.extend({
     load: function () {
         return Promise.all([
             uci.load('nikki-rs'),
-            nikki.listProfiles()
+            nikki.listProfileEntries()
         ]);
     },
     render: function (data) {
@@ -36,17 +36,18 @@ return view.extend({
         o.write = function () { };
         o.cfgvalue = function () {
             const rows = profiles.map(function (profile) {
-                const selected = activeProfile === 'file:' + profile.name;
+                const directory = profile.type === 'directory';
+                const selected = !directory && activeProfile === 'file:' + profile.name;
                 const size = Number(profile.size) || 0;
                 const sizeText = size >= 1048576 ? (size / 1048576).toFixed(1) + ' MiB' :
                     size >= 1024 ? (size / 1024).toFixed(1) + ' KiB' : size + ' B';
                 const editUrl = L.url('admin/services/nikki-rs/editor') +
                     '?file=' + encodeURIComponent(nikki.profilesDir + '/' + profile.name);
                 return E('tr', {}, [
-                    E('td', {}, E('code', {}, profile.name)),
-                    E('td', {}, sizeText),
-                    E('td', {}, selected ? E('span', { 'class': 'label label-success' }, _('Selected')) : _('Available')),
-                    E('td', {}, E('a', { 'class': 'btn cbi-button', 'href': editUrl }, _('Open in Editor')))
+                    E('td', {}, E('code', {}, (directory ? '📁 ' : '') + profile.name + (directory ? '/' : ''))),
+                    E('td', {}, directory ? '—' : sizeText),
+                    E('td', {}, directory ? _('Folder') : selected ? E('span', { 'class': 'label label-success' }, _('Selected')) : _('Available')),
+                    E('td', {}, directory ? _('Resource directory') : E('a', { 'class': 'btn cbi-button', 'href': editUrl }, _('Open in Editor')))
                 ]);
             });
             const table = E('table', { 'class': 'table cbi-section-table', 'style': 'width:100%' }, [
@@ -168,18 +169,40 @@ return view.extend({
         o.inputstyle = 'positive';
         o.inputtitle = _('Update');
         o.modalonly = false;
-        o.onclick = function (_, section_id) {
-            return nikki.updateSubscription(section_id).then(function (result) {
-                if (!result || !result.success) {
-                    ui.addNotification(null, E('p', {}, result && result.error ?
-                        result.error : _('Update failed. Check the subscription status and Nikki RS logs.')), 'danger');
-                    window.setTimeout(function () { window.location.reload(); }, 1500);
-                    return;
-                }
-                window.location.reload();
-            }).catch(function (error) {
-                ui.addNotification(null, E('p', {}, _('Could not update subscription: ') + String(error)), 'danger');
-            });
+        o.onclick = function (ev, section_id) {
+            const button = ev.currentTarget;
+            button.disabled = true;
+            button.textContent = _('Updating…');
+            const message = E('p', {}, _('Subscription update started. Downloading and validating…'));
+            ui.addNotification(null, message, 'info');
+            let ticks = 0;
+            const finish = function (status) {
+                button.disabled = false;
+                button.textContent = _('Update');
+                message.textContent = status.state === 'success' ? _('Subscription updated successfully.') :
+                    status.error || _('Update failed. Check the subscription status and Nikki RS logs.');
+                if (status.state === 'success') window.location.reload();
+            };
+            return nikki.startSubscriptionUpdate(section_id).then(function (result) {
+                if (!result.success) { finish({state:'failed',error:result.error}); return; }
+                return new Promise(function (resolve) {
+                const timer = window.setInterval(function () {
+                    if (++ticks > 300) {
+                        window.clearInterval(timer);
+                        finish({state:'failed',error:_('Still running. Refresh this page to check the result.')});
+                        resolve(); return;
+                    }
+                    nikki.subscriptionUpdateStatus(section_id).then(function (status) {
+                        if (status.state === 'running') return;
+                        window.clearInterval(timer);
+                        finish(status); resolve();
+                    }).catch(function (error) {
+                        window.clearInterval(timer);
+                        finish({state:'failed',error:String(error)}); resolve();
+                    });
+                }, 2000);
+                });
+            }).catch(function (error) { finish({state:'failed',error:String(error)}); });
         };
 
         o = s.option(form.Value, 'info_url', _('Subscription Info Url'));

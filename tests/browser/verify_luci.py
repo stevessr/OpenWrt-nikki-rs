@@ -46,7 +46,7 @@ class Handler(BaseHTTPRequestHandler):
             file = Path(__file__).with_name("mock.js")
         else:
             name = path.rsplit("/", 1)[-1]
-            if name not in ("settings", "collections", "overrides", "rules-builder", "app", "editor", "mixin", "profile"):
+            if name not in ("settings", "collections", "overrides", "rules-builder", "app", "editor", "mixin", "profile", "core"):
                 name = "settings"
             return self.respond("""<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="/luci-static/bootstrap/cascade.css">
@@ -281,7 +281,11 @@ try:
         assert "Profile Files" in inventory and "test.yaml" in inventory and "SELECTED" in inventory.upper(), inventory
         assert "HTTP 403: access denied" in inventory and "Last Update Error" in inventory, inventory
         assert "token=hidden" not in inventory, "subscription URL/token leaked into the table"
+        assert "ruleset/" in inventory and "Folder" in inventory, inventory
+        assert page.get_by_role("link", name="Open in Editor", exact=True).count() == 1
         click("Update")
+        assert page.get_by_role("button", name="Updating…", exact=True).is_disabled()
+        page.wait_for_timeout(2100)
         page.get_by_text("HTTP 403: access denied", exact=False).last.wait_for(timeout=3000)
         assert page.evaluate("calls.some(c=>c.op==='updateSubscription')"), "update handler should surface structured failure"
         page.get_by_role("link", name="Open in Editor", exact=True).click()
@@ -301,6 +305,11 @@ try:
         assert any("unsupported skipped: 1" in message for message in dialogs), dialogs
         screenshot("mixin-rule-import")
         results.append("mixin: one-click rule import from selected profile with deduplication")
+        visit("core", "#view .cbi-map")
+        click("Install / Update Core")
+        assert page.evaluate("calls.some(c=>c.op==='coreUpdate')")
+        assert "Core download failed" in page.locator("#view").inner_text()
+        results.append("core: asynchronous operation feedback and update log")
         assert not errors, errors
         browser.close()
 finally:

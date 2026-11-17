@@ -3177,3 +3177,57 @@ msgstr "订阅服务器返回了空文件。"
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
 msgid "Profile file management"
 msgstr "配置文件管理"
+
+msgid "Folder"
+msgstr "文件夹"
+
+msgid "Resource directory"
+msgstr "资源目录"
+
+msgid "Smart (largest select group)"
+msgstr "智能（节点最多的手动选择组）"
+
+msgid "Updating…"
+msgstr "更新中…"
+
+msgid "Subscription update started. Downloading and validating…"
+msgstr "订阅更新已启动，正在下载并校验…"
+
+msgid "Subscription updated successfully."
+msgstr "订阅更新成功。"
+
+msgid "Still running. Refresh this page to check the result."
+msgstr "任务仍在运行，请刷新页面查看结果。"
+
+msgid "No update log yet."
+msgstr "暂无更新日志。"
+
+msgid "Core operation completed."
+msgstr "核心操作已完成。"
+
+msgid "Core operation failed. See the update log below."
+msgstr "核心操作失败，请查看下方更新日志。"
+
+msgid "Enter latest or an exact release tag starting with v."
+msgstr "请输入 latest 或以 v 开头的准确版本标签。"
+
+msgid "Use latest or an exact release tag. Downloads try the local proxy first, then a direct connection."
+msgstr "输入 latest 或准确版本标签；下载优先使用本机代理，失败后尝试直连。"
+
+msgid "Starting core operation…"
+msgstr "正在启动核心操作…"
+
+msgid "Invalid release tag"
+msgstr "版本标签无效"
+
+msgid "Could not start core operation. Another operation may be running."
+msgstr "无法启动核心操作，可能已有任务正在运行。"
+
+msgid "Core operation running. Progress and download errors appear below."
+msgstr "核心操作正在后台运行，下方显示进度和下载错误。"
+
+msgid "Refresh status"
+msgstr "刷新状态"
+
+msgid "Update log"
+msgstr "更新日志"

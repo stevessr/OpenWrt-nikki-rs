@@ -752,8 +752,23 @@ subscription_fetch() {
 update_subscription() {
 	local subscription_section; subscription_section="$1"
 	if [ -z "$subscription_section" ]; then
-		return
+		return 1
 	fi
+	mkdir -p "$TEMP_DIR"
+	local update_lock="$TEMP_DIR/subscription-$subscription_section.lock"
+	if [ -d "$update_lock" ]; then
+		local old_pid
+		old_pid=$(cat "$update_lock/pid" 2>/dev/null || true)
+		case "$old_pid" in ''|*[!0-9]*) ;; *)
+			if kill -0 "$old_pid" 2>/dev/null; then
+				log "Profile" "Subscription update already running: $subscription_section."
+				return 1
+			fi ;;
+		esac
+		rm -rf "$update_lock"
+	fi
+	mkdir "$update_lock" 2>/dev/null || return 1
+	printf '%s\n' "$$" > "$update_lock/pid"
 	# load config
 	config_load nikki-rs
 	# get subscription config
@@ -766,7 +781,9 @@ update_subscription() {
 	# Only reset the transient error state at the start of a new attempt.
 	uci_remove "nikki-rs" "$subscription_section" "error" > /dev/null 2>&1
 	uci_set "nikki-rs" "$subscription_section" "success" "0"
+	uci_set "nikki-rs" "$subscription_section" "updating" "1"
 	uci_set "nikki-rs" "$subscription_section" "last_attempt" "$(date "+%Y-%m-%d %H:%M:%S")"
+	uci_commit "nikki-rs"
 	# update subscription
 	log "Profile" "Update subscription: $subscription_name."
 	local success subscription_error proxy_error direct_error
@@ -887,6 +904,7 @@ update_subscription() {
 		fi
 		uci_set "nikki-rs" "$subscription_section" "update" "$(date "+%Y-%m-%d %H:%M:%S")"
 		uci_set "nikki-rs" "$subscription_section" "success" "1"
+		uci_set "nikki-rs" "$subscription_section" "updating" "0"
 		uci_remove "nikki-rs" "$subscription_section" "error" > /dev/null 2>&1
 		# update subscription file
 		rm -f "$subscription_info_header_tmpfile"
@@ -897,6 +915,7 @@ update_subscription() {
 		subscription_error=$(printf '%s' "$subscription_error" | cut -c 1-512)
 		log "Profile" "Subscription update failed: $subscription_error"
 		uci_set "nikki-rs" "$subscription_section" "success" "0"
+		uci_set "nikki-rs" "$subscription_section" "updating" "0"
 		uci_set "nikki-rs" "$subscription_section" "error" "$subscription_error"
 		# remove tmpfile
 		rm -f "$subscription_info_header_tmpfile"
@@ -904,6 +923,8 @@ update_subscription() {
 		rm -f "$subscription_tmpfile"
 	fi
 	uci_commit "nikki-rs"
+	rm -rf "$update_lock"
+	return 0
 }
 
 prepare_rule_provider() {

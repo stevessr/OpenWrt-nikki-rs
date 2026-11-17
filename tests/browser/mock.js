@@ -33,7 +33,14 @@ window.mock = {
     proxyWhitelist6Path: '/etc/nikki-rs/nftables/proxy_whitelist6.txt',
     version: () => reply({app:'test',core:'test'}),
     status: () => reply(true),
-    listProfiles: () => reply([{name:'test.yaml',size:1024,mtime:1794950000}]),
+    profile: () => reply({'proxy-groups': [{name:'Manual group',type:'select',proxies:['a','b']}], proxies:[]}),
+    listProfiles: () => reply([{name:'test.yaml',type:'file',size:1024,mtime:1794950000}]),
+    listProfileEntries: () => reply([{name:'test.yaml',type:'file',size:1024},{name:'ruleset',type:'directory',size:8192}]),
+    startSubscriptionUpdate: section => { calls.push({op:'updateSubscription',section}); return reply({success:true}); },
+    subscriptionUpdateStatus: () => reply({state:'failed',error:'HTTP 403: access denied'}),
+    coreStatus: () => reply({info:window.coreFinished ? 'origin=package\nstate=failed' : 'origin=package\nstate=idle',running:false,log:window.coreFinished ? 'ERROR: Core download failed' : ''}),
+    coreUpdate: () => {window.coreFinished=true; calls.push({op:'coreUpdate'}); return reply({success:true});},
+    coreRollback: () => reply({success:false,error:'No override installed'}),
     updateSubscription: section => {
         calls.push({op:'updateSubscription',section});
         return reply({success:false,error:'HTTP 403: access denied'});

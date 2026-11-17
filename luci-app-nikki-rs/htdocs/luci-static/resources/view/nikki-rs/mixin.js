@@ -503,6 +503,7 @@ return view.extend({
         return Promise.all([
             uci.load('nikki-rs'),
             network.getNetworks(),
+            L.resolveDefault(nikki.profile({'proxy-groups': [], proxies: []}), {})
         ]);
     },
     render: function (data) {
@@ -1393,12 +1394,27 @@ return view.extend({
         so.rmempty = false;
         so.depends({ 'type': /MATCH/i, '!reverse': true });
 
-        so = o.subsection.option(form.Value, 'node', _('Node'));
+        so = o.subsection.option(form.ListValue, 'node', _('Node'));
         so.default = 'GLOBAL';
+        so.retain = true;
+        so.value('__NIKKI_SMART__', _('Smart (largest select group)'));
         so.value('GLOBAL');
         so.value('DIRECT');
         so.value('REJECT');
         so.value('REJECT-DROP');
+        const targets = new Set();
+        for (const group of ((data[2] || {})['proxy-groups'] || [])) {
+            if (group.name) { so.value(group.name); targets.add(group.name); }
+        }
+        for (const proxy of ((data[2] || {}).proxies || [])) {
+            if (proxy.name && !targets.has(proxy.name)) { so.value(proxy.name); targets.add(proxy.name); }
+        }
+        for (const ruleSection of uci.sections('nikki-rs', 'rule')) {
+            const customNode = ruleSection.node;
+            if (customNode && customNode !== '__NIKKI_SMART__' &&
+                !['GLOBAL', 'DIRECT', 'REJECT', 'REJECT-DROP'].includes(customNode) && !targets.has(customNode))
+                so.value(customNode);
+        }
 
         so = o.subsection.option(form.Flag, 'no_resolve', _('No Resolve'));
         so.rmempty = false;

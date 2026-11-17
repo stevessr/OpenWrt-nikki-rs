@@ -71,7 +71,8 @@ done
 # nikki-* arrays prepend to Clash arrays; other YAML fields override by
 # deep-map merge. A pure function is used for checks, preview and startup.
 merge_yaml() {
-    yq -M eval-all '
+    merged_stage=$(mktemp /tmp/nikki-rs-merged.XXXXXX) || return 1
+    if ! yq -M eval-all '
       . as $item ireduce ({}; . as $acc |
         ($acc * $item) |
         ."nikki-rules" = (($acc."nikki-rules" // []) + ($item."nikki-rules" // [])) |
@@ -89,7 +90,14 @@ merge_yaml() {
       (. | select(.ebpf.enable == true) | .tun."enable-tcp") = false |
       (. | select(.ebpf.enable == true and (.listeners | tag) == "!!seq") | .listeners) |=
         map(select(.type != "tun"))
-    ' "$@"
+    ' "$@" > "$merged_stage"; then
+        rm -f "$merged_stage"
+        return 1
+    fi
+    resolve_rc=0
+    sh "$(dirname "$0")/nikki-rule-targets.sh" < "$merged_stage" || resolve_rc=$?
+    rm -f "$merged_stage"
+    return "$resolve_rc"
 }
 inspect_yaml() {
     # Never print servers, passwords, proxy names or rules to the diagnostic RPC.
@@ -108,7 +116,7 @@ config_has_ebpf=0
 if yq -e '.ebpf.enable == true' "$base" >/dev/null 2>&1; then
     config_has_ebpf=1
 fi
-if [ "$count" -eq 0 ] && [ "$ebpf_requested" != 1 ] && [ "$config_has_ebpf" != 1 ]; then
+if [ "$count" -eq 0 ] && [ "$ebpf_requested" != 1 ] && [ "$config_has_ebpf" != 1 ] && ! grep -q '__NIKKI_SMART__' "$base"; then
     case "$operation" in
         apply) cp "$base" "$output"; exit 0 ;;
         preview) cat "$base"; exit 0 ;;

@@ -1421,3 +1421,57 @@ msgstr "Сервер подписки вернул пустой файл."
 #: luci-app-nikki-rs/htdocs/luci-static/resources/view/nikki-rs/profile.js
 msgid "Profile file management"
 msgstr "Управление файлами профилей"
+
+msgid "Folder"
+msgstr ""
+
+msgid "Resource directory"
+msgstr ""
+
+msgid "Smart (largest select group)"
+msgstr ""
+
+msgid "Updating…"
+msgstr ""
+
+msgid "Subscription update started. Downloading and validating…"
+msgstr ""
+
+msgid "Subscription updated successfully."
+msgstr ""
+
+msgid "Still running. Refresh this page to check the result."
+msgstr ""
+
+msgid "No update log yet."
+msgstr ""
+
+msgid "Core operation completed."
+msgstr ""
+
+msgid "Core operation failed. See the update log below."
+msgstr ""
+
+msgid "Enter latest or an exact release tag starting with v."
+msgstr ""
+
+msgid "Use latest or an exact release tag. Downloads try the local proxy first, then a direct connection."
+msgstr ""
+
+msgid "Starting core operation…"
+msgstr ""
+
+msgid "Invalid release tag"
+msgstr ""
+
+msgid "Could not start core operation. Another operation may be running."
+msgstr ""
+
+msgid "Core operation running. Progress and download errors appear below."
+msgstr ""
+
+msgid "Refresh status"
+msgstr ""
+
+msgid "Update log"
+msgstr ""
